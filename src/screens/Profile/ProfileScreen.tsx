@@ -116,15 +116,29 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
             icon="map-pin"
             title="Saved Locations"
             subtitle="24 places"
+            onPress={() => {
+              navigation.navigate('MainTabs', {
+                screen: 'Saved',
+              });
+            }}
           />
 
           <ProfileMenuItem
             icon="credit-card"
             title="Subscription"
             subtitle="Upgrade to Premium"
+            onPress={() => {
+              navigation.navigate(SCREENS.UpgradePremiumScreen);
+            }}
           />
 
-          <ProfileMenuItem icon="settings" title="Settings" />
+          <ProfileMenuItem
+            icon="settings"
+            title="Settings"
+            onPress={() => {
+              navigation.navigate(SCREENS.SettingsScreen);
+            }}
+          />
         </View>
 
         {/* LOGOUT */}

@@ -1,5 +1,5 @@
 import { Icon, Icons } from '@/components';
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   TouchableOpacity,
@@ -11,7 +11,8 @@ import Svg, { Path } from 'react-native-svg';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
-import { COLORS } from '../constant';
+import { COLORS, SCREENS } from '../constant';
+import ImportLocationModal from '@/components/modal/ImportLocationModal';
 
 // 1. Setup Parametric Constants
 const BAR_WIDTH = SCREEN_WIDTH; // Giving some side margin for the "floating" look
@@ -52,12 +53,22 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
     Z
   `;
 
+  const [importVisible, setImportVisible] = useState(false);
+
+  const handleTabPress = (tabName: string) => {
+    if (tabName === 'Add') {
+      setImportVisible(true);
+      return;
+    }
+
+    navigation.navigate(tabName);
+  };
+
   return (
     <View style={styles.container}>
       <Svg width={BAR_WIDTH} height={BAR_HEIGHT} style={styles.svg}>
         <Path fill="#FFFFFF" d={d} />
       </Svg>
-
       <View style={styles.content}>
         {tabs.map((tab, index) => {
           const isFocused = state.index === index;
@@ -65,11 +76,11 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
           return (
             <TouchableOpacity
               key={index}
-              onPress={() => navigation.navigate(tab.name)}
+              onPress={() => handleTabPress(tab.name)}
               style={styles.tabItem}
             >
               <TouchableOpacity
-                onPress={() => navigation.navigate(tab.name)}
+                onPress={() => handleTabPress(tab.name)}
                 style={[
                   isFocused ? styles.floatingCircle : styles.iconContainer,
                 ]}
@@ -101,6 +112,14 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
           );
         })}
       </View>
+      <ImportLocationModal
+        visible={importVisible}
+        onClose={() => setImportVisible(false)}
+        onImport={() => {
+          setImportVisible(false);
+          navigation.navigate(SCREENS.ProcessingScreen);
+        }}
+      />
     </View>
   );
 };
