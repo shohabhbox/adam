@@ -22,8 +22,19 @@ const CreateTripScreen = ({ navigation }: { navigation: any }) => {
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* HEADER */}
         <View style={styles.header}>
-          <TouchableOpacity style={styles.iconBtn}>
-            <Icon type={Icons.Ionicons} name="arrow-back" />
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => {
+                navigation.goBack();
+              }}
+            />
           </TouchableOpacity>
 
           <Text style={styles.headerTitle}>Create Trip</Text>
@@ -129,6 +140,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    marginTop: 10,
   },
 
   headerTitle: {

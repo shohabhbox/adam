@@ -1,13 +1,21 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 import { Icon, Icons } from '@/components';
+import { useAppNavigation } from '@/hooks/useAppNavigation';
+import { SCREENS } from '@/constant';
 
 const TimelineItem = ({ item, isLast }: any) => {
+  const navigation = useAppNavigation<'TravelTimeline'>();
   return (
-    <View style={styles.row}>
-
+    <TouchableOpacity
+      activeOpacity={0.85}
+      onPress={() => {
+        navigation.navigate(SCREENS.ArchivedTripScreen);
+      }}
+      style={styles.row}
+    >
       {/* LEFT TIMELINE */}
       <View style={styles.timeline}>
         <View style={styles.circle}>
@@ -38,8 +46,7 @@ const TimelineItem = ({ item, isLast }: any) => {
           <Text style={styles.metaText}>{item.nights}</Text>
         </View>
       </View>
-
-    </View>
+    </TouchableOpacity>
   );
 };
 

@@ -9,6 +9,10 @@ const TripsScreen = ({ navigation }: { navigation: any }) => {
     navigation.navigate(SCREENS.CreateTripScreen);
   }
 
+  function onProfilePress() {
+    navigation.navigate(SCREENS.ProfileScreen as any);
+  }
+
   return (
     <View style={styles.container}>
       {/* HEADER */}
@@ -20,9 +24,9 @@ const TripsScreen = ({ navigation }: { navigation: any }) => {
             <Text style={styles.newText}>+ New</Text>
           </TouchableOpacity>
 
-          <View style={styles.avatar}>
+          <TouchableOpacity style={styles.avatar} onPress={onProfilePress}>
             <Text>JD</Text>
-          </View>
+          </TouchableOpacity>
         </View>
       </View>
 

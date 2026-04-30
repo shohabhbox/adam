@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 
-import { COLORS } from '@/constant';
+import { COLORS, SCREENS } from '@/constant';
 import { Icon, Icons } from '@/components';
 import CustomMarker from '@/components/CustomMarker';
 import HeaderSearch from '@/components/HeaderSearch';
@@ -22,7 +22,9 @@ const markers = [
   },
 ];
 
-const OfflineScreen = () => {
+const OfflineScreen = ({ navigation }: any) => {
+
+
   return (
     <View style={{ flex: 1 }}>
       <MapView
@@ -44,7 +46,9 @@ const OfflineScreen = () => {
       <HeaderSearch
         onSearchPress={() => {}}
         onFilterPress={() => {}}
-        onNotificationPress={() => {}}
+        onNotificationPress={() => {
+          navigation.navigate(SCREENS.NotificationsScreen);
+        }}
         initials="JD"
         isOffline={true}
       />
