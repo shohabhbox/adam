@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 import PlaceItem from '@/components/PlaceItem';
 import CategoryCard from '@/components/CategoryCard';
+import { SCREENS } from '@/constant';
 
-const SavedScreen = () => {
+const SavedScreen = ({ navigation }: any) => {
+  function onProfilePress() {
+    navigation.navigate(SCREENS.ProfileScreen as any);
+  }
+
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -16,9 +21,9 @@ const SavedScreen = () => {
             <Text style={styles.title}>Recently Saved</Text>
           </View>
 
-          <View style={styles.avatar}>
+          <TouchableOpacity onPress={onProfilePress} style={styles.avatar}>
             <Text>JD</Text>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* CATEGORIES */}

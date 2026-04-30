@@ -20,7 +20,7 @@ const HeaderSearch = ({
 }) => {
   const navigation = useNavigation();
   function onProfilePress() {
-    navigation.navigate(SCREENS.ProfileScreen as any); 
+    navigation.navigate(SCREENS.ProfileScreen as any);
   }
   return (
     <LinearGradient
@@ -43,6 +43,7 @@ const HeaderSearch = ({
               name="notifications-outline"
               size={20}
               color="#0B132B"
+              onPress={onNotificationPress}
             />
           </TouchableOpacity>
 

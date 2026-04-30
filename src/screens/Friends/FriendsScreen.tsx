@@ -12,6 +12,7 @@ import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import FriendItem from './FriendItem';
 import FilterTabs from './FilterTabs';
+import { SCREENS } from '@/constant';
 
 const initialData = [
   { id: '1', name: 'Sarah Johnson', trips: '3 trips together' },
@@ -75,8 +76,21 @@ const FriendsScreen = () => {
       </View>
 
       {/* TABS */}
-      <FilterTabs active={activeTab} onChange={setActiveTab} />
+      <FilterTabs
+        active={activeTab}
+        onChange={tab => {
+          if (tab === 'Pending') {
+            navigation.navigate(SCREENS.PendingInvitesScreen);
+            return;
+          }
+          if (tab === 'Removed') {
+            navigation.navigate(SCREENS.RemovedScreen);
+            return;
+          }
 
+          setActiveTab(tab);
+        }}
+      />
       {/* LIST */}
       <FlatList
         data={filtered}
