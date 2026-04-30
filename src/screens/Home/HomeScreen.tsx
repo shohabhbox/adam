@@ -48,7 +48,9 @@ const HomeScreen = ({ navigation }: any) => {
       <HeaderSearch
         onSearchPress={handleSearchPress}
         onFilterPress={toggleFilterModal}
-        onNotificationPress={() => {}}
+        onNotificationPress={() => {
+          navigation.navigate(SCREENS.NotificationsScreen);
+        }}
         initials="JD"
       />
 
