@@ -8,11 +8,9 @@ import InfoItem from '@/components/InfoItem';
 import Tag from '@/components/CustomTag';
 
 const LocationDetailScreen = ({ navigation }: any) => {
-
-
   function handleCategorize() {
     navigation.navigate(SCREENS.SelectCategoryScreen);
-  } 
+  }
 
   return (
     <View style={styles.container}>
@@ -99,7 +97,9 @@ const LocationDetailScreen = ({ navigation }: any) => {
 
         <CustomButton
           title="Add to Trip"
-          onPress={() => {}}
+          onPress={() => {
+            navigation.navigate(SCREENS.AddToTripScreen);
+          }}
           containerStyle={styles.btn}
         />
       </View>

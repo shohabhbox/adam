@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 import { Icon, Icons, CustomButton } from '@/components';
 import styles from './styles';
+import LocationSavedModal from '@/components/modal/LocationSavedModal';
+import { SCREENS } from '@/constant';
 
 const data = [
   { id: 1, title: 'Europe', sub: '24 locations saved', emoji: '🌍' },
@@ -14,6 +16,7 @@ const data = [
 
 const SelectCategoryScreen = ({ navigation }: { navigation: any }) => {
   const [selected, setSelected] = useState(2);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   return (
     <View style={styles.container}>
@@ -70,16 +73,31 @@ const SelectCategoryScreen = ({ navigation }: { navigation: any }) => {
         })}
 
         {/* NEW CATEGORY */}
-        <TouchableOpacity style={styles.newCategory}>
+        <TouchableOpacity
+          style={styles.newCategory}
+          onPress={() => {
+            navigation.navigate(SCREENS.NewCategoryScreen);
+          }}
+        >
           <Text style={styles.newText}>+ New Category</Text>
         </TouchableOpacity>
       </ScrollView>
 
       {/* BOTTOM */}
       <View style={styles.bottom}>
-        <CustomButton title="Save Location" onPress={() => {}} />
+        <CustomButton
+          title="Save Location"
+          onPress={() => {
+            setShowSuccess(true);
+          }}
+        />
         <Text style={styles.delete}>Delete this location</Text>
       </View>
+
+      <LocationSavedModal
+        visible={showSuccess}
+        onClose={() => setShowSuccess(false)}
+      />
     </View>
   );
 };

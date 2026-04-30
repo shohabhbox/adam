@@ -73,7 +73,12 @@ const SavedLocationDetail = ({ navigation }: { navigation: any }) => {
 
       {/* BUTTONS */}
       <View style={styles.bottom}>
-        <CustomButton title="Add to Trip" onPress={() => {}} />
+        <CustomButton
+          title="Add to Trip"
+          onPress={() => {
+            navigation.navigate(SCREENS.AddToTripScreen);
+          }}
+        />
 
         <TouchableOpacity style={styles.outlineBtn} onPress={onCategorize}>
           <Text style={styles.outlineText}>Categorize</Text>
