@@ -5,7 +5,8 @@ import styles from './styles';
 import { CustomButton, CustomTextInput } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import Icon, { Icons } from '@/components/Icon';
-import { SCREENS } from '@/constant/config';
+import { COLORS, SCREENS } from '@/constant/config';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CreateNewPasswordScreen = () => {
   const navigation = useAppNavigation();
@@ -19,58 +20,60 @@ const CreateNewPasswordScreen = () => {
     //   return;
     // }
 
-
     navigation.navigate(SCREENS.LocationPermission);
     console.log('New Password:', password);
   };
 
   return (
-    <View style={styles.container}>
-      {/* BACK BUTTON */}
-      <TouchableOpacity
-        style={styles.backBtn}
-        onPress={() => navigation.goBack()}
-      >
-        <Icon type={Icons.Ionicons} name="arrow-back" />
-      </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.goBack()}
+        >
+          <Icon
+            type={Icons.Ionicons}
+            name="arrow-back"
+            onPress={() => navigation.goBack()}
+          />
+        </TouchableOpacity>
 
-      {/* HEADER */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Create New Password</Text>
-        <Text style={styles.subtitle}>
-          Enter the email associated with your account{'\n'}
-          and we'll send a reset link.
-        </Text>
+        <View style={styles.header}>
+          <Text style={styles.title}>Create New Password</Text>
+          <Text style={styles.subtitle}>
+            Enter the email associated with your account{'\n'}
+            and we'll send a reset link.
+          </Text>
+        </View>
+
+        <View style={styles.card}>
+          {/* NEW PASSWORD */}
+          <CustomTextInput
+            placeholder="New Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            label="NEW PASSWORD"
+          />
+
+          {/* CONFIRM PASSWORD */}
+          <CustomTextInput
+            placeholder="Confirm New Password"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry
+            label="CONFIRM NEW PASSWORD"
+          />
+
+          {/* BUTTON */}
+          <CustomButton
+            title="Submit"
+            onPress={handleSubmit}
+            containerStyle={styles.button}
+          />
+        </View>
       </View>
-
-      {/* CARD */}
-      <View style={styles.card}>
-        {/* NEW PASSWORD */}
-        <CustomTextInput
-          placeholder="New Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          label="NEW PASSWORD"
-        />
-
-        {/* CONFIRM PASSWORD */}
-        <CustomTextInput
-          placeholder="Confirm New Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-          label="CONFIRM NEW PASSWORD"  
-        />
-
-        {/* BUTTON */}
-        <CustomButton
-          title="Submit"
-          onPress={handleSubmit}
-          containerStyle={styles.button}
-        />
-      </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

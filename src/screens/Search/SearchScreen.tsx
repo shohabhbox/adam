@@ -18,7 +18,11 @@ const SearchScreen = ({ navigation }: any) => {
           style={styles.circleBtn}
           onPress={() => navigation.goBack()}
         >
-          <Icon type={Icons.Ionicons} name="arrow-back" />
+          <Icon
+            type={Icons.Ionicons}
+            name="arrow-back"
+            onPress={() => navigation.goBack()}
+          />
         </TouchableOpacity>
 
         <View style={styles.avatar}>

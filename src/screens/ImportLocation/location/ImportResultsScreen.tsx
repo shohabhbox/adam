@@ -44,7 +44,11 @@ const ImportResultsScreen = () => {
           style={styles.iconBtn}
           onPress={() => navigation.goBack()}
         >
-          <Icon type={Icons.Ionicons} name="arrow-back" />
+          <Icon
+            type={Icons.Ionicons}
+            name="arrow-back"
+            onPress={() => navigation.goBack()}
+          />
         </TouchableOpacity>
 
         <Text style={styles.title}>Import Locations</Text>

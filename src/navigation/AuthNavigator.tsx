@@ -10,12 +10,16 @@ import { AuthStackParamList } from '@/types/navigation';
 import VerifyCodeScreen from '@/screens/Auth/VerifyCodeScreen';
 import CreateNewPasswordScreen from '@/screens/Auth/CreateNewPasswordScreen';
 import LocationPermissionScreen from '@/screens/Onboarding/LocationPermissionScreen';
+import SplashScreen from '@/screens/Auth/SplashScreen';
+import OnboardScreen from '@/screens/Auth/Onboard';
 
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 const AuthNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={SCREENS.Splash} component={SplashScreen} />
+      <Stack.Screen name={SCREENS.Onboard} component={OnboardScreen} />
       <Stack.Screen name={SCREENS.Login} component={LoginScreen} />
       <Stack.Screen name={SCREENS.SignUp} component={SignUpScreen} />
       <Stack.Screen

@@ -10,6 +10,8 @@ import {
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { COLORS } from '@/constant/config';
 
 interface Props {
   visible: boolean;
@@ -48,61 +50,63 @@ const TripsTogetherModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <View style={styles.container}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-            <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
-          </TouchableOpacity>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={styles.container}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
+              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+            </TouchableOpacity>
 
-          <Text style={styles.title}>Trips Together</Text>
+            <Text style={styles.title}>Trips Together</Text>
 
-          <View style={{ width: 40 }} />
-        </View>
-
-        {/* FRIEND INFO */}
-        <View style={styles.friendCard}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>SJ</Text>
+            <View style={{ width: 40 }} />
           </View>
 
-          <Text style={styles.friendName}>Sarah Johnson</Text>
-          <Text style={styles.tripCount}>· 3 trips</Text>
-        </View>
+          {/* FRIEND INFO */}
+          <View style={styles.friendCard}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>SJ</Text>
+            </View>
 
-        {/* LIST */}
-        <FlatList
-          data={trips}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 30 }}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              style={styles.card}
-              onPress={() => onSelectTrip?.(item)}
-            >
-              <Image source={{ uri: item.image }} style={styles.image} />
+            <Text style={styles.friendName}>Sarah Johnson</Text>
+            <Text style={styles.tripCount}>· 3 trips</Text>
+          </View>
 
-              <View style={styles.cardContent}>
-                <Text style={styles.tripName}>{item.name}</Text>
+          {/* LIST */}
+          <FlatList
+            data={trips}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 30 }}
+            renderItem={({ item }) => (
+              <TouchableOpacity
+                style={styles.card}
+                onPress={() => onSelectTrip?.(item)}
+              >
+                <Image source={{ uri: item.image }} style={styles.image} />
 
-                <View style={styles.row}>
-                  <Icon type={Icons.Feather} name="calendar" size={14} />
-                  <Text style={styles.meta}>{item.date}</Text>
+                <View style={styles.cardContent}>
+                  <Text style={styles.tripName}>{item.name}</Text>
 
-                  <Icon
-                    type={Icons.Feather}
-                    name="map-pin"
-                    size={14}
-                    style={{ marginLeft: 10 }}
-                  />
-                  <Text style={styles.meta}>{item.places}</Text>
+                  <View style={styles.row}>
+                    <Icon type={Icons.Feather} name="calendar" size={14} />
+                    <Text style={styles.meta}>{item.date}</Text>
+
+                    <Icon
+                      type={Icons.Feather}
+                      name="map-pin"
+                      size={14}
+                      style={{ marginLeft: 10 }}
+                    />
+                    <Text style={styles.meta}>{item.places}</Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+              </TouchableOpacity>
+            )}
+          />
+        </View>
+      </SafeAreaView>
     </Modal>
   );
 };

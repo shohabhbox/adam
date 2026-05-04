@@ -47,6 +47,10 @@ const styles = StyleSheet.create({
 
   link: {
     color: COLORS.primary,
+    marginBottom:10
+  },
+  listContent: {
+    // padding: 16,
   },
 });
 

@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
+import { View, Text, StyleSheet,  StatusBar } from 'react-native';
 import Modal from 'react-native-modal';
 import { COLORS } from '@/constant';
 import { Icon, Icons } from '@/components';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;

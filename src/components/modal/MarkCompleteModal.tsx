@@ -10,6 +10,7 @@ import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -24,72 +25,78 @@ const MarkCompleteModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <View style={styles.fullScreenContainer}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* HEADER */}
-          <View style={styles.header}>
-            <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.fullScreenContainer}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* HEADER */}
+            <View style={styles.header}>
+              <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
+                <Icon
+                  type={Icons.Ionicons}
+                  name="arrow-back"
+                  onPress={onClose}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles.headerTitle}>Mark as Completed</Text>
+
+              <View style={{ width: 40 }} />
+            </View>
+
+            {/* ICON */}
+            <View style={styles.successIcon}>
+              <Icon type={Icons.Feather} name="check" size={30} color="#fff" />
+            </View>
+
+            {/* TITLE */}
+            <Text style={styles.completeTitle}>Trip Completed! 🎉</Text>
+
+            <Text style={styles.completeDesc}>
+              Mark <Text style={{ fontWeight: '600' }}>Greece Island Hop</Text>{' '}
+              as completed to archive it and see your travel stats.
+            </Text>
+
+            {/* SUMMARY */}
+            <Text style={styles.sectionLabel}>TRIP SUMMARY</Text>
+
+            <View style={styles.summaryRow}>
+              <SummaryBox value="9" label="Places visited" />
+              <SummaryBox value="15" label="Nights total" />
+              <SummaryBox value="4" label="Travellers joined" />
+            </View>
+
+            {/* BENEFITS */}
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>When you mark as completed</Text>
+
+              <BenefitItem text='Earn a "Completed" badge' />
+              <BenefitItem text="Unlock photo memories collage" />
+              <BenefitItem text="Trip moves to Completed" />
+            </View>
+
+            {/* DATE */}
+            <View style={styles.dateBox}>
+              <Icon type={Icons.Feather} name="calendar" size={16} />
+              <Text style={styles.dateText}>May 18 – Jun 2, 2026</Text>
+
+              <View style={styles.dateBadge}>
+                <Text style={styles.dateBadgeText}>Confirmed dates</Text>
+              </View>
+            </View>
+          </ScrollView>
+
+          {/* FOOTER */}
+          <View style={styles.footer}>
+            <TouchableOpacity style={styles.primaryBtn} onPress={onConfirm}>
+              <Text style={styles.primaryText}>Mark as Completed</Text>
             </TouchableOpacity>
 
-            <Text style={styles.headerTitle}>Mark as Completed</Text>
-
-            <View style={{ width: 40 }} />
+            <TouchableOpacity style={styles.secondaryBtn} onPress={onClose}>
+              <Text style={styles.secondaryText}>Not Yet</Text>
+            </TouchableOpacity>
           </View>
-
-          {/* ICON */}
-          <View style={styles.successIcon}>
-            <Icon type={Icons.Feather} name="check" size={30} color="#fff" />
-          </View>
-
-          {/* TITLE */}
-          <Text style={styles.completeTitle}>Trip Completed! 🎉</Text>
-
-          <Text style={styles.completeDesc}>
-            Mark <Text style={{ fontWeight: '600' }}>Greece Island Hop</Text> as
-            completed to archive it and see your travel stats.
-          </Text>
-
-          {/* SUMMARY */}
-          <Text style={styles.sectionLabel}>TRIP SUMMARY</Text>
-
-          <View style={styles.summaryRow}>
-            <SummaryBox value="9" label="Places visited" />
-            <SummaryBox value="15" label="Nights total" />
-            <SummaryBox value="4" label="Travellers joined" />
-          </View>
-
-          {/* BENEFITS */}
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>When you mark as completed</Text>
-
-            <BenefitItem text='Earn a "Completed" badge' />
-            <BenefitItem text="Unlock photo memories collage" />
-            <BenefitItem text="Trip moves to Completed" />
-          </View>
-
-          {/* DATE */}
-          <View style={styles.dateBox}>
-            <Icon type={Icons.Feather} name="calendar" size={16} />
-            <Text style={styles.dateText}>May 18 – Jun 2, 2026</Text>
-
-            <View style={styles.dateBadge}>
-              <Text style={styles.dateBadgeText}>Confirmed dates</Text>
-            </View>
-          </View>
-        </ScrollView>
-
-        {/* FOOTER */}
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.primaryBtn} onPress={onConfirm}>
-            <Text style={styles.primaryText}>Mark as Completed</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.secondaryBtn} onPress={onClose}>
-            <Text style={styles.secondaryText}>Not Yet</Text>
-          </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

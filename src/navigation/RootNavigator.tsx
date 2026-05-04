@@ -1,19 +1,19 @@
 import React from 'react';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
 import AuthNavigator from './AuthNavigator';
 import AppNavigator from './AppNavigator';
 
 const RootNavigator = () => {
-  const isLoggedIn = true; // Replace with actual authentication logic
+  const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <NavigationContainer>
-        {isLoggedIn ? <AppNavigator /> : <AuthNavigator />}
-      </NavigationContainer>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="AuthStack" component={AuthNavigator} />
+        <Stack.Screen name="AppNavigator" component={AppNavigator} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

@@ -4,6 +4,7 @@ import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -18,75 +19,77 @@ const AddedToPoolModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <View style={styles.fullScreenContainer}>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          {/* SUCCESS ICON */}
-          <View style={styles.successCircle}>
-            <Icon
-              type={Icons.Feather}
-              name="check-circle"
-              size={28}
-              color={COLORS.primary}
-            />
-          </View>
-
-          {/* TITLE */}
-          <Text style={styles.title}>Added to Shared Pool</Text>
-
-          {/* DESCRIPTION */}
-          <Text style={styles.desc}>
-            Oia Castle Viewpoint has been added to the shared pool for Greece
-            Island Hop. Your co-planners can now vote and discuss.
-          </Text>
-
-          {/* CARD */}
-          <View style={styles.card}>
-            <Image
-              source={{ uri: 'https://picsum.photos/400' }}
-              style={styles.image}
-            />
-
-            <View style={styles.overlay}>
-              <Text style={styles.placeName}>Oia Castle Viewpoint</Text>
-              <Text style={styles.location}>Oia, Santorini, Greece</Text>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={styles.fullScreenContainer}>
+          <View style={{ flex: 1, justifyContent: 'center' }}>
+            {/* SUCCESS ICON */}
+            <View style={styles.successCircle}>
+              <Icon
+                type={Icons.Feather}
+                name="check-circle"
+                size={28}
+                color={COLORS.primary}
+              />
             </View>
 
-            {/* FOOTER */}
-            <View style={styles.cardFooter}>
-              <View style={styles.avatars}>
-                {['A', 'K', 'M'].map((i, idx) => (
-                  <View key={idx} style={styles.avatar}>
-                    <Text style={styles.avatarText}>{i}</Text>
-                  </View>
-                ))}
-                <Text style={styles.sharedText}>Shared with 3</Text>
-              </View>
+            {/* TITLE */}
+            <Text style={styles.title}>Added to Shared Pool</Text>
 
-              <View style={styles.badge}>
-                <Text style={styles.badgeText}>In Pool ✓</Text>
-              </View>
-            </View>
-          </View>
-
-          {/* INFO BOX */}
-          <View style={styles.infoBox}>
-            <Icon type={Icons.Feather} name="users" size={16} />
-            <Text style={styles.infoText}>
-              John and Michel have been notified
+            {/* DESCRIPTION */}
+            <Text style={styles.desc}>
+              Oia Castle Viewpoint has been added to the shared pool for Greece
+              Island Hop. Your co-planners can now vote and discuss.
             </Text>
+
+            {/* CARD */}
+            <View style={styles.card}>
+              <Image
+                source={{ uri: 'https://picsum.photos/400' }}
+                style={styles.image}
+              />
+
+              <View style={styles.overlay}>
+                <Text style={styles.placeName}>Oia Castle Viewpoint</Text>
+                <Text style={styles.location}>Oia, Santorini, Greece</Text>
+              </View>
+
+              {/* FOOTER */}
+              <View style={styles.cardFooter}>
+                <View style={styles.avatars}>
+                  {['A', 'K', 'M'].map((i, idx) => (
+                    <View key={idx} style={styles.avatar}>
+                      <Text style={styles.avatarText}>{i}</Text>
+                    </View>
+                  ))}
+                  <Text style={styles.sharedText}>Shared with 3</Text>
+                </View>
+
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>In Pool ✓</Text>
+                </View>
+              </View>
+            </View>
+
+            {/* INFO BOX */}
+            <View style={styles.infoBox}>
+              <Icon type={Icons.Feather} name="users" size={16} />
+              <Text style={styles.infoText}>
+                John and Michel have been notified
+              </Text>
+            </View>
           </View>
+
+          {/* BUTTON */}
+          <TouchableOpacity style={styles.primaryBtn} onPress={onClose}>
+            <Text style={styles.primaryText}>Back to Trip</Text>
+          </TouchableOpacity>
+
+          {/* LINK */}
+          <TouchableOpacity onPress={onViewPool}>
+            <Text style={styles.link}>View Shared Pool</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* BUTTON */}
-        <TouchableOpacity style={styles.primaryBtn} onPress={onClose}>
-          <Text style={styles.primaryText}>Back to Trip</Text>
-        </TouchableOpacity>
-
-        {/* LINK */}
-        <TouchableOpacity onPress={onViewPool}>
-          <Text style={styles.link}>View Shared Pool</Text>
-        </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

@@ -7,11 +7,15 @@ import { useNavigation } from '@react-navigation/native';
 
 const TripHeader = () => {
   const navigation = useNavigation();
+
+  function goBack() {
+    navigation.goBack();
+  }
   return (
     <View>
       <View style={styles.headerTopRow}>
-        <TouchableOpacity style={styles.iconBtn}>
-          <Icon type={Icons.Ionicons} name="arrow-back" />
+        <TouchableOpacity style={styles.iconBtn} onPress={goBack}>
+          <Icon type={Icons.Ionicons} name="arrow-back" onPress={goBack} />
         </TouchableOpacity>
 
         <Text>Trip Detail</Text>

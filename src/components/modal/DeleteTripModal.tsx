@@ -9,6 +9,8 @@ import {
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { COLORS } from '@/constant/config';
 
 interface Props {
   visible: boolean;
@@ -21,12 +23,15 @@ const DeleteTripModal: React.FC<Props> = ({ visible, onClose, onDelete }) => {
 
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
+
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+
       <View style={styles.fullScreenContainer}>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* HEADER */}
           <View style={styles.header}>
             <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" />
+              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>Delete Trip</Text>
@@ -115,6 +120,7 @@ const DeleteTripModal: React.FC<Props> = ({ visible, onClose, onDelete }) => {
           </TouchableOpacity>
         </View>
       </View>
+      </SafeAreaView>
     </Modal>
   );
 };

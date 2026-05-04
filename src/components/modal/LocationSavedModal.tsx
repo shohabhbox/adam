@@ -2,57 +2,65 @@ import React from 'react';
 import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const LocationSavedModal = ({ visible, onClose }: any) => {
   return (
     <Modal visible={visible} animationType="fade">
-      <View style={styles.container}>
-        {/* SUCCESS ICON */}
-        <View style={styles.iconWrap}>
-          <View style={styles.iconOuter}>
-            <View style={styles.iconInner}>
-              <Icon type={Icons.Feather} name="check" size={26} color="#fff" />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.container}>
+          {/* SUCCESS ICON */}
+          <View style={styles.iconWrap}>
+            <View style={styles.iconOuter}>
+              <View style={styles.iconInner}>
+                <Icon
+                  type={Icons.Feather}
+                  name="check"
+                  size={26}
+                  color="#fff"
+                />
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* TITLE */}
-        <Text style={styles.title}>Location Saved!</Text>
+          {/* TITLE */}
+          <Text style={styles.title}>Location Saved!</Text>
 
-        {/* SUBTITLE */}
-        <Text style={styles.desc}>
-          Colosseum has been pinned to your map and added to your Italy trip
-          itinerary.
-        </Text>
+          {/* SUBTITLE */}
+          <Text style={styles.desc}>
+            Colosseum has been pinned to your map and added to your Italy trip
+            itinerary.
+          </Text>
 
-        {/* DETAILS */}
-        <View style={styles.card}>
-          <InfoRow label="Location" value="Colosseum, Rome" />
-          <InfoRow label="Category" value="Culture & History" />
-          <InfoRow label="Trip" value="Italy Spring Escape" />
-          <InfoRow label="Added on" value="Mar 25, 2026" />
-        </View>
-
-        {/* MAP INFO */}
-        <View style={styles.mapBox}>
-          <View style={styles.mapIcon}>
-            <Icon type={Icons.Feather} name="map-pin" />
+          {/* DETAILS */}
+          <View style={styles.card}>
+            <InfoRow label="Location" value="Colosseum, Rome" />
+            <InfoRow label="Category" value="Culture & History" />
+            <InfoRow label="Trip" value="Italy Spring Escape" />
+            <InfoRow label="Added on" value="Mar 25, 2026" />
           </View>
 
-          <View>
-            <Text style={styles.mapTitle}>Visible on your map</Text>
-            <Text style={styles.mapSub}>
-              Tap the pin to view in full detail
-            </Text>
-          </View>
-        </View>
+          {/* MAP INFO */}
+          <View style={styles.mapBox}>
+            <View style={styles.mapIcon}>
+              <Icon type={Icons.Feather} name="map-pin" />
+            </View>
 
-        {/* BUTTON */}
-        <TouchableOpacity style={styles.primaryBtn} onPress={onClose}>
-          <Icon type={Icons.Feather} name="map" color="#fff" size={16} />
-          <Text style={styles.primaryText}>View on Map</Text>
-        </TouchableOpacity>
-      </View>
+            <View>
+              <Text style={styles.mapTitle}>Visible on your map</Text>
+              <Text style={styles.mapSub}>
+                Tap the pin to view in full detail
+              </Text>
+            </View>
+          </View>
+
+          {/* BUTTON */}
+          <TouchableOpacity style={styles.primaryBtn} onPress={onClose}>
+            <Icon type={Icons.Feather} name="map" color="#fff" size={16} />
+            <Text style={styles.primaryText}>View on Map</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     </Modal>
   );
 };

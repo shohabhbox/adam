@@ -1,7 +1,7 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { SCREENS } from '@/constant';
+import { COLORS, SCREENS } from '@/constant';
 import HomeScreen from '@/screens/Home/HomeScreen';
 
 const Stack = createNativeStackNavigator();
@@ -19,7 +19,6 @@ import ReorderScreen from '@/screens/Trips/Reorder/ReorderScreen';
 import TripPlaces from '@/screens/Trips/Places/TripPlaceScreen';
 import AISuggestionsScreen from '@/screens/Trips/AISuggestions/AISuggestionsScreen';
 import ProfileScreen from '@/screens/Profile/ProfileScreen';
-import FilterTabs from '@/screens/Friends/FilterTabs';
 import FriendsScreen from '@/screens/Friends/FriendsScreen';
 import FriendsProfileScreen from '@/screens/Friends/FriendsProfileScreen';
 import AddFriendScreen from '@/screens/Friends/AddFriendScreen';
@@ -37,112 +36,138 @@ import ProcessingScreen from '@/screens/ImportLocation/ProcessingScreen';
 import ImportResultsScreen from '@/screens/ImportLocation/location/ImportResultsScreen';
 import ImportLocationDetailScreen from '@/screens/ImportLocation/LocationDetail/LocationDetailScreen';
 import AddToTripScreen from '@/screens/Trips/AddToTrip/AddToTripScreen';
+import CategoriesAllScreen from '@/screens/Saved/CategoriesAllScreen';
 import NewCategoryScreen from '@/screens/Category/NewCategory';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SavedAllScreen from '@/screens/Saved/SavedAllScreen';
+import { StatusBar } from 'react-native';
 
 const AppNavigator = () => {
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }} edges={['top']} >
 
-      <Stack.Screen name={SCREENS.SearchScreen} component={SearchScreen} />
-      <Stack.Screen
-        name={SCREENS.LocationDetailScreen}
-        component={LocationDetailScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.SelectCategoryScreen}
-        component={SelectCategoryScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.NewCategoryScreen}
-        component={NewCategoryScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.SavedLocationDetail}
-        component={SavedLocationDetail}
-      />
-      <Stack.Screen
-        name={SCREENS.CreateTripScreen}
-        component={CreateTripScreen}
-      />
-      <Stack.Screen name={SCREENS.EditTripScreen} component={EditTripScreen} />
-      <Stack.Screen
-        name={SCREENS.TripDetailScreen}
-        component={TripDetailScreen}
-      />
-      <Stack.Screen name={SCREENS.ReorderScreen} component={ReorderScreen} />
-      <Stack.Screen name={SCREENS.TripPlaces} component={TripPlaces} />
-      <Stack.Screen
-        name={SCREENS.AddToTripScreen}
-        component={AddToTripScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.AISuggestions}
-        component={AISuggestionsScreen}
-      />
+            <StatusBar
+              barStyle="dark-content"
+              translucent
+              backgroundColor="transparent"
+            />
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
 
-      <Stack.Screen
-        name={SCREENS.ManageMembersScreen}
-        component={ManageMembersScreen}
-      />
+        <Stack.Screen name={SCREENS.SearchScreen} component={SearchScreen} />
+        <Stack.Screen
+          name={SCREENS.LocationDetailScreen}
+          component={LocationDetailScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.SelectCategoryScreen}
+          component={SelectCategoryScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.NewCategoryScreen}
+          component={NewCategoryScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.SavedLocationDetail}
+          component={SavedLocationDetail}
+        />
+        <Stack.Screen
+          name={SCREENS.CreateTripScreen}
+          component={CreateTripScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.EditTripScreen}
+          component={EditTripScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.TripDetailScreen}
+          component={TripDetailScreen}
+        />
+        <Stack.Screen name={SCREENS.ReorderScreen} component={ReorderScreen} />
+        <Stack.Screen name={SCREENS.TripPlaces} component={TripPlaces} />
+        <Stack.Screen
+          name={SCREENS.AddToTripScreen}
+          component={AddToTripScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.AISuggestions}
+          component={AISuggestionsScreen}
+        />
 
-      <Stack.Screen name={SCREENS.ProfileScreen} component={ProfileScreen} />
-      <Stack.Screen name={SCREENS.FriendsScreen} component={FriendsScreen} />
-      <Stack.Screen
-        name={SCREENS.FriendsProfileScreen}
-        component={FriendsProfileScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.AddFriendScreen}
-        component={AddFriendScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.InvitationsScreen}
-        component={InvitationsScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.PendingInvitesScreen}
-        component={PendingInvitesScreen}
-      />
-      <Stack.Screen name={SCREENS.RemovedScreen} component={RemovedScreen} />
-      <Stack.Screen
-        name={SCREENS.TravelTimelineScreen}
-        component={TravelTimelineScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.ArchivedTripScreen}
-        component={ArchivedTripScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.UpgradePremiumScreen}
-        component={UpgradePremiumScreen}
-      />
-      <Stack.Screen name={SCREENS.SettingsScreen} component={SettingsScreen} />
-      <Stack.Screen
-        name={SCREENS.NotificationsScreen}
-        component={NotificationsScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.DeleteAccountScreen}
-        component={DeleteAccountScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.HelpSupportScreen}
-        component={HelpSupportScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.ProcessingScreen}
-        component={ProcessingScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.ImportResultsScreen}
-        component={ImportResultsScreen}
-      />
-      <Stack.Screen
-        name={SCREENS.ImportLocationDetailScreen}
-        component={ImportLocationDetailScreen}
-      />
-    </Stack.Navigator>
+        <Stack.Screen
+          name={SCREENS.ManageMembersScreen}
+          component={ManageMembersScreen}
+        />
+
+        <Stack.Screen name={SCREENS.ProfileScreen} component={ProfileScreen} />
+        <Stack.Screen name={SCREENS.FriendsScreen} component={FriendsScreen} />
+        <Stack.Screen
+          name={SCREENS.FriendsProfileScreen}
+          component={FriendsProfileScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.AddFriendScreen}
+          component={AddFriendScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.InvitationsScreen}
+          component={InvitationsScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.PendingInvitesScreen}
+          component={PendingInvitesScreen}
+        />
+        <Stack.Screen name={SCREENS.RemovedScreen} component={RemovedScreen} />
+        <Stack.Screen
+          name={SCREENS.TravelTimelineScreen}
+          component={TravelTimelineScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.ArchivedTripScreen}
+          component={ArchivedTripScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.UpgradePremiumScreen}
+          component={UpgradePremiumScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.SettingsScreen}
+          component={SettingsScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.NotificationsScreen}
+          component={NotificationsScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.DeleteAccountScreen}
+          component={DeleteAccountScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.HelpSupportScreen}
+          component={HelpSupportScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.ProcessingScreen}
+          component={ProcessingScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.ImportResultsScreen}
+          component={ImportResultsScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.ImportLocationDetailScreen}
+          component={ImportLocationDetailScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.CategoriesAllScreen}
+          component={CategoriesAllScreen}
+        />
+        <Stack.Screen
+          name={SCREENS.SavedAllScreen}
+          component={SavedAllScreen}
+        />
+      </Stack.Navigator>
+    </SafeAreaView>
   );
 };
 

@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
+import { COLORS } from '@/constant/config';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -13,67 +15,69 @@ interface Props {
 const RemoveFriendModal: React.FC<Props> = ({ visible, onClose, onRemove }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <View style={styles.container}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-            <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
-          </TouchableOpacity>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={styles.container}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
+              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+            </TouchableOpacity>
 
-          <Text style={styles.title}>Remove Friend</Text>
+            <Text style={styles.title}>Remove Friend</Text>
 
-          <View style={{ width: 40 }} />
-        </View>
-
-        {/* WARNING ICON */}
-        <View style={styles.iconWrap}>
-          <Icon
-            type={Icons.Feather}
-            name="alert-triangle"
-            size={28}
-            color="#EF4444"
-          />
-        </View>
-
-        {/* TITLE */}
-        <Text style={styles.mainTitle}>Remove this friend?</Text>
-
-        {/* DESCRIPTION */}
-        <Text style={styles.desc}>
-          Sarah will be removed from your friends list and will lose access to
-          shared trips and collaboration.
-        </Text>
-
-        {/* USER CARD */}
-        <View style={styles.userCard}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>SJ</Text>
+            <View style={{ width: 40 }} />
           </View>
 
-          <View>
-            <Text style={styles.name}>Sarah Johnson</Text>
-            <Text style={styles.sub}>3 trips together · Trip Partner</Text>
+          {/* WARNING ICON */}
+          <View style={styles.iconWrap}>
+            <Icon
+              type={Icons.Feather}
+              name="alert-triangle"
+              size={28}
+              color="#EF4444"
+            />
+          </View>
+
+          {/* TITLE */}
+          <Text style={styles.mainTitle}>Remove this friend?</Text>
+
+          {/* DESCRIPTION */}
+          <Text style={styles.desc}>
+            Sarah will be removed from your friends list and will lose access to
+            shared trips and collaboration.
+          </Text>
+
+          {/* USER CARD */}
+          <View style={styles.userCard}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>SJ</Text>
+            </View>
+
+            <View>
+              <Text style={styles.name}>Sarah Johnson</Text>
+              <Text style={styles.sub}>3 trips together · Trip Partner</Text>
+            </View>
+          </View>
+
+          {/* EFFECT BOX */}
+          <View style={styles.warningBox}>
+            <Bullet text="Access to shared trips will be removed" />
+            <Bullet text="Collaboration on itineraries will end" />
+            <Bullet text="They can be re-added later if needed" />
+          </View>
+
+          {/* FOOTER */}
+          <View style={styles.footer}>
+            <TouchableOpacity style={styles.removeBtn} onPress={onRemove}>
+              <Text style={styles.removeText}>Remove</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.cancelBtnBottom} onPress={onClose}>
+              <Text style={styles.cancelTextBottom}>Cancel</Text>
+            </TouchableOpacity>
           </View>
         </View>
-
-        {/* EFFECT BOX */}
-        <View style={styles.warningBox}>
-          <Bullet text="Access to shared trips will be removed" />
-          <Bullet text="Collaboration on itineraries will end" />
-          <Bullet text="They can be re-added later if needed" />
-        </View>
-
-        {/* FOOTER */}
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.removeBtn} onPress={onRemove}>
-            <Text style={styles.removeText}>Remove</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.cancelBtnBottom} onPress={onClose}>
-            <Text style={styles.cancelTextBottom}>Cancel</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

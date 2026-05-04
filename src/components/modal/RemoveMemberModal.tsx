@@ -9,6 +9,8 @@ import {
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
+import { COLORS } from '@/constant/config';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -18,13 +20,14 @@ interface Props {
 const RemoveMemberModal: React.FC<Props> = ({ visible, onClose }) => {
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} style={styles.modal}>
-      <View style={styles.sheet}>
-        {/* DRAG INDICATOR */}
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={styles.sheet}>
+          {/* DRAG INDICATOR */}
 
           {/* HEADER */}
           <View style={styles.header}>
             <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" />
+              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose}  />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>Remove Member</Text>
@@ -74,17 +77,18 @@ const RemoveMemberModal: React.FC<Props> = ({ visible, onClose }) => {
             <EffectItem text="Can be re-invited later" positive />
           </View>
 
-        {/* FOOTER */}
-        <View style={styles.footer}>
-          <TouchableOpacity style={styles.deleteBtn}>
-            <Text style={styles.deleteText}>Remove Member</Text>
-          </TouchableOpacity>
+          {/* FOOTER */}
+          <View style={styles.footer}>
+            <TouchableOpacity style={styles.deleteBtn}>
+              <Text style={styles.deleteText}>Remove Member</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

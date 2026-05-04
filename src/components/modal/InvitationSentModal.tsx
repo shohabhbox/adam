@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import Modal from 'react-native-modal';
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -12,42 +13,44 @@ interface Props {
 const InvitationSentModal: React.FC<Props> = ({ visible, onClose }) => {
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} style={{ margin: 0 }}>
-      <View style={styles.inviteModalContainer}>
-        {/* ICON */}
-        <View style={styles.inviteIconWrapper}>
-          <Icon
-            type={Icons.Feather}
-            name="check-circle"
-            size={45}
-            color={COLORS.primary}
-          />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.inviteModalContainer}>
+          {/* ICON */}
+          <View style={styles.inviteIconWrapper}>
+            <Icon
+              type={Icons.Feather}
+              name="check-circle"
+              size={45}
+              color={COLORS.primary}
+            />
+          </View>
+
+          {/* TITLE */}
+          <Text style={styles.inviteTitle}>Invitation Sent</Text>
+
+          {/* DESCRIPTION */}
+          <Text style={styles.inviteDesc}>
+            Your friend will receive an invite shortly.
+            {'\n'}They'll appear in your list once they accept.
+          </Text>
+
+          {/* BADGE */}
+          <View style={styles.inviteBadge}>
+            <Icon
+              type={Icons.Feather}
+              name="check-circle"
+              size={14}
+              color={COLORS.primary}
+            />
+            <Text style={styles.inviteBadgeText}> Invite delivered</Text>
+          </View>
+
+          {/* BUTTON */}
+          <TouchableOpacity style={styles.inviteBtn} onPress={onClose}>
+            <Text style={styles.inviteBtnText}>Done</Text>
+          </TouchableOpacity>
         </View>
-
-        {/* TITLE */}
-        <Text style={styles.inviteTitle}>Invitation Sent</Text>
-
-        {/* DESCRIPTION */}
-        <Text style={styles.inviteDesc}>
-          Your friend will receive an invite shortly.
-          {'\n'}They'll appear in your list once they accept.
-        </Text>
-
-        {/* BADGE */}
-        <View style={styles.inviteBadge}>
-          <Icon
-            type={Icons.Feather}
-            name="check-circle"
-            size={14}
-            color={COLORS.primary}
-          />
-          <Text style={styles.inviteBadgeText}> Invite delivered</Text>
-        </View>
-
-        {/* BUTTON */}
-        <TouchableOpacity style={styles.inviteBtn} onPress={onClose}>
-          <Text style={styles.inviteBtnText}>Done</Text>
-        </TouchableOpacity>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

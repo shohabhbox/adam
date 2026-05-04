@@ -109,7 +109,7 @@ const HeaderSearch = ({
 
 const styles = StyleSheet.create({
   gradientWrapper: {
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
     paddingBottom: 20,
   },
   header: {
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+    paddingHorizontal: 20,
   },
   logo: {
     fontFamily: 'PlusJakartaSans-Bold',
@@ -171,6 +172,8 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 3 },
     shadowOpacity: 0.05,
     shadowRadius: 8,
+    width: '95%',
+    alignSelf: 'center',
   },
   searchLeft: {
     flexDirection: 'row',
@@ -193,6 +196,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
     padding: 12,
     borderRadius: 12,
+    marginHorizontal: 15,
   },
   icon: {
     marginRight: 10,

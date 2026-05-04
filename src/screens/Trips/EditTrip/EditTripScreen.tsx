@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  ScrollView,
-} from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 
 import styles from './styles';
 import { Icon, Icons, CustomTextInput } from '@/components';
@@ -24,16 +19,18 @@ const EditTripScreen = () => {
 
   return (
     <View style={styles.container}>
-
       <ScrollView showsVerticalScrollIndicator={false}>
-
         {/* HEADER */}
         <View style={styles.header}>
           <TouchableOpacity
             style={styles.cancelBtn}
             onPress={() => navigation.goBack()}
           >
-            <Icon type={Icons.Feather} name="x" />
+            <Icon
+              type={Icons.Feather}
+              name="x"
+              onPress={() => navigation.goBack()}
+            />
             <Text style={styles.cancelText}>Cancel</Text>
           </TouchableOpacity>
 
@@ -49,9 +46,7 @@ const EditTripScreen = () => {
         <Text style={styles.label}>TRIP NAME</Text>
         <CustomTextInput
           value={form.name}
-          onChangeText={(text) =>
-            setForm({ ...form, name: text })
-          }
+          onChangeText={text => setForm({ ...form, name: text })}
           leftIcon="tag"
         />
 
@@ -59,9 +54,7 @@ const EditTripScreen = () => {
         <Text style={styles.label}>DESTINATION</Text>
         <CustomTextInput
           value={form.destination}
-          onChangeText={(text) =>
-            setForm({ ...form, destination: text })
-          }
+          onChangeText={text => setForm({ ...form, destination: text })}
           leftIcon="map-pin"
         />
 
@@ -69,27 +62,18 @@ const EditTripScreen = () => {
         <View style={styles.row}>
           <View style={{ flex: 1, marginRight: 10 }}>
             <Text style={styles.label}>START DATE</Text>
-            <CustomTextInput
-              value={form.startDate}
-              leftIcon="calendar"
-            />
+            <CustomTextInput value={form.startDate} leftIcon="calendar" />
           </View>
 
           <View style={{ flex: 1 }}>
             <Text style={styles.label}>END DATE</Text>
-            <CustomTextInput
-              value={form.endDate}
-              leftIcon="calendar"
-            />
+            <CustomTextInput value={form.endDate} leftIcon="calendar" />
           </View>
         </View>
 
         {/* DESCRIPTION */}
         <Text style={styles.label}>DESCRIPTION</Text>
-        <CustomTextInput
-          value={form.description}
-          isDescription
-        />
+        <CustomTextInput value={form.description} isDescription />
 
         {/* AUTO DATA */}
         <View style={styles.row}>
@@ -112,7 +96,6 @@ const EditTripScreen = () => {
             <Text style={styles.deleteSmallText}>Delete</Text>
           </TouchableOpacity>
         </View>
-
       </ScrollView>
 
       {/* FOOTER */}
@@ -121,7 +104,6 @@ const EditTripScreen = () => {
           <Text style={styles.primaryText}>Save Changes</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 };

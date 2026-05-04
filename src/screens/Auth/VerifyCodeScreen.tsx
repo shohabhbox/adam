@@ -1,22 +1,17 @@
 import React, { useEffect, useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
 import styles from './styles';
 import { COLORS, SCREENS } from '@/constant';
 import { CustomButton } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import Icon, { Icons } from '@/components/Icon';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const OTP_LENGTH = 6;
 
-const VerifyCodeScreen = () => {
-  const navigation = useAppNavigation();
+const VerifyCodeScreen = ({ navigation, route }: any) => {
+  const navugation = useAppNavigation();
 
   const [otp, setOtp] = useState<string[]>(Array(OTP_LENGTH).fill(''));
   const [timer, setTimer] = useState(168); // seconds
@@ -61,89 +56,95 @@ const VerifyCodeScreen = () => {
 
   const handleVerify = () => {
     const code = otp.join('');
-    console.log('OTP:', code);
 
-    navigation.navigate(SCREENS.CreateNewPassword);
+    if (route?.params?.type === 'signup') {
+      navigation.navigate(SCREENS.LocationPermission);
+    } else {
+      navigation.navigate(SCREENS.CreateNewPassword);
+    }
+
   };
 
   return (
-    <View style={styles.container}>
-      {/* BACK BUTTON */}
-      <TouchableOpacity
-        style={styles.backBtn}
-        onPress={() => navigation.goBack()}
-      >
-        <Icon type={Icons.MaterialIcons} name="arrow-back" />
-      </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+      <View style={styles.container}>
+        <TouchableOpacity
+          style={styles.backBtn}
+          onPress={() => navigation.goBack()}
+        >
+          <Icon
+            type={Icons.MaterialIcons}
+            name="arrow-back"
+            onPress={() => navigation.goBack()}
+          />
+        </TouchableOpacity>
 
-      {/* HEADER */}
-      <View style={styles.header}>
-        <Text style={styles.title}>Verify Your Email</Text>
-        <Text style={styles.subtitle}>
-          We sent a 6-digit code to{'\n'}
-          <Text style={{ color: COLORS.primary }}>alex@email.com</Text>
-        </Text>
-      </View>
-
-      {/* CARD */}
-      <View style={styles.card}>
-        {/* LABEL */}
-        <Text style={[styles.label, { textAlign: 'center' }]}>
-          ENTER VERIFICATION CODE
-        </Text>
-
-        {/* OTP INPUT */}
-        <View style={styles.otpContainer}>
-          {otp.map((digit, index) => (
-            <TextInput
-              key={index}
-              ref={ref => {
-                inputs.current[index] = ref!;
-              }}
-              style={[styles.otpInput, digit && styles.filledBox]}
-              value={digit}
-              keyboardType="number-pad"
-              maxLength={1}
-              onChangeText={value => handleChange(value, index)}
-              onKeyPress={({ nativeEvent }) => {
-                if (nativeEvent.key === 'Backspace') {
-                  handleBackspace(index);
-                }
-              }}
-            />
-          ))}
-        </View>
-
-        {/* RESEND */}
-        <Text style={styles.resendText}>
-          Didn’t receive code?{' '}
-          <Text style={{ color: COLORS.primary }}>Resend</Text>
-        </Text>
-
-        {/* TIMER */}
-        <View style={styles.timerBox}>
-          <Text style={{ color: COLORS.primary }}>• {formatTime()}</Text>
-          <Text style={{ marginLeft: 5, color: COLORS.textSecondary }}>
-            remaining
+        <View style={styles.header}>
+          <Text style={styles.title}>Verify Your Email</Text>
+          <Text style={styles.subtitle}>
+            We sent a 6-digit code to{'\n'}
+            <Text style={{ color: COLORS.primary }}>alex@email.com</Text>
           </Text>
         </View>
 
-        {/* BUTTON */}
-        <CustomButton
-          title="Verify Code →"
-          onPress={handleVerify}
-          containerStyle={styles.button}
-        />
+        <View style={styles.card}>
+          <Text style={[styles.label, { textAlign: 'center' }]}>
+            ENTER VERIFICATION CODE
+          </Text>
 
-        {/* CHANGE EMAIL */}
-        <View style={styles.footer}>
-          <Text style={styles.footerText}>Wrong email?</Text>
-          <TouchableOpacity>
-            <Text style={styles.link}> Change</Text>
-          </TouchableOpacity>
+          {/* OTP INPUT */}
+          <View style={styles.otpContainer}>
+            {otp.map((digit, index) => (
+              <TextInput
+                key={index}
+                ref={ref => {
+                  inputs.current[index] = ref!;
+                }}
+                style={[styles.otpInput, digit && styles.filledBox]}
+                value={digit}
+                keyboardType="number-pad"
+                maxLength={1}
+                onChangeText={value => handleChange(value, index)}
+                onKeyPress={({ nativeEvent }) => {
+                  if (nativeEvent.key === 'Backspace') {
+                    handleBackspace(index);
+                  }
+                }}
+              />
+            ))}
+          </View>
+
+          {/* RESEND */}
+          <Text style={styles.resendText}>
+            Didn’t receive code?{' '}
+            <Text style={{ color: COLORS.primary }}>Resend</Text>
+          </Text>
+
+          {/* TIMER */}
+          <View style={styles.timerBox}>
+            <Text style={{ color: COLORS.primary }}>• {formatTime()}</Text>
+            <Text style={{ marginLeft: 5, color: COLORS.textSecondary }}>
+              remaining
+            </Text>
+          </View>
+
+          {/* BUTTON */}
+          <CustomButton
+            title="Verify Code →"
+            onPress={handleVerify}
+            containerStyle={styles.button}
+          />
+
+          {/* CHANGE EMAIL */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>Wrong email?</Text>
+            <TouchableOpacity>
+              <Text style={styles.link}> Change</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

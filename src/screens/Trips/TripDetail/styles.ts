@@ -277,7 +277,8 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 15,
     backgroundColor: COLORS.white,
-    paddingVertical: 10,
+    paddingVertical: 20,
+    
 
   },
 });

@@ -90,7 +90,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                   name={tab.icon || ''}
                   color={isFocused ? '#FFA500' : COLORS.black + '70%'}
                   size={24}
-                  onPress={() => navigation.navigate(tab.name)}
+                  onPress={() => handleTabPress(tab.name)}
                 />
               </TouchableOpacity>
 
@@ -129,7 +129,7 @@ export default CustomTabBar;
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    bottom: 0,
+    bottom: 20,
     alignSelf: 'center',
     width: BAR_WIDTH,
     height: BAR_HEIGHT,

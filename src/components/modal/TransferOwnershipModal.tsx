@@ -9,6 +9,8 @@ import {
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
+import { COLORS } from '@/constant';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Member {
   id: string;
@@ -38,107 +40,115 @@ const TransferOwnershipModal: React.FC<Props> = ({
 
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <View style={styles.fullScreenContainer}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          {/* HEADER */}
-          <View style={styles.header}>
-            <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={styles.fullScreenContainer}>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* HEADER */}
+            <View style={styles.header}>
+              <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
+                <Icon
+                  type={Icons.Ionicons}
+                  name="arrow-back"
+                  onPress={onClose}
+                />
+              </TouchableOpacity>
+
+              <Text style={styles.headerTitle}>Transfer Ownership</Text>
+
+              <View style={{ width: 40 }} />
+            </View>
+
+            {/* ICON */}
+            <View style={styles.crownBox}>
+              <Icon type={Icons.Feather} name="award" size={28} color="#fff" />
+            </View>
+
+            {/* TITLE */}
+            <Text style={styles.title}>Transfer Ownership</Text>
+
+            <Text style={styles.desc}>
+              Choose a member to become the new owner of{' '}
+              <Text style={{ fontWeight: '600' }}>Greece Island Hop</Text>. You
+              will become an Editor.
+            </Text>
+
+            {/* WARNING */}
+            <View style={styles.warningBoxYellow}>
+              <Text style={styles.warningTitleYellow}>
+                This action cannot be undone
+              </Text>
+              <Text style={styles.warningTextYellow}>
+                The new owner will have full control including removing you.
+              </Text>
+            </View>
+
+            {/* MEMBERS */}
+            <Text style={styles.sectionLabel}>SELECT NEW OWNER</Text>
+
+            {members.map(item => {
+              const isSelected = selected.id === item.id;
+
+              return (
+                <TouchableOpacity
+                  key={item.id}
+                  style={[
+                    styles.memberSelectCard,
+                    isSelected && styles.memberSelected,
+                  ]}
+                  onPress={() => setSelected(item)}
+                >
+                  {/* AVATAR */}
+                  <View style={styles.avatarGradient}>
+                    <Text style={styles.avatarText}>
+                      {item.name.slice(0, 2).toUpperCase()}
+                    </Text>
+                  </View>
+
+                  {/* INFO */}
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.memberName}>{item.name}</Text>
+                    <Text style={styles.memberEmail}>{item.email}</Text>
+                  </View>
+
+                  {/* ROLE */}
+                  <View style={styles.roleBadge}>
+                    <Text style={styles.roleText}>{item.role}</Text>
+                  </View>
+
+                  {/* RADIO */}
+                  <View style={styles.radio}>
+                    {isSelected && <View style={styles.radioFill} />}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+
+            {/* WHAT HAPPENS */}
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>What happens next</Text>
+
+              <Bullet text={`${selected.name} becomes the new Owner`} />
+              <Bullet text={`You will become an Editor`} />
+            </View>
+          </ScrollView>
+
+          {/* FOOTER */}
+          <View style={styles.footer}>
+            <TouchableOpacity
+              style={styles.transferBtn}
+              onPress={() => onTransfer(selected)}
+            >
+              <Text style={styles.transferText}>
+                Transfer to {selected.name}
+              </Text>
             </TouchableOpacity>
 
-            <Text style={styles.headerTitle}>Transfer Ownership</Text>
-
-            <View style={{ width: 40 }} />
+            <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>
+              <Text style={styles.cancelText}>Cancel</Text>
+            </TouchableOpacity>
           </View>
-
-          {/* ICON */}
-          <View style={styles.crownBox}>
-            <Icon type={Icons.Feather} name="award" size={28} color="#fff" />
-          </View>
-
-          {/* TITLE */}
-          <Text style={styles.title}>Transfer Ownership</Text>
-
-          <Text style={styles.desc}>
-            Choose a member to become the new owner of{' '}
-            <Text style={{ fontWeight: '600' }}>Greece Island Hop</Text>. You
-            will become an Editor.
-          </Text>
-
-          {/* WARNING */}
-          <View style={styles.warningBoxYellow}>
-            <Text style={styles.warningTitleYellow}>
-              This action cannot be undone
-            </Text>
-            <Text style={styles.warningTextYellow}>
-              The new owner will have full control including removing you.
-            </Text>
-          </View>
-
-          {/* MEMBERS */}
-          <Text style={styles.sectionLabel}>SELECT NEW OWNER</Text>
-
-          {members.map(item => {
-            const isSelected = selected.id === item.id;
-
-            return (
-              <TouchableOpacity
-                key={item.id}
-                style={[
-                  styles.memberSelectCard,
-                  isSelected && styles.memberSelected,
-                ]}
-                onPress={() => setSelected(item)}
-              >
-                {/* AVATAR */}
-                <View style={styles.avatarGradient}>
-                  <Text style={styles.avatarText}>
-                    {item.name.slice(0, 2).toUpperCase()}
-                  </Text>
-                </View>
-
-                {/* INFO */}
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.memberName}>{item.name}</Text>
-                  <Text style={styles.memberEmail}>{item.email}</Text>
-                </View>
-
-                {/* ROLE */}
-                <View style={styles.roleBadge}>
-                  <Text style={styles.roleText}>{item.role}</Text>
-                </View>
-
-                {/* RADIO */}
-                <View style={styles.radio}>
-                  {isSelected && <View style={styles.radioFill} />}
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-
-          {/* WHAT HAPPENS */}
-          <View style={styles.card}>
-            <Text style={styles.cardTitle}>What happens next</Text>
-
-            <Bullet text={`${selected.name} becomes the new Owner`} />
-            <Bullet text={`You will become an Editor`} />
-          </View>
-        </ScrollView>
-
-        {/* FOOTER */}
-        <View style={styles.footer}>
-          <TouchableOpacity
-            style={styles.transferBtn}
-            onPress={() => onTransfer(selected)}
-          >
-            <Text style={styles.transferText}>Transfer to {selected.name}</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.cancelBtn} onPress={onClose}>
-            <Text style={styles.cancelText}>Cancel</Text>
-          </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

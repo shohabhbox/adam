@@ -10,6 +10,7 @@ import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant/config';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -48,32 +49,34 @@ const data = [
 const TripActivityModal: React.FC<Props> = ({ visible, onClose }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <View style={styles.fullScreenContainer}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-            <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
-          </TouchableOpacity>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        <View style={styles.fullScreenContainer}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
+              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+            </TouchableOpacity>
 
-          <View>
-            <Text style={styles.headerTitle}>Trip Activity</Text>
-            <Text style={styles.subtitle}>Greece Island Hop</Text>
+            <View>
+              <Text style={styles.headerTitle}>Trip Activity</Text>
+              <Text style={styles.subtitle}>Greece Island Hop</Text>
+            </View>
+
+            <View style={{ width: 40 }} />
           </View>
 
-          <View style={{ width: 40 }} />
+          {/* LIST */}
+          {/* <FlatList
+            data={data}
+            keyExtractor={item => item.id}
+            showsVerticalScrollIndicator={false}
+            contentContainerStyle={{ paddingBottom: 30 }}
+            renderItem={({ item, index }) => (
+              <ActivityItem item={item} isLast={index === data.length - 1} />
+            )}
+          /> */}
         </View>
-
-        {/* LIST */}
-        <FlatList
-          data={data}
-          keyExtractor={item => item.id}
-          showsVerticalScrollIndicator={false}
-          contentContainerStyle={{ paddingBottom: 30 }}
-          renderItem={({ item, index }) => (
-            <ActivityItem item={item} isLast={index === data.length - 1} />
-          )}
-        />
-      </View>
+      </SafeAreaView>
     </Modal>
   );
 };

@@ -10,6 +10,7 @@ import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant/config';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -41,6 +42,8 @@ const trips = [
 const SelectTripModal: React.FC<Props> = ({ visible, onClose, onSelect }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
+      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+        
       <View style={styles.container}>
         {/* HEADER */}
         <View style={styles.header}>
@@ -78,6 +81,7 @@ const SelectTripModal: React.FC<Props> = ({ visible, onClose, onSelect }) => {
           )}
         />
       </View>
+      </SafeAreaView>
     </Modal>
   );
 };

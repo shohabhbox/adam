@@ -12,7 +12,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginTop: 50,
+    marginTop: 10,
   },
 
   iconBtn: {

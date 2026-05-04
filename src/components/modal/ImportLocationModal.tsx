@@ -48,7 +48,7 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             </View>
 
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Icon type={Icons.Feather} name="x" />
+              <Icon type={Icons.Feather} name="x" onPress={onClose} />
             </TouchableOpacity>
           </View>
 

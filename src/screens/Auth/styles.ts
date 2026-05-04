@@ -4,8 +4,8 @@ import { COLORS, SIZES, FONTFAMILY, FONTS } from '@/constant';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.white,
-    paddingHorizontal: SIZES.lg,
+    backgroundColor: COLORS.background,
+    paddingHorizontal: SIZES.md,
   },
 
   header: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: COLORS.white,
+    backgroundColor: COLORS.white +"70",
     borderRadius: 25,
     padding: SIZES.lg,
     shadowColor: '#000',

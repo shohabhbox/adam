@@ -9,8 +9,10 @@ export const COLORS = {
   primaryDark: '#04606f',
   primaryLight: '#06829620',
 
+  
+
   secondary: '#F4C430', // subtle gold (matches proposal tone)
-  background: '#F8FAFB',
+  background: '#F5F6FB',
   white: '#FFFFFF',
   black: '#000000',
 
@@ -33,6 +35,10 @@ export const IMAGES = {
   stars: require('@/assets/icon/stars.png'),
   marker: require('@/assets/icon/marker.png'),
   check: require('@/assets/images/check.png'),
+  splashScreen: require('@/assets/images/splashScreen.jpg'),
+  onboard1: require('@/assets/images/onboard1.jpg'),
+  onboard2: require('@/assets/images/onboard2.jpg'),
+  onboard3: require('@/assets/images/onboard3.jpg'),
 };
 /* *************** FONT FAMILY *************** */
 export const FONTFAMILY = {
@@ -121,7 +127,7 @@ export const STYLES = StyleSheet.create({
 /* *************** SCREENS *************** */
 export const SCREENS = {
   Splash: 'Splash',
-  Onboarding: 'Onboarding',
+  Onboard: 'Onboard',
 
   Login: 'Login',
   SignUp: 'SignUp',
@@ -160,6 +166,8 @@ export const SCREENS = {
   ProcessingScreen: 'ProcessingScreen',
   ImportResultsScreen: 'ImportResultsScreen',
   ImportLocationDetailScreen: 'ImportLocationDetailScreen',
+  CategoriesAllScreen: 'CategoriesAllScreen',
+  SavedAllScreen: 'SavedAllScreen',
 
   Home: 'Home',
   Map: 'Map',

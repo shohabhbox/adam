@@ -8,7 +8,7 @@ export default StyleSheet.create({
 
   /* HEADER */
   header: {
-    marginTop: 50,
+    marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',

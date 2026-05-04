@@ -29,7 +29,6 @@ const HomeScreen = ({ navigation }: any) => {
       <MapView
         ref={mapRef}
         style={StyleSheet.absoluteFill}
-        mapType="hybridFlyover"
         initialRegion={{
           latitude: 40.7128,
           longitude: -74.006,
