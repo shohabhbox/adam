@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant/config';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -20,14 +20,17 @@ interface Props {
 const RemoveMemberModal: React.FC<Props> = ({ visible, onClose }) => {
   return (
     <Modal isVisible={visible} onBackdropPress={onClose} style={styles.modal}>
-      <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
+      <SafeAreaView
+        edges={['top']}
+        style={{ flex: 1, backgroundColor: COLORS.background }}
+      >
         <View style={styles.sheet}>
           {/* DRAG INDICATOR */}
 
           {/* HEADER */}
           <View style={styles.header}>
             <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose}  />
+              <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
             </TouchableOpacity>
 
             <Text style={styles.headerTitle}>Remove Member</Text>

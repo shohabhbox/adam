@@ -5,6 +5,7 @@ import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import styles from './styles';
 import RenderItem from './renderItem';
+import AppScreen from '@/components/AppScreen';
 
 const initialData = [
   {
@@ -55,36 +56,39 @@ const TripPlaces = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon type={Icons.Ionicons} name="arrow-back"           onPress={() => navigation.goBack()}
- />
-        </TouchableOpacity>
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
+            onPress={() => navigation.goBack()}
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              disabled={true}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>View all</Text>
+          <Text style={styles.title}>View all</Text>
 
-        <View style={{ width: 40 }} />
+          <View style={{ width: 40 }} />
+        </View>
+
+        {/* LIST */}
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          renderItem={({ item }) => (
+            <RenderItem item={item} onToggle={toggleAdd} />
+          )}
+        />
       </View>
-
-      {/* LIST */}
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        renderItem={({ item }) => (
-          <RenderItem item={item} onToggle={toggleAdd} />
-        )}
-      />
-    </View>
+    </AppScreen>
   );
 };
 
-
 export default TripPlaces;
-

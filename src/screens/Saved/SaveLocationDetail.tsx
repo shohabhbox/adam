@@ -4,6 +4,7 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { COLORS, IMAGES, SCREENS } from '@/constant';
 import { Icon, Icons, CustomButton } from '@/components';
 import Tag from '@/components/CustomTag';
+import AppScreen from '@/components/AppScreen';
 
 const SavedLocationDetail = ({ navigation }: { navigation: any }) => {
   function onCategorize() {
@@ -11,82 +12,89 @@ const SavedLocationDetail = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Location Detail</Text>
+          <Text style={styles.headerTitle}>Location Detail</Text>
 
-        <TouchableOpacity style={styles.favBtn}>
-          <Icon type={Icons.Ionicons} name="heart" color="#FF4D6D" size={22} />
-        </TouchableOpacity>
-      </View>
-
-      {/* IMAGE */}
-      <View style={styles.imageWrapper}>
-        <Image source={IMAGES.locationSample} style={styles.image} />
-
-        {/* COORDINATE BADGE */}
-        <View style={styles.coord}>
-          <Text style={styles.coordText}>35.6595° N, 139.7004° E</Text>
-        </View>
-      </View>
-
-      {/* CONTENT */}
-      <View style={styles.content}>
-        <Text style={styles.title}>Eiffel Tower</Text>
-
-        <View style={styles.row}>
-          <Icon type={Icons.Feather} name="map-pin" size={14} />
-          <Text style={styles.location}>
-            1–chome Dōgenzaka, Shibuya City, Tokyo
-          </Text>
+          <TouchableOpacity style={styles.favBtn}>
+            <Icon
+              type={Icons.Ionicons}
+              name="heart"
+              color="#FF4D6D"
+              size={22}
+            />
+          </TouchableOpacity>
         </View>
 
-        <Text style={styles.pinned}>Pinned just now</Text>
+        {/* IMAGE */}
+        <View style={styles.imageWrapper}>
+          <Image source={IMAGES.locationSample} style={styles.image} />
 
-        {/* DESCRIPTION */}
-        <View style={styles.descBox}>
-          <Text style={styles.desc}>
-            Shibuya Crossing is one of the world's busiest pedestrian crossings,
-            located in front of Shibuya Station.
-          </Text>
-
-          {/* TAGS */}
-          <View style={styles.tagRow}>
-            <Tag label="Landmark" />
-            <Tag label="Urban" />
-            <Tag label="Popular Spot" />
+          {/* COORDINATE BADGE */}
+          <View style={styles.coord}>
+            <Text style={styles.coordText}>35.6595° N, 139.7004° E</Text>
           </View>
         </View>
+
+        {/* CONTENT */}
+        <View style={styles.content}>
+          <Text style={styles.title}>Eiffel Tower</Text>
+
+          <View style={styles.row}>
+            <Icon type={Icons.Feather} name="map-pin" size={14} />
+            <Text style={styles.location}>
+              1–chome Dōgenzaka, Shibuya City, Tokyo
+            </Text>
+          </View>
+
+          <Text style={styles.pinned}>Pinned just now</Text>
+
+          {/* DESCRIPTION */}
+          <View style={styles.descBox}>
+            <Text style={styles.desc}>
+              Shibuya Crossing is one of the world's busiest pedestrian
+              crossings, located in front of Shibuya Station.
+            </Text>
+
+            {/* TAGS */}
+            <View style={styles.tagRow}>
+              <Tag label="Landmark" />
+              <Tag label="Urban" />
+              <Tag label="Popular Spot" />
+            </View>
+          </View>
+        </View>
+
+        {/* BUTTONS */}
+        <View style={styles.bottom}>
+          <CustomButton
+            title="Add to Trip"
+            onPress={() => {
+              navigation.navigate(SCREENS.AddToTripScreen);
+            }}
+          />
+
+          <TouchableOpacity style={styles.outlineBtn} onPress={onCategorize}>
+            <Text style={styles.outlineText}>Categorize</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.delete}>Delete Location</Text>
+        </View>
       </View>
-
-      {/* BUTTONS */}
-      <View style={styles.bottom}>
-        <CustomButton
-          title="Add to Trip"
-          onPress={() => {
-            navigation.navigate(SCREENS.AddToTripScreen);
-          }}
-        />
-
-        <TouchableOpacity style={styles.outlineBtn} onPress={onCategorize}>
-          <Text style={styles.outlineText}>Categorize</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.delete}>Delete Location</Text>
-      </View>
-    </View>
+    </AppScreen>
   );
 };
 

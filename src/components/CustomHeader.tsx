@@ -13,7 +13,11 @@ const CustomHeader: React.FC<Props> = ({ title, onBackPress }) => {
     <View style={styles.container}>
       {onBackPress && (
         <TouchableOpacity onPress={onBackPress}>
-          <Icon type={Icons.MaterialIcons} name="arrow-back" />
+          <Icon
+            type={Icons.MaterialIcons}
+            name="arrow-back"
+            disabled={true}
+          />
         </TouchableOpacity>
       )}
 

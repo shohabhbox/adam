@@ -10,6 +10,7 @@ import {
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { COLORS, SCREENS } from '@/constant/config';
+import AppScreen from '@/components/AppScreen';
 
 const SettingsScreen = () => {
   const navigation = useAppNavigation<'Settings'>();
@@ -34,80 +35,86 @@ const SettingsScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.iconBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon
-              type={Icons.Ionicons}
-              name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.iconBtn}
               onPress={() => navigation.goBack()}
-            />
+            >
+              <Icon
+                type={Icons.Ionicons}
+                name="arrow-back"
+                disabled={true}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.title}>Settings</Text>
+
+            <View style={{ width: 40 }} />
+          </View>
+
+          {/* ACCOUNT */}
+          <Text style={styles.section}>ACCOUNT</Text>
+
+          <TouchableOpacity style={styles.profileCard}>
+            <View style={styles.avatar}>
+              <Text style={styles.avatarText}>JD</Text>
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text style={styles.name}>Jane Doe</Text>
+              <Text style={styles.email}>jane.doe@gmail.com</Text>
+            </View>
+
+            <Icon type={Icons.Feather} name="chevron-right" />
           </TouchableOpacity>
 
-          <Text style={styles.title}>Settings</Text>
+          {/* PREFERENCES */}
+          <Text style={styles.section}>PREFERENCES</Text>
 
-          <View style={{ width: 40 }} />
-        </View>
-
-        {/* ACCOUNT */}
-        <Text style={styles.section}>ACCOUNT</Text>
-
-        <TouchableOpacity style={styles.profileCard}>
-          <View style={styles.avatar}>
-            <Text style={styles.avatarText}>JD</Text>
+          <View style={styles.card}>
+            <Item
+              icon="shield"
+              title="Privacy"
+              sub="Location, data sharing"
+              onPress={() => {
+                navigation.navigate(SCREENS.HelpSupportScreen);
+              }}
+            />
+            <Item
+              icon="bell"
+              title="Notifications"
+              sub="Push, reminders"
+              onPress={() => navigation.navigate(SCREENS.NotificationsScreen)}
+            />
+            <Item
+              icon="database"
+              title="Data Management"
+              sub="Storage, cache"
+            />
+            <Item icon="info" title="About" sub="Version 2.4.1" />
           </View>
 
-          <View style={{ flex: 1 }}>
-            <Text style={styles.name}>Jane Doe</Text>
-            <Text style={styles.email}>jane.doe@gmail.com</Text>
+          {/* DANGER ZONE */}
+          <Text style={styles.section}>DANGER ZONE</Text>
+
+          <View style={styles.card}>
+            <Item
+              icon="trash-2"
+              title="Delete Account"
+              danger
+              onPress={() => {
+                navigation.navigate(SCREENS.DeleteAccountScreen);
+              }}
+            />
+            <Item icon="log-out" title="Log Out" danger />
           </View>
-
-          <Icon type={Icons.Feather} name="chevron-right" />
-        </TouchableOpacity>
-
-        {/* PREFERENCES */}
-        <Text style={styles.section}>PREFERENCES</Text>
-
-        <View style={styles.card}>
-          <Item
-            icon="shield"
-            title="Privacy"
-            sub="Location, data sharing"
-            onPress={() => {
-              navigation.navigate(SCREENS.HelpSupportScreen);
-            }}
-          />
-          <Item
-            icon="bell"
-            title="Notifications"
-            sub="Push, reminders"
-            onPress={() => navigation.navigate(SCREENS.NotificationsScreen)}
-          />
-          <Item icon="database" title="Data Management" sub="Storage, cache" />
-          <Item icon="info" title="About" sub="Version 2.4.1" />
-        </View>
-
-        {/* DANGER ZONE */}
-        <Text style={styles.section}>DANGER ZONE</Text>
-
-        <View style={styles.card}>
-          <Item
-            icon="trash-2"
-            title="Delete Account"
-            danger
-            onPress={() => {
-              navigation.navigate(SCREENS.DeleteAccountScreen);
-            }}
-          />
-          <Item icon="log-out" title="Log Out" danger />
-        </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
+    </AppScreen>
   );
 };
 

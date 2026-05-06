@@ -5,12 +5,12 @@ import {
   FlatList,
   TouchableOpacity,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant/config';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -54,7 +54,7 @@ const TripActivityModal: React.FC<Props> = ({ visible, onClose }) => {
           {/* HEADER */}
           <View style={styles.header}>
             <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+              <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
             </TouchableOpacity>
 
             <View>

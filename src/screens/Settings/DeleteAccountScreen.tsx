@@ -9,6 +9,7 @@ import {
 
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
+import AppScreen from '@/components/AppScreen';
 
 const DeleteAccountScreen = () => {
   const navigation = useAppNavigation<'DeleteAccount'>();
@@ -17,87 +18,89 @@ const DeleteAccountScreen = () => {
   const [secure, setSecure] = useState(true);
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
+          </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Delete Account</Text>
+          <Text style={styles.headerTitle}>Delete Account</Text>
 
-        <View style={{ width: 40 }} />
-      </View>
+          <View style={{ width: 40 }} />
+        </View>
 
-      {/* WARNING BOX */}
-      <View style={styles.warningBox}>
-        <View style={styles.warningHeader}>
-          <View style={styles.warningIcon}>
-            <Icon type={Icons.Feather} name="alert-triangle" color="#EF4444" />
+        {/* WARNING BOX */}
+        <View style={styles.warningBox}>
+          <View style={styles.warningHeader}>
+            <View style={styles.warningIcon}>
+              <Icon
+                type={Icons.Feather}
+                name="alert-triangle"
+                color="#EF4444"
+              />
+            </View>
+
+            <Text style={styles.warningTitle}>This cannot be undone</Text>
           </View>
 
-          <Text style={styles.warningTitle}>This cannot be undone</Text>
+          <Bullet text="All trips and data will be permanently removed" />
+          <Bullet text="Saved locations will be deleted" />
+          <Bullet text="Subscription will be cancelled immediately" />
+          <Bullet text="Your account cannot be recovered" />
         </View>
 
-        <Bullet text="All trips and data will be permanently removed" />
-        <Bullet text="Saved locations will be deleted" />
-        <Bullet text="Subscription will be cancelled immediately" />
-        <Bullet text="Your account cannot be recovered" />
-      </View>
+        {/* USER CARD */}
+        <View style={styles.userCard}>
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>JD</Text>
+          </View>
 
-      {/* USER CARD */}
-      <View style={styles.userCard}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>JD</Text>
+          <View>
+            <Text style={styles.name}>Jane Doe</Text>
+            <Text style={styles.email}>jane.doe@gmail.com</Text>
+          </View>
         </View>
 
-        <View>
-          <Text style={styles.name}>Jane Doe</Text>
-          <Text style={styles.email}>jane.doe@gmail.com</Text>
+        {/* PASSWORD */}
+        <Text style={styles.label}>CONFIRM PASSWORD</Text>
+
+        <View style={styles.inputWrap}>
+          <TextInput
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={secure}
+            style={styles.input}
+          />
+
+          <TouchableOpacity onPress={() => setSecure(!secure)}>
+            <Icon type={Icons.Feather} name={secure ? 'eye' : 'eye-off'} />
+          </TouchableOpacity>
+        </View>
+
+        <Text style={styles.helper}>
+          Enter your current password to confirm deletion.
+        </Text>
+
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.deleteBtn}>
+            <Text style={styles.deleteText}>Permanently Delete Account</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.cancelBtn}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
         </View>
       </View>
-
-      {/* PASSWORD */}
-      <Text style={styles.label}>CONFIRM PASSWORD</Text>
-
-      <View style={styles.inputWrap}>
-        <TextInput
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={secure}
-          style={styles.input}
-        />
-
-        <TouchableOpacity onPress={() => setSecure(!secure)}>
-          <Icon type={Icons.Feather} name={secure ? 'eye' : 'eye-off'} />
-        </TouchableOpacity>
-      </View>
-
-      <Text style={styles.helper}>
-        Enter your current password to confirm deletion.
-      </Text>
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.deleteBtn}>
-          <Text style={styles.deleteText}>Permanently Delete Account</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.cancelBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.cancelText}>Cancel</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </AppScreen>
   );
 };
 

@@ -12,6 +12,7 @@ import styles from './styles';
 import PlaceItem, { Place } from '@/components/PlaceItem';
 import CategoryCard, { CategoryCardProps } from '@/components/CategoryCard';
 import { SCREENS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 export const DATA: Place[] = [
   {
@@ -129,52 +130,55 @@ const SavedScreen = ({ navigation }: any) => {
   }
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <View>
-            <Text style={styles.small}>My Places</Text>
-            <Text style={styles.title}>Recently Saved</Text>
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <View>
+              <Text style={styles.small}>My Places</Text>
+              <Text style={styles.title}>Recently Saved</Text>
+            </View>
+
+            <TouchableOpacity onPress={onProfilePress} style={styles.avatar}>
+              <Text>JD</Text>
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity onPress={onProfilePress} style={styles.avatar}>
-            <Text>JD</Text>
-          </TouchableOpacity>
-        </View>
+          {/* CATEGORIES */}
+          <View style={styles.rowBetween}>
+            <Text style={styles.sectionTitle}>Categories</Text>
+            <Text onPress={seeAllCategories} style={styles.link}>
+              See all
+            </Text>
+          </View>
 
-        {/* CATEGORIES */}
-        <View style={styles.rowBetween}>
-          <Text style={styles.sectionTitle}>Categories</Text>
-          <Text onPress={seeAllCategories} style={styles.link}>
-            See all
-          </Text>
-        </View>
+          <FlatList
+            data={CATEGORIES}
+            renderItem={renderCategoryItem}
+            keyExtractor={item => Number(item.id).toString()}
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
+            contentContainerStyle={styles.categoriesListContent}
+          />
 
-        <FlatList
-          data={CATEGORIES}
-          renderItem={renderCategoryItem}
-          keyExtractor={item => Number(item.id).toString()}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => <View style={{ width: 12 }} />}
-        />
-
-        {/* RECENT */}
-        <View style={styles.rowBetween}>
-          <Text style={styles.sectionTitle}>Recently Saved</Text>
-          <Text onPress={viewAllSaved} style={styles.link}>
-            View all
-          </Text>
-        </View>
-        <FlatList
-          data={DATA}
-          renderItem={renderItem}
-          keyExtractor={item => item.id}
-          contentContainerStyle={styles.listContent}
-        />
-      </ScrollView>
-    </View>
+          {/* RECENT */}
+          <View style={styles.rowBetween}>
+            <Text style={styles.sectionTitle}>Recently Saved</Text>
+            <Text onPress={viewAllSaved} style={styles.link}>
+              View all
+            </Text>
+          </View>
+          <FlatList
+            data={DATA}
+            renderItem={renderItem}
+            keyExtractor={item => item.id}
+            contentContainerStyle={styles.listContent}
+          />
+        </ScrollView>
+      </View>
+    </AppScreen>
   );
 };
 

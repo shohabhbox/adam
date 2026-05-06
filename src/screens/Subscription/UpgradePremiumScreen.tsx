@@ -10,6 +10,7 @@ import {
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { COLORS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const features = [
   'Unlimited map downloads',
@@ -23,92 +24,96 @@ const UpgradePremiumScreen = () => {
   const navigation = useAppNavigation<'UpgradePremium'>();
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.iconBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon
-              type={Icons.Ionicons}
-              name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.iconBtn}
               onPress={() => navigation.goBack()}
+            >
+              <Icon
+                type={Icons.Ionicons}
+                name="arrow-back"
+                onPress={() => navigation.goBack()}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.headerTitle}>Upgrade to Premium</Text>
+
+            <View style={{ width: 40 }} />
+          </View>
+
+          {/* ICON */}
+          <View style={styles.iconWrap}>
+            <Icon
+              type={Icons.Feather}
+              name="star"
+              size={28}
+              color={COLORS.primary}
             />
-          </TouchableOpacity>
+          </View>
 
-          <Text style={styles.headerTitle}>Upgrade to Premium</Text>
+          {/* TITLE */}
+          <Text style={styles.title}>Go Premium</Text>
 
-          <View style={{ width: 40 }} />
-        </View>
+          <Text style={styles.subtitle}>
+            Unlock the full travel experience with all features.
+          </Text>
 
-        {/* ICON */}
-        <View style={styles.iconWrap}>
-          <Icon
-            type={Icons.Feather}
-            name="star"
-            size={28}
-            color={COLORS.primary}
-          />
-        </View>
+          {/* FEATURES */}
+          <View style={styles.card}>
+            {features.map((item, index) => (
+              <View key={index} style={styles.featureRow}>
+                <View style={styles.featureLeft}>
+                  <View style={styles.featureIcon}>
+                    <Icon type={Icons.Feather} name="check" size={14} />
+                  </View>
 
-        {/* TITLE */}
-        <Text style={styles.title}>Go Premium</Text>
-
-        <Text style={styles.subtitle}>
-          Unlock the full travel experience with all features.
-        </Text>
-
-        {/* FEATURES */}
-        <View style={styles.card}>
-          {features.map((item, index) => (
-            <View key={index} style={styles.featureRow}>
-              <View style={styles.featureLeft}>
-                <View style={styles.featureIcon}>
-                  <Icon type={Icons.Feather} name="check" size={14} />
+                  <Text style={styles.featureText}>{item}</Text>
                 </View>
 
-                <Text style={styles.featureText}>{item}</Text>
+                <View style={styles.tick}>
+                  <Icon
+                    type={Icons.Feather}
+                    name="check"
+                    size={14}
+                    color="#fff"
+                  />
+                </View>
               </View>
+            ))}
+          </View>
 
-              <View style={styles.tick}>
-                <Icon
-                  type={Icons.Feather}
-                  name="check"
-                  size={14}
-                  color="#fff"
-                />
-              </View>
+          {/* PLAN */}
+          <View style={styles.planBox}>
+            <View>
+              <Text style={styles.planTitle}>Premium Plan</Text>
+              <Text style={styles.planSub}>
+                Billed monthly · Cancel anytime
+              </Text>
             </View>
-          ))}
-        </View>
 
-        {/* PLAN */}
-        <View style={styles.planBox}>
-          <View>
-            <Text style={styles.planTitle}>Premium Plan</Text>
-            <Text style={styles.planSub}>Billed monthly · Cancel anytime</Text>
+            <View style={styles.priceWrap}>
+              <Text style={styles.price}>$4.99</Text>
+              <Text style={styles.per}>/ month</Text>
+            </View>
           </View>
+        </ScrollView>
 
-          <View style={styles.priceWrap}>
-            <Text style={styles.price}>$4.99</Text>
-            <Text style={styles.per}>/ month</Text>
-          </View>
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.primaryBtn}>
+            <Text style={styles.primaryText}>Upgrade Now</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.secondaryText}>Maybe Later</Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.primaryBtn}>
-          <Text style={styles.primaryText}>Upgrade Now</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.secondaryText}>Maybe Later</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </AppScreen>
   );
 };
 

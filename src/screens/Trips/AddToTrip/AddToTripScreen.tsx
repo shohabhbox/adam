@@ -6,6 +6,7 @@ import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import TripSelectCard from './TripSelectCard';
 import { SCREENS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const trips = [
   {
@@ -43,62 +44,64 @@ const AddToTripScreen = () => {
   const [selected, setSelected] = useState<string | null>('1');
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
+
+          <View>
+            <Text style={styles.subTitle}>Colosseum, Rome</Text>
+            <Text style={styles.title}>Add to Trip</Text>
+          </View>
+        </View>
+
+        <Text style={styles.desc}>
+          Choose which itinerary to save this location to
+        </Text>
+
+        {/* LIST */}
+        <FlatList
+          data={trips}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          renderItem={({ item }) => (
+            <TripSelectCard
+              item={item}
+              selected={selected === item.id}
+              onPress={() => setSelected(item.id)}
+            />
+          )}
+        />
+
+        {/* CREATE NEW */}
+        <TouchableOpacity
+          style={styles.createBox}
+          onPress={() => {
+            navigation.navigate(SCREENS.CreateTripScreen);
+          }}
+        >
+          <Icon type={Icons.Feather} name="plus" size={18} />
+          <Text style={styles.createText}>Create new trip</Text>
         </TouchableOpacity>
 
-        <View>
-          <Text style={styles.subTitle}>Colosseum, Rome</Text>
-          <Text style={styles.title}>Add to Trip</Text>
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.primaryBtn} disabled={!selected}>
+            <Text style={styles.primaryText}>Add to Italy Spring Escape</Text>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <Text style={styles.desc}>
-        Choose which itinerary to save this location to
-      </Text>
-
-      {/* LIST */}
-      <FlatList
-        data={trips}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        renderItem={({ item }) => (
-          <TripSelectCard
-            item={item}
-            selected={selected === item.id}
-            onPress={() => setSelected(item.id)}
-          />
-        )}
-      />
-
-      {/* CREATE NEW */}
-      <TouchableOpacity
-        style={styles.createBox}
-        onPress={() => {
-          navigation.navigate(SCREENS.CreateTripScreen);
-        }}
-      >
-        <Icon type={Icons.Feather} name="plus" size={18} />
-        <Text style={styles.createText}>Create new trip</Text>
-      </TouchableOpacity>
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.primaryBtn} disabled={!selected}>
-          <Text style={styles.primaryText}>Add to Italy Spring Escape</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </AppScreen>
   );
 };
 

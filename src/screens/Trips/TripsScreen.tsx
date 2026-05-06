@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import TripCard from '@/components/TripCard';
 import styles from './styles';
 import { SCREENS } from '@/constant/config';
+import AppScreen from '@/components/AppScreen';
 
 const TripsScreen = ({ navigation }: { navigation: any }) => {
   function handleCreateTrip() {
@@ -14,30 +15,32 @@ const TripsScreen = ({ navigation }: { navigation: any }) => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <Text style={styles.title}>My Trips</Text>
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <Text style={styles.title}>My Trips</Text>
 
-        <View style={styles.right}>
-          <TouchableOpacity style={styles.newBtn} onPress={handleCreateTrip}>
-            <Text style={styles.newText}>+ New</Text>
-          </TouchableOpacity>
+          <View style={styles.right}>
+            <TouchableOpacity style={styles.newBtn} onPress={handleCreateTrip}>
+              <Text style={styles.newText}>+ New</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.avatar} onPress={onProfilePress}>
-            <Text>JD</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.avatar} onPress={onProfilePress}>
+              <Text>JD</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      {/* LIST */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        <TripCard title="Greece Island Hop" role="Owner" />
-        <TripCard title="Italy 2025" role="Editor" />
-        <TripCard title="Japan Spring" role="Viewer" />
-        <TripCard title="Seville Weekend" role="Viewer" />
-      </ScrollView>
-    </View>
+        {/* LIST */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <TripCard title="Greece Island Hop" role="Owner" />
+          <TripCard title="Italy 2025" role="Editor" />
+          <TripCard title="Japan Spring" role="Viewer" />
+          <TripCard title="Seville Weekend" role="Viewer" />
+        </ScrollView>
+      </View>
+    </AppScreen>
   );
 };
 

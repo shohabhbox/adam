@@ -28,10 +28,6 @@ const SplashScreen = ({ navigation }: { navigation: any }) => {
       >
         {/* Glass-Style Container */}
         <View style={styles.glassContainer}>
-          {/* 
-                By using a very tight gradient from 80% opacity to 100%, 
-                we simulate the depth of frosted glass.
-            */}
           <LinearGradient
             colors={[
               'rgba(255, 255, 255, 0.25)',
@@ -48,7 +44,11 @@ const SplashScreen = ({ navigation }: { navigation: any }) => {
             <CustomButton title="Get Started →" onPress={onNavigate} />
 
             {/* Secondary Action: Semi-transparent glass button */}
-            <TouchableOpacity style={styles.glassButton} activeOpacity={0.7} onPress={onNavigate} >
+            <TouchableOpacity
+              style={styles.glassButton}
+              activeOpacity={0.7}
+              onPress={onNavigate}
+            >
               <Text style={styles.secondaryButtonText}>
                 I Already Have an Account
               </Text>
@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     justifyContent: 'flex-end',
-
   },
   safeArea: {
     flex: 1,
@@ -87,16 +86,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 40,
     paddingBottom: 40,
-    borderTopLeftRadius: 32,
-    borderTopRightRadius: 32,
+    borderRadius:32,
+    borderWidth:0.5,
     backgroundColor: 'transparent',
     overflow: 'hidden',
     // The "Glass Border" - thin and bright at the top
-    borderTopWidth: 1.5,
-    borderLeftWidth: 0.5,
-    borderRightWidth: 0.5,
+
     borderColor: 'rgba(255, 255, 255, 0.6)',
     alignSelf: 'center',
+    marginBottom:20
   },
   buttonGroup: {
     // alignItems: 'center',

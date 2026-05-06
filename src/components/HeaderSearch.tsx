@@ -43,7 +43,7 @@ const HeaderSearch = ({
               name="notifications-outline"
               size={20}
               color="#0B132B"
-              onPress={onNotificationPress}
+              disabled={true}
             />
           </TouchableOpacity>
 

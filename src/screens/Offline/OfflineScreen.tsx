@@ -6,6 +6,7 @@ import { COLORS, SCREENS } from '@/constant';
 import { Icon, Icons } from '@/components';
 import CustomMarker from '@/components/CustomMarker';
 import HeaderSearch from '@/components/HeaderSearch';
+import AppScreen from '@/components/AppScreen';
 
 const markers = [
   {
@@ -26,7 +27,7 @@ const OfflineScreen = ({ navigation }: any) => {
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <AppScreen style={{ flex: 1 }}>
       <MapView
         style={StyleSheet.absoluteFill}
         initialRegion={{
@@ -59,7 +60,7 @@ const OfflineScreen = ({ navigation }: any) => {
         <ControlBtn icon="minus" />
         <ControlBtn icon="crosshair" />
       </View>
-    </View>
+    </AppScreen>
   );
 };
 

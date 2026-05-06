@@ -13,6 +13,7 @@ import { useAppNavigation } from '@/hooks/useAppNavigation';
 
 import { StyleSheet } from 'react-native';
 import { COLORS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const initialLocations = [
   {
@@ -66,63 +67,61 @@ const NewCategoryScreen = () => {
   const selectedCount = locations.filter(l => l.added).length;
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>New Category</Text>
+          <Text style={styles.title}>New Category</Text>
 
-        <View style={{ width: 40 }} />
+          <View style={{ width: 40 }} />
+        </View>
+
+        <Text style={styles.subtitle}>create your own</Text>
+
+        {/* NAME */}
+        <Text style={styles.label}>NAME</Text>
+        <TextInput value={name} onChangeText={setName} style={styles.input} />
+
+        {/* LOCATIONS */}
+        <Text style={styles.section}>ADD LOCATIONS FROM SAVE</Text>
+
+        <FlatList
+          data={locations}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 120 }}
+          renderItem={({ item }) => (
+            <LocationSelectItem
+              item={item}
+              onToggle={() => toggleLocation(item.id)}
+            />
+          )}
+        />
+
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={[styles.primaryBtn, !name && styles.disabled]}
+            disabled={!name}
+            onPress={() => {
+              navigation.goBack();
+            }}
+          >
+            <Text style={styles.primaryText}>Save Category</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity>
+            <Text style={styles.deleteText}>Delete this Category</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      <Text style={styles.subtitle}>create your own</Text>
-
-      {/* NAME */}
-      <Text style={styles.label}>NAME</Text>
-      <TextInput value={name} onChangeText={setName} style={styles.input} />
-
-      {/* LOCATIONS */}
-      <Text style={styles.section}>ADD LOCATIONS FROM SAVE</Text>
-
-      <FlatList
-        data={locations}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 120 }}
-        renderItem={({ item }) => (
-          <LocationSelectItem
-            item={item}
-            onToggle={() => toggleLocation(item.id)}
-          />
-        )}
-      />
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={[styles.primaryBtn, !name && styles.disabled]}
-          disabled={!name}
-          onPress={()=>{
-            navigation.goBack()
-          }}
-        >
-          <Text style={styles.primaryText}>Save Category</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Text style={styles.deleteText}>Delete this Category</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </AppScreen>
   );
 };
 

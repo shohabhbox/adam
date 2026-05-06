@@ -11,6 +11,7 @@ import {
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { COLORS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const AddFriendScreen = () => {
   const navigation = useAppNavigation<'AddFriend'>();
@@ -19,79 +20,81 @@ const AddFriendScreen = () => {
   const [email, setEmail] = useState('');
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.iconBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon
-              type={Icons.Ionicons}
-              name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.iconBtn}
               onPress={() => navigation.goBack()}
-            />
+            >
+              <Icon
+                type={Icons.Ionicons}
+                name="arrow-back"
+                onPress={() => navigation.goBack()}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.title}>Add Friend</Text>
+
+            <View style={{ width: 40 }} />
+          </View>
+
+          {/* CARD */}
+          <View style={styles.card}>
+            {/* SEARCH */}
+            <Text style={styles.label}>SEARCH</Text>
+
+            <View style={styles.inputBox}>
+              <Icon type={Icons.Feather} name="search" />
+              <TextInput
+                placeholder="Search by name..."
+                value={search}
+                onChangeText={setSearch}
+                style={styles.input}
+              />
+            </View>
+
+            {/* DIVIDER */}
+            <View style={styles.dividerRow}>
+              <View style={styles.line} />
+              <Text style={styles.or}>OR INVITE VIA</Text>
+              <View style={styles.line} />
+            </View>
+
+            {/* EMAIL */}
+            <Text style={styles.label}>EMAIL</Text>
+
+            <View style={styles.inputBox}>
+              <Icon type={Icons.Feather} name="mail" />
+              <TextInput
+                placeholder="friend@email.com"
+                value={email}
+                onChangeText={setEmail}
+                style={styles.input}
+                keyboardType="email-address"
+              />
+            </View>
+          </View>
+
+          {/* INFO */}
+          <View style={styles.infoBox}>
+            <View style={styles.dot} />
+            <Text style={styles.infoText}>
+              An invite link will be sent via email.
+            </Text>
+          </View>
+        </ScrollView>
+
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.primaryBtn}>
+            <Text style={styles.primaryText}>Send Invite</Text>
           </TouchableOpacity>
-
-          <Text style={styles.title}>Add Friend</Text>
-
-          <View style={{ width: 40 }} />
         </View>
-
-        {/* CARD */}
-        <View style={styles.card}>
-          {/* SEARCH */}
-          <Text style={styles.label}>SEARCH</Text>
-
-          <View style={styles.inputBox}>
-            <Icon type={Icons.Feather} name="search" />
-            <TextInput
-              placeholder="Search by name..."
-              value={search}
-              onChangeText={setSearch}
-              style={styles.input}
-            />
-          </View>
-
-          {/* DIVIDER */}
-          <View style={styles.dividerRow}>
-            <View style={styles.line} />
-            <Text style={styles.or}>OR INVITE VIA</Text>
-            <View style={styles.line} />
-          </View>
-
-          {/* EMAIL */}
-          <Text style={styles.label}>EMAIL</Text>
-
-          <View style={styles.inputBox}>
-            <Icon type={Icons.Feather} name="mail" />
-            <TextInput
-              placeholder="friend@email.com"
-              value={email}
-              onChangeText={setEmail}
-              style={styles.input}
-              keyboardType="email-address"
-            />
-          </View>
-        </View>
-
-        {/* INFO */}
-        <View style={styles.infoBox}>
-          <View style={styles.dot} />
-          <Text style={styles.infoText}>
-            An invite link will be sent via email.
-          </Text>
-        </View>
-      </ScrollView>
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.primaryBtn}>
-          <Text style={styles.primaryText}>Send Invite</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </AppScreen>
   );
 };
 

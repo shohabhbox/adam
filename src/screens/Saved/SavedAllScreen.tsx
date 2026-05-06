@@ -1,18 +1,18 @@
 import React from 'react';
-import { 
-  View, 
-  Text, 
-  StyleSheet, 
-  FlatList, 
-  SafeAreaView, 
-  TouchableOpacity, 
-  ListRenderItem
+import {
+  View,
+  Text,
+  StyleSheet,
+  FlatList,
+  SafeAreaView,
+  TouchableOpacity,
+  ListRenderItem,
 } from 'react-native';
 import PlaceItem, { Place } from '@/components/PlaceItem';
 import { useNavigation } from '@react-navigation/native';
 import { Icon, Icons } from '@/components';
 import { DATA } from './SavedScreen';
-
+import AppScreen from '@/components/AppScreen';
 
 const SavedAllScreen = () => {
   const navigation = useNavigation();
@@ -20,29 +20,35 @@ const SavedAllScreen = () => {
     <PlaceItem {...item} />
   );
 
-  
   return (
-    <View style={styles.container}>
-      {/* Custom Header */}
-      <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton} 
-          onPress={() => navigation.goBack()}
-        >
-          <Icon type={Icons.Feather} name="chevron-left" size={24} color="#1A1A1A" />
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>All Saved</Text>
-        <View style={{ width: 40 }} /> 
-      </View>
+    <AppScreen>
+      <View style={styles.container}>
+        {/* Custom Header */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Icon
+              type={Icons.Feather}
+              name="chevron-left"
+              size={24}
+              color="#1A1A1A"
+            />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>All Saved</Text>
+          <View style={{ width: 40 }} />
+        </View>
 
-      <FlatList
-        data={DATA}
-        keyExtractor={(item) => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.listContent}
-        renderItem={renderItem}
-      />
-    </View>
+        <FlatList
+          data={DATA}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
+          renderItem={renderItem}
+        />
+      </View>
+    </AppScreen>
   );
 };
 

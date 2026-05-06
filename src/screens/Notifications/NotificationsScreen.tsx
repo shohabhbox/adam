@@ -5,6 +5,7 @@ import styles from './styles';
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import NotificationCard from './NotificationCard';
+import AppScreen from '@/components/AppScreen';
 
 const today = [
   {
@@ -49,41 +50,39 @@ const NotificationsScreen = () => {
   const navigation = useAppNavigation<'Notifications'>();
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Notifications</Text>
+          <Text style={styles.title}>Notifications</Text>
 
-        <TouchableOpacity style={styles.markAll}>
-          <Text style={styles.markText}>✓ Mark all</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.markAll}>
+            <Text style={styles.markText}>✓ Mark all</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* BADGE */}
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>• 3 unread notifications</Text>
+        </View>
+
+        {/* TODAY */}
+        <Text style={styles.section}>TODAY</Text>
+
+        <FlatList
+          data={today}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => <NotificationCard item={item} />}
+        />
       </View>
-
-      {/* BADGE */}
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>• 3 unread notifications</Text>
-      </View>
-
-      {/* TODAY */}
-      <Text style={styles.section}>TODAY</Text>
-
-      <FlatList
-        data={today}
-        keyExtractor={item => item.id}
-        renderItem={({ item }) => <NotificationCard item={item} />}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

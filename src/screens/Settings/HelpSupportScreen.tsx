@@ -11,6 +11,7 @@ import {
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { COLORS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const faqData = [
   {
@@ -46,55 +47,57 @@ const HelpSupportScreen = () => {
   const [active, setActive] = useState<string | null>('1');
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.iconBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon
-              type={Icons.Ionicons}
-              name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.iconBtn}
               onPress={() => navigation.goBack()}
+            >
+              <Icon
+                type={Icons.Ionicons}
+                name="arrow-back"
+                disabled={true}
+              />
+            </TouchableOpacity>
+
+            <Text style={styles.title}>Help & Support</Text>
+
+            <View style={{ width: 40 }} />
+          </View>
+
+          {/* SEARCH */}
+          <View style={styles.searchBox}>
+            <Icon type={Icons.Feather} name="search" size={16} />
+            <TextInput
+              placeholder="Search help articles..."
+              style={styles.input}
             />
+          </View>
+
+          {/* FAQ */}
+          <Text style={styles.section}>FAQ</Text>
+
+          {faqData.map(item => (
+            <FAQItem
+              key={item.id}
+              item={item}
+              isOpen={active === item.id}
+              onPress={() => setActive(active === item.id ? null : item.id)}
+            />
+          ))}
+        </ScrollView>
+
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.contactBtn}>
+            <Text style={styles.contactText}>Contact Support</Text>
           </TouchableOpacity>
-
-          <Text style={styles.title}>Help & Support</Text>
-
-          <View style={{ width: 40 }} />
         </View>
-
-        {/* SEARCH */}
-        <View style={styles.searchBox}>
-          <Icon type={Icons.Feather} name="search" size={16} />
-          <TextInput
-            placeholder="Search help articles..."
-            style={styles.input}
-          />
-        </View>
-
-        {/* FAQ */}
-        <Text style={styles.section}>FAQ</Text>
-
-        {faqData.map(item => (
-          <FAQItem
-            key={item.id}
-            item={item}
-            isOpen={active === item.id}
-            onPress={() => setActive(active === item.id ? null : item.id)}
-          />
-        ))}
-      </ScrollView>
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.contactBtn}>
-          <Text style={styles.contactText}>Contact Support</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </AppScreen>
   );
 };
 

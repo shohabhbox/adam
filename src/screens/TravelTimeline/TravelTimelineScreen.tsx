@@ -5,6 +5,7 @@ import styles from './styles';
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import TimelineItem from './TimelineItem';
+import AppScreen from '@/components/AppScreen';
 const data = [
   {
     id: '1',
@@ -36,40 +37,38 @@ const TravelTimelineScreen = () => {
   const navigation = useAppNavigation<'TravelTimeline'>();
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Travel Memory Timeline</Text>
+          <Text style={styles.title}>Travel Memory Timeline</Text>
 
-        <View style={{ width: 40 }} />
+          <View style={{ width: 40 }} />
+        </View>
+
+        {/* BADGE */}
+        <View style={styles.badge}>
+          <Text style={styles.badgeText}>✓ 5 completed trips</Text>
+        </View>
+
+        {/* LIST */}
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          renderItem={({ item, index }) => (
+            <TimelineItem item={item} isLast={index === data.length - 1} />
+          )}
+        />
       </View>
-
-      {/* BADGE */}
-      <View style={styles.badge}>
-        <Text style={styles.badgeText}>✓ 5 completed trips</Text>
-      </View>
-
-      {/* LIST */}
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 30 }}
-        renderItem={({ item, index }) => (
-          <TimelineItem item={item} isLast={index === data.length - 1} />
-        )}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

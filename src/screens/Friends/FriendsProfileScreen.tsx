@@ -6,6 +6,7 @@ import { useAppNavigation } from '@/hooks/useAppNavigation';
 import SelectTripModal from '@/components/modal/SelectTripModal';
 import TripsTogetherModal from '@/components/modal/TripsTogetherModal';
 import RemoveFriendModal from '@/components/modal/RemoveFriendModal';
+import AppScreen from '@/components/AppScreen';
 
 const FriendsProfileScreen = () => {
   const navigation = useAppNavigation<'FriendsProfile'>();
@@ -41,107 +42,109 @@ const FriendsProfileScreen = () => {
   );
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
+
+          <Text style={styles.headerTitle}>Profile</Text>
+
+          <View style={{ width: 40 }} />
+        </View>
+
+        {/* AVATAR */}
+        <View style={styles.profile}>
+          <View style={styles.avatar}>
+            <Text style={styles.avatarText}>SJ</Text>
+          </View>
+
+          <Text style={styles.name}>Sarah Johnson</Text>
+
+          <View style={styles.badge}>
+            <Text style={styles.badgeText}>Trip Partner</Text>
+          </View>
+
+          <Text style={styles.sub}>
+            Friends since Jan 2025 · 3 trips together
+          </Text>
+        </View>
+
+        {/* STATS */}
+        <View style={styles.statsRow}>
+          <View style={styles.statBox}>
+            <Text style={styles.statValue}>3</Text>
+            <Text style={styles.statLabel}>Shared Trips</Text>
+          </View>
+
+          <View style={styles.statBox}>
+            <Text style={styles.statValue}>12</Text>
+            <Text style={styles.statLabel}>Places</Text>
+          </View>
+
+          <View style={styles.statBox}>
+            <Text style={styles.statValue}>2</Text>
+            <Text style={styles.statLabel}>Countries</Text>
+          </View>
+        </View>
+
+        {/* ACTIONS */}
+        <View style={styles.card}>
+          <MenuItem
+            icon="plus-circle"
+            title="Add to Trip"
+            subtitle="Invite to an active trip"
+            onPress={() => setTripModalVisible(true)}
           />
-        </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Profile</Text>
+          <MenuItem
+            icon="map"
+            title="View Trips Together"
+            subtitle="3 shared trips"
+            onPress={() => setTripsTogetherModalVisible(true)}
+          />
 
-        <View style={{ width: 40 }} />
-      </View>
-
-      {/* AVATAR */}
-      <View style={styles.profile}>
-        <View style={styles.avatar}>
-          <Text style={styles.avatarText}>SJ</Text>
+          <MenuItem
+            icon="user-x"
+            title="Remove Friend"
+            subtitle="Remove from your connections"
+            danger
+            onPress={() => setRemoveFriendModalVisible(true)}
+          />
         </View>
 
-        <Text style={styles.name}>Sarah Johnson</Text>
-
-        <View style={styles.badge}>
-          <Text style={styles.badgeText}>Trip Partner</Text>
-        </View>
-
-        <Text style={styles.sub}>
-          Friends since Jan 2025 · 3 trips together
-        </Text>
-      </View>
-
-      {/* STATS */}
-      <View style={styles.statsRow}>
-        <View style={styles.statBox}>
-          <Text style={styles.statValue}>3</Text>
-          <Text style={styles.statLabel}>Shared Trips</Text>
-        </View>
-
-        <View style={styles.statBox}>
-          <Text style={styles.statValue}>12</Text>
-          <Text style={styles.statLabel}>Places</Text>
-        </View>
-
-        <View style={styles.statBox}>
-          <Text style={styles.statValue}>2</Text>
-          <Text style={styles.statLabel}>Countries</Text>
-        </View>
-      </View>
-
-      {/* ACTIONS */}
-      <View style={styles.card}>
-        <MenuItem
-          icon="plus-circle"
-          title="Add to Trip"
-          subtitle="Invite to an active trip"
-          onPress={() => setTripModalVisible(true)}
+        <SelectTripModal
+          visible={tripModalVisible}
+          onClose={() => setTripModalVisible(false)}
+          onSelect={(trip: any) => {
+            setTripModalVisible(false);
+          }}
+        />
+        <TripsTogetherModal
+          visible={tripsTogetherModalVisible}
+          onClose={() => setTripsTogetherModalVisible(false)}
+          onSelectTrip={(trip: any) => {}}
         />
 
-        <MenuItem
-          icon="map"
-          title="View Trips Together"
-          subtitle="3 shared trips"
-          onPress={() => setTripsTogetherModalVisible(true)}
-        />
-
-        <MenuItem
-          icon="user-x"
-          title="Remove Friend"
-          subtitle="Remove from your connections"
-          danger
-          onPress={() => setRemoveFriendModalVisible(true)}
+        <RemoveFriendModal
+          visible={removeFriendModalVisible}
+          onClose={() => setRemoveFriendModalVisible(false)}
+          onRemove={() => {
+            setRemoveFriendModalVisible(false);
+            navigation.goBack();
+          }}
         />
       </View>
-
-      <SelectTripModal
-        visible={tripModalVisible}
-        onClose={() => setTripModalVisible(false)}
-        onSelect={(trip: any) => {
-          setTripModalVisible(false);
-        }}
-      />
-      <TripsTogetherModal
-        visible={tripsTogetherModalVisible}
-        onClose={() => setTripsTogetherModalVisible(false)}
-        onSelectTrip={(trip: any) => {}}
-      />
-
-      <RemoveFriendModal
-        visible={removeFriendModalVisible}
-        onClose={() => setRemoveFriendModalVisible(false)}
-        onRemove={() => {
-          setRemoveFriendModalVisible(false);
-          navigation.goBack();
-        }}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

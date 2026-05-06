@@ -5,7 +5,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F2F4F7',
-    paddingHorizontal: 20,
+    // paddingHorizontal: 20,
   },
 
   header: {
@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    paddingHorizontal:15
   },
 
   small: {
@@ -38,6 +39,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 25,
+    paddingHorizontal: 15,
   },
 
   sectionTitle: {
@@ -50,8 +52,12 @@ const styles = StyleSheet.create({
     marginBottom:10
   },
   listContent: {
+    paddingHorizontal:15
     // padding: 16,
   },
+  categoriesListContent:{
+    paddingLeft:15,
+  }
 });
 
 export default styles;

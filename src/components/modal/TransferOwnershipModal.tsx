@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Member {
   id: string;
@@ -49,7 +49,7 @@ const TransferOwnershipModal: React.FC<Props> = ({
                 <Icon
                   type={Icons.Ionicons}
                   name="arrow-back"
-                  onPress={onClose}
+                 disabled={true}
                 />
               </TouchableOpacity>
 

@@ -75,7 +75,7 @@ const VerifyCodeScreen = ({ navigation, route }: any) => {
           <Icon
             type={Icons.MaterialIcons}
             name="arrow-back"
-            onPress={() => navigation.goBack()}
+            disabled={true}
           />
         </TouchableOpacity>
 

@@ -40,17 +40,16 @@ import CategoriesAllScreen from '@/screens/Saved/CategoriesAllScreen';
 import NewCategoryScreen from '@/screens/Category/NewCategory';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SavedAllScreen from '@/screens/Saved/SavedAllScreen';
-import { StatusBar } from 'react-native';
+import { StatusBar, View } from 'react-native';
 
 const AppNavigator = () => {
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }} edges={['top']} >
-
-            <StatusBar
-              barStyle="dark-content"
-              translucent
-              backgroundColor="transparent"
-            />
+    <>
+      <StatusBar
+        barStyle="dark-content"
+        translucent
+        backgroundColor="transparent"
+      />
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="MainTabs" component={BottomTabNavigator} />
 
@@ -167,7 +166,7 @@ const AppNavigator = () => {
           component={SavedAllScreen}
         />
       </Stack.Navigator>
-    </SafeAreaView>
+    </>
   );
 };
 

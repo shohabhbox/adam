@@ -6,6 +6,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import styles from './styles';
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
+import AppScreen from '@/components/AppScreen';
 
 const initialData = [
   {
@@ -71,50 +72,52 @@ const ReorderScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.cancelBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Feather}
-            name="x"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.cancelBtn}
             onPress={() => navigation.goBack()}
-          />
-          <Text style={styles.cancelText}>Cancel</Text>
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Feather}
+              name="x"
+              onPress={() => navigation.goBack()}
+            />
+            <Text style={styles.cancelText}>Cancel</Text>
+          </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Reorder</Text>
+          <Text style={styles.headerTitle}>Reorder</Text>
 
-        <View style={{ width: 60 }} />
+          <View style={{ width: 60 }} />
+        </View>
+
+        {/* DAY CARD */}
+        <View style={styles.dayCard}>
+          <Text style={styles.dayText}>Day 1 · Monday, May 18</Text>
+          <Text style={styles.stopText}>{data.length} stops</Text>
+        </View>
+
+        <Text style={styles.helper}>Hold and drag to reorder stops</Text>
+
+        {/* LIST */}
+        <DraggableFlatList
+          data={data}
+          keyExtractor={item => item.id}
+          onDragEnd={({ data }) => setData(data)}
+          renderItem={renderItem}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
+
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity style={styles.primaryBtn}>
+            <Text style={styles.primaryText}>Save Order</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-
-      {/* DAY CARD */}
-      <View style={styles.dayCard}>
-        <Text style={styles.dayText}>Day 1 · Monday, May 18</Text>
-        <Text style={styles.stopText}>{data.length} stops</Text>
-      </View>
-
-      <Text style={styles.helper}>Hold and drag to reorder stops</Text>
-
-      {/* LIST */}
-      <DraggableFlatList
-        data={data}
-        keyExtractor={item => item.id}
-        onDragEnd={({ data }) => setData(data)}
-        renderItem={renderItem}
-        contentContainerStyle={{ paddingBottom: 100 }}
-      />
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity style={styles.primaryBtn}>
-          <Text style={styles.primaryText}>Save Order</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </AppScreen>
   );
 };
 

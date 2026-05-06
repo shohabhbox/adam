@@ -7,6 +7,7 @@ import { useAppNavigation } from '@/hooks/useAppNavigation';
 import InvitationCard from './InvitationCard';
 import InvitationTabs from './InvitationTabs';
 import FriendInviteCard from './FriendInviteCard';
+import AppScreen from '@/components/AppScreen';
 
 const data = [
   {
@@ -43,42 +44,44 @@ const InvitationsScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Invitations</Text>
+          <Text style={styles.title}>Invitations</Text>
 
-        <View style={styles.bell}>
-          <Icon type={Icons.Feather} name="bell" />
-          <View style={styles.badge}>
-            <Text style={styles.badgeText}>4</Text>
+          <View style={styles.bell}>
+            <Icon type={Icons.Feather} name="bell" />
+            <View style={styles.badge}>
+              <Text style={styles.badgeText}>4</Text>
+            </View>
           </View>
         </View>
+
+        {/* TABS */}
+        <InvitationTabs active={tab} onChange={setTab} />
+
+        {/* LIST */}
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          renderItem={({ item }) => <RenderItem item={item} />}
+        />
       </View>
-
-      {/* TABS */}
-      <InvitationTabs active={tab} onChange={setTab} />
-
-      {/* LIST */}
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingBottom: 30 }}
-        renderItem={({ item }) => <RenderItem item={item} />}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

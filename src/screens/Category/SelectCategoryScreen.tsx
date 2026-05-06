@@ -5,6 +5,7 @@ import { Icon, Icons, CustomButton } from '@/components';
 import styles from './styles';
 import LocationSavedModal from '@/components/modal/LocationSavedModal';
 import { SCREENS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const data = [
   { id: 1, title: 'Europe', sub: '24 locations saved', emoji: '🌍' },
@@ -19,86 +20,88 @@ const SelectCategoryScreen = ({ navigation }: { navigation: any }) => {
   const [showSuccess, setShowSuccess] = useState(false);
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.backBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
 
-        <View>
-          <Text style={styles.subTitle}>Colosseum, Rome</Text>
-          <Text style={styles.title}>Select Category</Text>
+          <View>
+            <Text style={styles.subTitle}>Colosseum, Rome</Text>
+            <Text style={styles.title}>Select Category</Text>
+          </View>
         </View>
-      </View>
 
-      <Text style={styles.desc}>
-        Choose the best category or create your own
-      </Text>
+        <Text style={styles.desc}>
+          Choose the best category or create your own
+        </Text>
 
-      {/* LIST */}
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {data.map(item => {
-          const isActive = selected === item.id;
+        {/* LIST */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {data.map(item => {
+            const isActive = selected === item.id;
 
-          return (
-            <TouchableOpacity
-              key={item.id}
-              style={[styles.card, isActive && styles.activeCard]}
-              onPress={() => setSelected(item.id)}
-            >
-              {/* LEFT */}
-              <View style={styles.left}>
-                <Text style={styles.emoji}>{item.emoji}</Text>
+            return (
+              <TouchableOpacity
+                key={item.id}
+                style={[styles.card, isActive && styles.activeCard]}
+                onPress={() => setSelected(item.id)}
+              >
+                {/* LEFT */}
+                <View style={styles.left}>
+                  <Text style={styles.emoji}>{item.emoji}</Text>
 
-                <View>
-                  <Text style={styles.name}>{item.title}</Text>
-                  <Text style={styles.sub}>{item.sub}</Text>
+                  <View>
+                    <Text style={styles.name}>{item.title}</Text>
+                    <Text style={styles.sub}>{item.sub}</Text>
+                  </View>
                 </View>
-              </View>
 
-              {/* RIGHT RADIO */}
-              <View style={[styles.radio, isActive && styles.radioActive]}>
-                {isActive && <View style={styles.dot} />}
-              </View>
-            </TouchableOpacity>
-          );
-        })}
+                {/* RIGHT RADIO */}
+                <View style={[styles.radio, isActive && styles.radioActive]}>
+                  {isActive && <View style={styles.dot} />}
+                </View>
+              </TouchableOpacity>
+            );
+          })}
 
-        {/* NEW CATEGORY */}
-        <TouchableOpacity
-          style={styles.newCategory}
-          onPress={() => {
-            navigation.navigate(SCREENS.NewCategoryScreen);
-          }}
-        >
-          <Text style={styles.newText}>+ New Category</Text>
-        </TouchableOpacity>
-      </ScrollView>
+          {/* NEW CATEGORY */}
+          <TouchableOpacity
+            style={styles.newCategory}
+            onPress={() => {
+              navigation.navigate(SCREENS.NewCategoryScreen);
+            }}
+          >
+            <Text style={styles.newText}>+ New Category</Text>
+          </TouchableOpacity>
+        </ScrollView>
 
-      {/* BOTTOM */}
-      <View style={styles.bottom}>
-        <CustomButton
-          title="Save Location"
-          onPress={() => {
-            setShowSuccess(true);
-          }}
+        {/* BOTTOM */}
+        <View style={styles.bottom}>
+          <CustomButton
+            title="Save Location"
+            onPress={() => {
+              setShowSuccess(true);
+            }}
+          />
+          <Text style={styles.delete}>Delete this location</Text>
+        </View>
+
+        <LocationSavedModal
+          visible={showSuccess}
+          onClose={() => setShowSuccess(false)}
         />
-        <Text style={styles.delete}>Delete this location</Text>
       </View>
-
-      <LocationSavedModal
-        visible={showSuccess}
-        onClose={() => setShowSuccess(false)}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

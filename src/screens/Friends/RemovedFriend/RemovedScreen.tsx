@@ -5,6 +5,7 @@ import styles from '../Invites/styles';
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import RemovedItem from './RemovedItem';
+import AppScreen from '@/components/AppScreen';
 
 const data = [
   { id: '1', name: 'John Baker', date: 'Removed Mar 10, 2025' },
@@ -16,41 +17,43 @@ const RemovedScreen = () => {
   const navigation = useAppNavigation<'Removed'>();
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Removed</Text>
+          <Text style={styles.title}>Removed</Text>
 
-        <View style={{ width: 40 }} />
+          <View style={{ width: 40 }} />
+        </View>
+
+        {/* INFO BOX */}
+        <View style={styles.infoBox}>
+          <Icon type={Icons.Feather} name="user-x" size={14} />
+          <Text style={styles.infoText}>
+            These contacts have been removed from your friends list.
+          </Text>
+        </View>
+
+        {/* LIST */}
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          renderItem={({ item }) => <RemovedItem item={item} />}
+        />
       </View>
-
-      {/* INFO BOX */}
-      <View style={styles.infoBox}>
-        <Icon type={Icons.Feather} name="user-x" size={14} />
-        <Text style={styles.infoText}>
-          These contacts have been removed from your friends list.
-        </Text>
-      </View>
-
-      {/* LIST */}
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        renderItem={({ item }) => <RemovedItem item={item} />}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

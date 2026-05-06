@@ -10,116 +10,124 @@ import {
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { Icon, Icons } from '@/components';
 import { COLORS, IMAGES, SCREENS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const ImportLocationDetailScreen = () => {
   const navigation = useAppNavigation<'LocationDetail'>();
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HERO IMAGE */}
-        <View>
-          <Image source={IMAGES.locationSample} style={styles.image} />
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HERO IMAGE */}
+          <View>
+            <Image source={IMAGES.locationSample} style={styles.image} />
 
-          {/* BACK */}
-          <TouchableOpacity
-            style={styles.backBtn}
-            onPress={() => navigation.goBack()}
-          >
-            <Icon type={Icons.Ionicons} name="arrow-back" color="#fff" />
-          </TouchableOpacity>
-
-          {/* SHARE */}
-          <TouchableOpacity style={styles.shareBtn}>
-            <Icon type={Icons.Feather} name="share-2" color="#fff" />
-          </TouchableOpacity>
-
-          {/* TITLE OVERLAY */}
-          <View style={styles.overlay}>
-            <Text style={styles.title}>Colosseum</Text>
-
-            <View style={styles.locationRow}>
+            {/* BACK */}
+            <TouchableOpacity
+              style={styles.backBtn}
+              onPress={() => navigation.goBack()}
+            >
               <Icon
-                type={Icons.Feather}
-                name="map-pin"
+                type={Icons.Ionicons}
+                name="arrow-back"
                 color="#fff"
-                size={14}
+                onPress={() => navigation.goBack()}
               />
-              <Text style={styles.location}>
-                Piazza del Colosseo · Rome, Italy
-              </Text>
+            </TouchableOpacity>
+
+            {/* SHARE */}
+            <TouchableOpacity style={styles.shareBtn}>
+              <Icon type={Icons.Feather} name="share-2" color="#fff" />
+            </TouchableOpacity>
+
+            {/* TITLE OVERLAY */}
+            <View style={styles.overlay}>
+              <Text style={styles.title}>Colosseum</Text>
+
+              <View style={styles.locationRow}>
+                <Icon
+                  type={Icons.Feather}
+                  name="map-pin"
+                  color="#fff"
+                  size={14}
+                />
+                <Text style={styles.location}>
+                  Piazza del Colosseo · Rome, Italy
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
 
-        {/* CONTENT */}
-        <View style={styles.content}>
-          {/* AI TIP */}
-          <View style={styles.tipBox}>
-            <Image source={IMAGES.stars} style={{ height: 20, width: 20 }} />
+          {/* CONTENT */}
+          <View style={styles.content}>
+            {/* AI TIP */}
+            <View style={styles.tipBox}>
+              <Image source={IMAGES.stars} style={{ height: 20, width: 20 }} />
 
-            <Text style={styles.tipText}>
-              <Text style={styles.tipBold}>AI tip:</Text> Best visited early
-              morning (8–10 AM). Book skip-the-line tickets 3+ days ahead.
+              <Text style={styles.tipText}>
+                <Text style={styles.tipBold}>AI tip:</Text> Best visited early
+                morning (8–10 AM). Book skip-the-line tickets 3+ days ahead.
+              </Text>
+            </View>
+
+            {/* DESCRIPTION */}
+            <Text style={styles.desc}>
+              An iconic oval amphitheatre in the centre of Rome, constructed
+              between AD 72–80 under Emperor Vespasian. One of the world’s most
+              recognisable heritage landmarks.
             </Text>
+
+            {/* TAGS */}
+            <View style={styles.tags}>
+              <TagChip label="Landmark" />
+              <TagChip label="Historic Site" />
+              <TagChip label="3.2 km away" />
+              <TagChip label="Open Now" />
+            </View>
+
+            {/* STATS */}
+            <View style={styles.statsRow}>
+              <InfoStat title="Latitude" value="41.8902° N" />
+              <InfoStat title="Longitude" value="12.4922° E" />
+              <InfoStat title="Altitude" value="18 m" />
+            </View>
+          </View>
+        </ScrollView>
+
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <View style={styles.row}>
+            <TouchableOpacity
+              style={styles.primaryBtn}
+              onPress={() => {
+                navigation.navigate(SCREENS.SelectCategoryScreen);
+              }}
+            >
+              <Text style={styles.primaryText}>Categorize</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.primaryBtn}
+              onPress={() => {
+                navigation.navigate(SCREENS.AddToTripScreen);
+              }}
+            >
+              <Text style={styles.primaryText}>Add to Trip</Text>
+            </TouchableOpacity>
           </View>
 
-          {/* DESCRIPTION */}
-          <Text style={styles.desc}>
-            An iconic oval amphitheatre in the centre of Rome, constructed
-            between AD 72–80 under Emperor Vespasian. One of the world’s most
-            recognisable heritage landmarks.
-          </Text>
-
-          {/* TAGS */}
-          <View style={styles.tags}>
-            <TagChip label="Landmark" />
-            <TagChip label="Historic Site" />
-            <TagChip label="3.2 km away" />
-            <TagChip label="Open Now" />
-          </View>
-
-          {/* STATS */}
-          <View style={styles.statsRow}>
-            <InfoStat title="Latitude" value="41.8902° N" />
-            <InfoStat title="Longitude" value="12.4922° E" />
-            <InfoStat title="Altitude" value="18 m" />
-          </View>
-        </View>
-      </ScrollView>
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <View style={styles.row}>
           <TouchableOpacity
-            style={styles.primaryBtn}
+            style={styles.secondaryBtn}
             onPress={() => {
-              navigation.navigate(SCREENS.SelectCategoryScreen);
+              navigation.navigate('MainTabs');
             }}
           >
-            <Text style={styles.primaryText}>Categorize</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.primaryBtn}
-            onPress={() => {
-              navigation.navigate(SCREENS.AddToTripScreen);
-            }}
-          >
-            <Text style={styles.primaryText}>Add to Trip</Text>
+            <Text style={styles.secondaryText}>Save to Map</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={styles.secondaryBtn}
-          onPress={() => {
-            navigation.navigate('MainTabs');
-          }}
-        >
-          <Text style={styles.secondaryText}>Save to Map</Text>
-        </TouchableOpacity>
       </View>
-    </View>
+    </AppScreen>
   );
 };
 

@@ -10,6 +10,7 @@ import {
 import CategoryCard, { CategoryCardProps } from '@/components/CategoryCard'; // Adjust path as needed
 import { CATEGORIES } from './SavedScreen';
 import Icon, { Icons } from '@/components/Icon';
+import AppScreen from '@/components/AppScreen';
 
 // Added a wildcard to ensure an even grid if needed
 const ALL_CATEGORIES: CategoryCardProps[] = [
@@ -23,42 +24,40 @@ const ALL_CATEGORIES: CategoryCardProps[] = [
   },
 ];
 
-const CategoriesAllScreen = ({navigation}:any) => {
+const CategoriesAllScreen = ({ navigation }: any) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Import Locations</Text>
+          <Text style={styles.title}>Import Locations</Text>
 
-        <View style={{ width: 40 }} />
+          <View style={{ width: 40 }} />
+        </View>
+        <FlatList
+          data={ALL_CATEGORIES}
+          keyExtractor={item => Number(item.id).toString()}
+          numColumns={2} // Creates the 2-column vertical grid
+          renderItem={({ item }) => (
+            <CategoryCard
+              title={item.title}
+              count={item.count}
+              imageUrl={item.imageUrl}
+              style={styles.cardSpacing}
+            />
+          )}
+          columnWrapperStyle={styles.row}
+          contentContainerStyle={styles.listPadding}
+          showsVerticalScrollIndicator={false}
+        />
       </View>
-      <FlatList
-        data={ALL_CATEGORIES}
-        keyExtractor={item => Number(item.id).toString()}
-        numColumns={2} // Creates the 2-column vertical grid
-        renderItem={({ item }) => (
-          <CategoryCard
-            title={item.title}
-            count={item.count}
-            imageUrl={item.imageUrl}
-            style={styles.cardSpacing}
-          />
-        )}
-        columnWrapperStyle={styles.row}
-        contentContainerStyle={styles.listPadding}
-        showsVerticalScrollIndicator={false}
-      />
-    </SafeAreaView>
+    </AppScreen>
   );
 };
 

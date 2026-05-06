@@ -13,6 +13,7 @@ import { useAppNavigation } from '@/hooks/useAppNavigation';
 import FriendItem from './FriendItem';
 import FilterTabs from './FilterTabs';
 import { SCREENS } from '@/constant';
+import AppScreen from '@/components/AppScreen';
 
 const initialData = [
   { id: '1', name: 'Sarah Johnson', trips: '3 trips together' },
@@ -37,68 +38,70 @@ const FriendsScreen = () => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
+
+          <Text style={styles.title}>Friends</Text>
+
+          <TouchableOpacity style={styles.addBtn} onPress={handleAddFriend}>
+            <Icon
+              type={Icons.Feather}
+              name="user-plus"
+              color="#fff"
+              size={18}
+              onPress={handleAddFriend}
+            />
+          </TouchableOpacity>
+        </View>
+
+        {/* SEARCH */}
+        <View style={styles.searchBox}>
+          <Icon type={Icons.Feather} name="search" size={18} />
+          <TextInput
+            placeholder="Search friends..."
+            value={search}
+            onChangeText={setSearch}
+            style={styles.input}
           />
-        </TouchableOpacity>
+        </View>
 
-        <Text style={styles.title}>Friends</Text>
+        {/* TABS */}
+        <FilterTabs
+          active={activeTab}
+          onChange={tab => {
+            if (tab === 'Pending') {
+              navigation.navigate(SCREENS.PendingInvitesScreen);
+              return;
+            }
+            if (tab === 'Removed') {
+              navigation.navigate(SCREENS.RemovedScreen);
+              return;
+            }
 
-        <TouchableOpacity style={styles.addBtn} onPress={handleAddFriend}>
-          <Icon
-            type={Icons.Feather}
-            name="user-plus"
-            color="#fff"
-            size={18}
-            onPress={handleAddFriend}
-          />
-        </TouchableOpacity>
-      </View>
-
-      {/* SEARCH */}
-      <View style={styles.searchBox}>
-        <Icon type={Icons.Feather} name="search" size={18} />
-        <TextInput
-          placeholder="Search friends..."
-          value={search}
-          onChangeText={setSearch}
-          style={styles.input}
+            setActiveTab(tab);
+          }}
+        />
+        {/* LIST */}
+        <FlatList
+          data={filtered}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 20 }}
+          renderItem={({ item }) => <FriendItem item={item} />}
         />
       </View>
-
-      {/* TABS */}
-      <FilterTabs
-        active={activeTab}
-        onChange={tab => {
-          if (tab === 'Pending') {
-            navigation.navigate(SCREENS.PendingInvitesScreen);
-            return;
-          }
-          if (tab === 'Removed') {
-            navigation.navigate(SCREENS.RemovedScreen);
-            return;
-          }
-
-          setActiveTab(tab);
-        }}
-      />
-      {/* LIST */}
-      <FlatList
-        data={filtered}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 20 }}
-        renderItem={({ item }) => <FriendItem item={item} />}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

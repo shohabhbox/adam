@@ -20,7 +20,7 @@ const RemoveFriendModal: React.FC<Props> = ({ visible, onClose, onRemove }) => {
           {/* HEADER */}
           <View style={styles.header}>
             <TouchableOpacity style={styles.iconBtn} onPress={onClose}>
-              <Icon type={Icons.Ionicons} name="arrow-back" onPress={onClose} />
+              <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
             </TouchableOpacity>
 
             <Text style={styles.title}>Remove Friend</Text>

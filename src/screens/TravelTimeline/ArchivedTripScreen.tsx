@@ -11,6 +11,7 @@ import {
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import { COLORS } from '@/constant/config';
+import AppScreen from '@/components/AppScreen';
 
 const itinerary = [
   {
@@ -48,59 +49,64 @@ const ArchivedTripScreen = () => {
   const [day, setDay] = useState(1);
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Bali Retreat</Text>
+          <Text style={styles.title}>Bali Retreat</Text>
 
-        <View style={styles.archivedBadge}>
-          <Text style={styles.archivedText}>Archived</Text>
+          <View style={styles.archivedBadge}>
+            <Text style={styles.archivedText}>Archived</Text>
+          </View>
         </View>
+
+        {/* TRIP CARD */}
+        <View style={styles.tripCard}>
+          <Text style={styles.tripName}>Bali Retreat</Text>
+          <Text style={styles.tripMeta}>
+            Mar 2–14, 2025 · 8 places · 12 nights
+          </Text>
+        </View>
+
+        {/* NOTICE */}
+        <View style={styles.notice}>
+          <Icon type={Icons.Feather} name="lock" size={14} />
+          <Text style={styles.noticeText}>
+            This is a read-only archived trip. No edits allowed.
+          </Text>
+        </View>
+
+        {/* TITLE */}
+        <Text style={styles.sectionTitle}>Archived Itinerary</Text>
+
+        {/* DAY TABS */}
+        <DayTabs active={day} onChange={setDay} />
+
+        {/* LIST */}
+        <FlatList
+          data={itinerary}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 40 }}
+          renderItem={({ item, index }) => (
+            <ItineraryItem
+              item={item}
+              isLast={index === itinerary.length - 1}
+            />
+          )}
+        />
       </View>
-
-      {/* TRIP CARD */}
-      <View style={styles.tripCard}>
-        <Text style={styles.tripName}>Bali Retreat</Text>
-        <Text style={styles.tripMeta}>
-          Mar 2–14, 2025 · 8 places · 12 nights
-        </Text>
-      </View>
-
-      {/* NOTICE */}
-      <View style={styles.notice}>
-        <Icon type={Icons.Feather} name="lock" size={14} />
-        <Text style={styles.noticeText}>
-          This is a read-only archived trip. No edits allowed.
-        </Text>
-      </View>
-
-      {/* TITLE */}
-      <Text style={styles.sectionTitle}>Archived Itinerary</Text>
-
-      {/* DAY TABS */}
-      <DayTabs active={day} onChange={setDay} />
-
-      {/* LIST */}
-      <FlatList
-        data={itinerary}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 40 }}
-        renderItem={({ item, index }) => (
-          <ItineraryItem item={item} isLast={index === itinerary.length - 1} />
-        )}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

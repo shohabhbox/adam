@@ -4,6 +4,7 @@ import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { Icon, Icons } from '@/components';
 import styles from './styles';
 import { SCREENS } from '@/constant/config';
+import AppScreen from '@/components/AppScreen';
 
 const SearchScreen = ({ navigation }: any) => {
   function handleLocationPress() {
@@ -11,100 +12,101 @@ const SearchScreen = ({ navigation }: any) => {
   }
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.circleBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
-            onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
-
-        <View style={styles.avatar}>
-          <Text>JD</Text>
-        </View>
-      </View>
-
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* SEARCH BAR */}
-        <View style={styles.searchBar}>
-          <Icon type={Icons.Feather} name="search" />
-          <Text style={styles.searchText}>Coffee shops nearby...</Text>
-        </View>
-
-        {/* RECENT */}
-        <View style={styles.sectionHeader}>
-          <Text style={styles.sectionTitle}>RECENT SEARCHES</Text>
-          <Text style={styles.clear}>Clear</Text>
-        </View>
-
-        {recentData.map((item, i) => (
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
           <TouchableOpacity
-            key={i}
-            style={styles.recentItem}
-            onPress={handleLocationPress}
+            style={styles.circleBtn}
+            onPress={() => navigation.goBack()}
           >
-            <View style={styles.iconBox}>
-              <Icon type={Icons.Feather} name="clock" />
-            </View>
-
-            <View style={{ flex: 1 }}>
-              <Text style={styles.recentTitle}>{item.title}</Text>
-              <Text style={styles.recentSub}>{item.results}</Text>
-            </View>
-
-            <Icon type={Icons.Feather} name="arrow-up-right" />
+            <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
           </TouchableOpacity>
-        ))}
 
-        {/* TRENDING */}
-        <Text style={styles.sectionTitle}>TRENDING NOW</Text>
+          <View style={styles.avatar}>
+            <Text>JD</Text>
+          </View>
+        </View>
 
-        <View style={styles.trendingRow}>
-          {trendingData.map((item, i) => (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* SEARCH BAR */}
+          <View style={styles.searchBar}>
+            <Icon type={Icons.Feather} name="search" />
+            <Text style={styles.searchText}>Coffee shops nearby...</Text>
+          </View>
+
+          {/* RECENT */}
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>RECENT SEARCHES</Text>
+            <Text style={styles.clear}>Clear</Text>
+          </View>
+
+          {recentData.map((item, i) => (
             <TouchableOpacity
               key={i}
-              style={styles.trendingCard}
+              style={styles.recentItem}
               onPress={handleLocationPress}
             >
-              <Image source={{ uri: item.image }} style={styles.trendingImg} />
-              <Text style={styles.trendingText}>{item.title}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* NEARBY */}
-        <Text style={styles.sectionTitle}>NEARBY PLACES</Text>
-
-        {placesData.map((item, i) => (
-          <TouchableOpacity
-            key={i}
-            style={styles.placeCard}
-            onPress={handleLocationPress}
-          >
-            <Image source={{ uri: item.image }} style={styles.placeImg} />
-
-            <View style={{ flex: 1 }}>
-              <Text style={styles.placeTitle}>{item.title}</Text>
-
-              <View style={styles.metaRow}>
-                <Text style={styles.tag}>{item.type}</Text>
-                <Text style={styles.distance}>{item.distance}</Text>
+              <View style={styles.iconBox}>
+                <Icon type={Icons.Feather} name="clock" />
               </View>
 
-              <Text style={styles.rating}>⭐ {item.rating}</Text>
-            </View>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.recentTitle}>{item.title}</Text>
+                <Text style={styles.recentSub}>{item.results}</Text>
+              </View>
 
-            <Icon type={Icons.Feather} name="chevron-right" />
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-    </View>
+              <Icon type={Icons.Feather} name="arrow-up-right" />
+            </TouchableOpacity>
+          ))}
+
+          {/* TRENDING */}
+          <Text style={styles.sectionTitle}>TRENDING NOW</Text>
+
+          <View style={styles.trendingRow}>
+            {trendingData.map((item, i) => (
+              <TouchableOpacity
+                key={i}
+                style={styles.trendingCard}
+                onPress={handleLocationPress}
+              >
+                <Image
+                  source={{ uri: item.image }}
+                  style={styles.trendingImg}
+                />
+                <Text style={styles.trendingText}>{item.title}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {/* NEARBY */}
+          <Text style={styles.sectionTitle}>NEARBY PLACES</Text>
+
+          {placesData.map((item, i) => (
+            <TouchableOpacity
+              key={i}
+              style={styles.placeCard}
+              onPress={handleLocationPress}
+            >
+              <Image source={{ uri: item.image }} style={styles.placeImg} />
+
+              <View style={{ flex: 1 }}>
+                <Text style={styles.placeTitle}>{item.title}</Text>
+
+                <View style={styles.metaRow}>
+                  <Text style={styles.tag}>{item.type}</Text>
+                  <Text style={styles.distance}>{item.distance}</Text>
+                </View>
+
+                <Text style={styles.rating}>⭐ {item.rating}</Text>
+              </View>
+
+              <Icon type={Icons.Feather} name="chevron-right" />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+    </AppScreen>
   );
 };
 

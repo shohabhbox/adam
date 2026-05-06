@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   ScrollView,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;
@@ -25,7 +25,7 @@ const MarkCompleteModal: React.FC<Props> = ({
 }) => {
   return (
     <Modal isVisible={visible} style={{ margin: 0 }}>
-      <SafeAreaView style={{ flex: 1 }}>
+      <SafeAreaView edges={['top']} style={{ flex: 1,  backgroundColor: COLORS.background }}>
         <View style={styles.fullScreenContainer}>
           <ScrollView showsVerticalScrollIndicator={false}>
             {/* HEADER */}
@@ -34,7 +34,7 @@ const MarkCompleteModal: React.FC<Props> = ({
                 <Icon
                   type={Icons.Ionicons}
                   name="arrow-back"
-                  onPress={onClose}
+                  disabled={true}
                 />
               </TouchableOpacity>
 

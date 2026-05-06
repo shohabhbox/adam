@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { COLORS, SCREENS } from '@/constant';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
+import AppScreen from '@/components/AppScreen';
 
 const steps = [
   { id: 1, label: 'Fetching URL content', time: '0.3s' },
@@ -48,58 +49,60 @@ const ProcessingScreen = () => {
   }, [progress]);
 
   return (
-    <View style={styles.container}>
-      {/* LINK */}
-      <View style={styles.linkBox}>
-        <View style={styles.dot} />
-        <Text style={styles.linkText}>
-          maps.google.com/place/Colosseum/Rome...
-        </Text>
-      </View>
+    <AppScreen>
+      <View style={styles.container}>
+        {/* LINK */}
+        <View style={styles.linkBox}>
+          <View style={styles.dot} />
+          <Text style={styles.linkText}>
+            maps.google.com/place/Colosseum/Rome...
+          </Text>
+        </View>
 
-      {/* PROGRESS */}
-      <View style={styles.progressWrap}>
-        <View style={styles.circle}>
-          <Text style={styles.percent}>{progress}%</Text>
-          <Text style={styles.sub}>analyzing</Text>
+        {/* PROGRESS */}
+        <View style={styles.progressWrap}>
+          <View style={styles.circle}>
+            <Text style={styles.percent}>{progress}%</Text>
+            <Text style={styles.sub}>analyzing</Text>
+          </View>
+        </View>
+
+        {/* TITLE */}
+        <Text style={styles.title}>Analyzing destination</Text>
+
+        <Text style={styles.desc}>
+          Hang tight while we extract and verify your location data
+        </Text>
+
+        {/* STEPS */}
+        <View style={styles.card}>
+          {steps.map((item, index) => {
+            const isDone = index < activeStep;
+            const isActive = index === activeStep;
+
+            return (
+              <View key={item.id} style={styles.stepRow}>
+                <View
+                  style={[
+                    styles.stepIcon,
+                    isDone && styles.done,
+                    isActive && styles.active,
+                  ]}
+                />
+
+                <View style={{ flex: 1 }}>
+                  <Text style={[styles.stepText, isDone && styles.doneText]}>
+                    {item.label}
+                  </Text>
+                </View>
+
+                {item.time && <Text style={styles.time}>{item.time}</Text>}
+              </View>
+            );
+          })}
         </View>
       </View>
-
-      {/* TITLE */}
-      <Text style={styles.title}>Analyzing destination</Text>
-
-      <Text style={styles.desc}>
-        Hang tight while we extract and verify your location data
-      </Text>
-
-      {/* STEPS */}
-      <View style={styles.card}>
-        {steps.map((item, index) => {
-          const isDone = index < activeStep;
-          const isActive = index === activeStep;
-
-          return (
-            <View key={item.id} style={styles.stepRow}>
-              <View
-                style={[
-                  styles.stepIcon,
-                  isDone && styles.done,
-                  isActive && styles.active,
-                ]}
-              />
-
-              <View style={{ flex: 1 }}>
-                <Text style={[styles.stepText, isDone && styles.doneText]}>
-                  {item.label}
-                </Text>
-              </View>
-
-              {item.time && <Text style={styles.time}>{item.time}</Text>}
-            </View>
-          );
-        })}
-      </View>
-    </View>
+    </AppScreen>
   );
 };
 

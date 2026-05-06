@@ -90,7 +90,7 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
                   name={tab.icon || ''}
                   color={isFocused ? '#FFA500' : COLORS.black + '70%'}
                   size={24}
-                  onPress={() => handleTabPress(tab.name)}
+                  disabled={true}
                 />
               </TouchableOpacity>
 

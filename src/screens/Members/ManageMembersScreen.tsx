@@ -15,6 +15,7 @@ import MarkCompleteModal from '@/components/modal/MarkCompleteModal';
 import DeleteTripModal from '@/components/modal/DeleteTripModal';
 import TransferOwnershipModal from '@/components/modal/TransferOwnershipModal';
 import TripActivityModal from '@/components/modal/TripActivityModal';
+import AppScreen from '@/components/AppScreen';
 
 const members = [
   {
@@ -47,7 +48,7 @@ const members = [
   },
 ];
 
-const ManageMembersScreen = () => {
+const ManageMembersScreen = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [visible, setVisible] = useState(false);
   const [markCompleteVisible, setMarkCompleteVisible] = useState(false);
@@ -57,7 +58,7 @@ const ManageMembersScreen = () => {
 
   const [activityVisible, setActivityVisible] = useState(false);
 
-  function handleRemove(member) {
+  function handleRemove() {
     // Handle member removal logic here
   }
   function handleDeleteTrip() {
@@ -67,124 +68,129 @@ const ManageMembersScreen = () => {
   function handleTransferOwnership() {
     setTransferOwnershipVisible(!transferOwnershipVisible);
   }
+  function onBack() {
+    navigation.goBack();
+  }
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity style={styles.iconBtn}>
-          <Icon type={Icons.Ionicons} name="arrow-back" />
-        </TouchableOpacity>
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity style={styles.iconBtn} onPress={onBack}>
+            <Icon type={Icons.Ionicons} name="arrow-back" onPress={onBack} />
+          </TouchableOpacity>
 
-        <Text style={styles.headerTitle}>Manage Members</Text>
+          <Text style={styles.headerTitle}>Manage Members</Text>
 
-        <TouchableOpacity style={styles.deleteBtn} onPress={handleDeleteTrip}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* TOP CONTENT */}
-      <View style={styles.topContent}>
-        <View style={styles.tripCard}>
-          <Text style={styles.tripTitle}>Greece Island Hop</Text>
-          <Text style={styles.tripSub}>May 18 – Jun 2 · 4 members</Text>
+          <TouchableOpacity style={styles.deleteBtn} onPress={handleDeleteTrip}>
+            <Text style={styles.deleteText}>Delete</Text>
+          </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.inviteLink}>
-          <Text style={styles.inviteText}>Invite via Link</Text>
-        </TouchableOpacity>
+        {/* TOP CONTENT */}
+        <View style={styles.topContent}>
+          <View style={styles.tripCard}>
+            <Text style={styles.tripTitle}>Greece Island Hop</Text>
+            <Text style={styles.tripSub}>May 18 – Jun 2 · 4 members</Text>
+          </View>
 
-        <Text style={styles.label}>Invite via Email</Text>
+          <TouchableOpacity style={styles.inviteLink}>
+            <Text style={styles.inviteText}>Invite via Link</Text>
+          </TouchableOpacity>
 
-        <TextInput
-          value={email}
-          onChangeText={setEmail}
-          placeholder="email@example.com"
-          style={styles.input}
+          <Text style={styles.label}>Invite via Email</Text>
+
+          <TextInput
+            value={email}
+            onChangeText={setEmail}
+            placeholder="email@example.com"
+            style={styles.input}
+          />
+
+          <TouchableOpacity
+            style={styles.sendBtn}
+            onPress={() => setVisible(true)}
+          >
+            <Text style={styles.sendText}>Send Invite</Text>
+          </TouchableOpacity>
+
+          <View style={styles.memberHeader}>
+            <Text style={styles.sectionTitle}>Members 4</Text>
+            <Text onPress={handleTransferOwnership} style={styles.link}>
+              Transfer Ownership
+            </Text>
+          </View>
+        </View>
+
+        {/* 🔥 MEMBERS LIST ONLY SCROLLABLE */}
+        <FlatList
+          data={members}
+          keyExtractor={item => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContent}
+          renderItem={({ item }) => (
+            <MemberItem
+              name={item.name}
+              email={item.email}
+              role={item.role}
+              date={item.date}
+              onRemove={() => handleRemove(item)}
+            />
+          )}
         />
 
-        <TouchableOpacity
-          style={styles.sendBtn}
-          onPress={() => setVisible(true)}
-        >
-          <Text style={styles.sendText}>Send Invite</Text>
-        </TouchableOpacity>
+        {/* FOOTER */}
+        <View style={styles.footer}>
+          <TouchableOpacity
+            style={styles.secondaryBtn}
+            onPress={() => setActivityVisible(true)}
+          >
+            <Text style={styles.secondaryText}>See Activity</Text>
+          </TouchableOpacity>
 
-        <View style={styles.memberHeader}>
-          <Text style={styles.sectionTitle}>Members 4</Text>
-          <Text onPress={handleTransferOwnership} style={styles.link}>
-            Transfer Ownership
-          </Text>
+          <TouchableOpacity
+            style={styles.primaryBtn}
+            onPress={() => setMarkCompleteVisible(true)}
+          >
+            <Text style={styles.primaryText}>Mark as Completed</Text>
+          </TouchableOpacity>
         </View>
+
+        <InvitationSentModal
+          visible={visible}
+          onClose={() => setVisible(false)}
+        />
+
+        <MarkCompleteModal
+          visible={markCompleteVisible}
+          onClose={() => setMarkCompleteVisible(false)}
+          onConfirm={() => {
+            // Handle mark as completed logic
+          }}
+        />
+
+        <DeleteTripModal
+          visible={deleteTripVisible}
+          onDelete={handleDeleteTrip}
+          onClose={handleDeleteTrip}
+        />
+
+        <TransferOwnershipModal
+          visible={transferOwnershipVisible}
+          members={members}
+          onTransfer={newOwner => {
+            setTransferOwnershipVisible(false);
+          }}
+          onClose={() => setTransferOwnershipVisible(false)}
+        />
+
+        <TripActivityModal
+          visible={activityVisible}
+          onClose={() => setActivityVisible(false)}
+        />
       </View>
-
-      {/* 🔥 MEMBERS LIST ONLY SCROLLABLE */}
-      <FlatList
-        data={members}
-        keyExtractor={item => item.id}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.listContent}
-        renderItem={({ item }) => (
-          <MemberItem
-            name={item.name}
-            email={item.email}
-            role={item.role}
-            date={item.date}
-            onRemove={() => handleRemove(item)}
-          />
-        )}
-      />
-
-      {/* FOOTER */}
-      <View style={styles.footer}>
-        <TouchableOpacity
-          style={styles.secondaryBtn}
-          onPress={() => setActivityVisible(true)}
-        >
-          <Text style={styles.secondaryText}>See Activity</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.primaryBtn}
-          onPress={() => setMarkCompleteVisible(true)}
-        >
-          <Text style={styles.primaryText}>Mark as Completed</Text>
-        </TouchableOpacity>
-      </View>
-
-      <InvitationSentModal
-        visible={visible}
-        onClose={() => setVisible(false)}
-      />
-
-      <MarkCompleteModal
-        visible={markCompleteVisible}
-        onClose={() => setMarkCompleteVisible(false)}
-        onConfirm={() => {
-          // Handle mark as completed logic
-        }}
-      />
-
-      <DeleteTripModal
-        visible={deleteTripVisible}
-        onDelete={handleDeleteTrip}
-        onClose={handleDeleteTrip}
-      />
-
-      <TransferOwnershipModal
-        visible={transferOwnershipVisible}
-        members={members}
-        onTransfer={newOwner => {
-          setTransferOwnershipVisible(false);
-        }}
-        onClose={() => setTransferOwnershipVisible(false)}
-      />
-
-      <TripActivityModal
-        visible={activityVisible}
-        onClose={() => setActivityVisible(false)}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

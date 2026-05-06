@@ -12,118 +12,115 @@ import { COLORS, SCREENS } from '@/constant';
 import { Icon, Icons, CustomTextInput, CustomButton } from '@/components';
 import DescriptionInput from '@/components/DescriptionInput';
 import BuildingItineraryModal from '@/components/modal/BuildingItineraryModal';
+import AppScreen from '@/components/AppScreen';
 
 const CreateTripScreen = ({ navigation }: { navigation: any }) => {
   const [collaboration, setCollaboration] = useState(true);
   const [visible, setVisible] = useState(false);
 
   return (
-    <View style={styles.container}>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {/* HEADER */}
-        <View style={styles.header}>
-          <TouchableOpacity
-            style={styles.iconBtn}
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
-            <Icon
-              type={Icons.Ionicons}
-              name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {/* HEADER */}
+          <View style={styles.header}>
+            <TouchableOpacity
+              style={styles.iconBtn}
               onPress={() => {
                 navigation.goBack();
               }}
-            />
-          </TouchableOpacity>
+            >
+              <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
+            </TouchableOpacity>
 
-          <Text style={styles.headerTitle}>Create Trip</Text>
+            <Text style={styles.headerTitle}>Create Trip</Text>
 
-          <View style={{ width: 40 }} />
-        </View>
-
-        <Text style={styles.title}>Trip Details</Text>
-
-        {/* TRIP NAME */}
-        <CustomTextInput
-          label="Trip Name"
-          placeholder="Greece Island Hop"
-          leftIcon="tag"
-        />
-
-        {/* DESTINATION */}
-        <CustomTextInput
-          label="Destination"
-          placeholder="Santorini, Greece"
-          leftIcon="map-pin"
-        />
-
-        {/* DATES */}
-        <View style={styles.row}>
-          <View style={{ flex: 1, marginRight: 8 }}>
-            <CustomTextInput
-              label="Start Date"
-              placeholder="May 18, 2026"
-              leftIcon="calendar"
-            />
+            <View style={{ width: 40 }} />
           </View>
 
-          <View style={{ flex: 1, marginLeft: 8 }}>
-            <CustomTextInput
-              label="End Date"
-              placeholder="Jun 2, 2026"
-              leftIcon="calendar"
+          <Text style={styles.title}>Trip Details</Text>
+
+          {/* TRIP NAME */}
+          <CustomTextInput
+            label="Trip Name"
+            placeholder="Greece Island Hop"
+            leftIcon="tag"
+          />
+
+          {/* DESTINATION */}
+          <CustomTextInput
+            label="Destination"
+            placeholder="Santorini, Greece"
+            leftIcon="map-pin"
+          />
+
+          {/* DATES */}
+          <View style={styles.row}>
+            <View style={{ flex: 1, marginRight: 8 }}>
+              <CustomTextInput
+                label="Start Date"
+                placeholder="May 18, 2026"
+                leftIcon="calendar"
+              />
+            </View>
+
+            <View style={{ flex: 1, marginLeft: 8 }}>
+              <CustomTextInput
+                label="End Date"
+                placeholder="Jun 2, 2026"
+                leftIcon="calendar"
+              />
+            </View>
+          </View>
+
+          {/* DESCRIPTION */}
+          <DescriptionInput
+            label="Description (Optional)"
+            placeholder="Add notes or a description..."
+          />
+          {/* DURATION */}
+          <View style={styles.durationBox}>
+            <Text style={styles.durationText}>Duration</Text>
+            <Text style={styles.durationValue}>15 nights</Text>
+          </View>
+
+          {/* COLLAB */}
+          <View style={styles.switchRow}>
+            <Text style={styles.switchText}>Enable Collaboration</Text>
+            <Switch
+              value={collaboration}
+              onValueChange={setCollaboration}
+              trackColor={{ true: COLORS.primary }}
             />
           </View>
-        </View>
+        </ScrollView>
 
-        {/* DESCRIPTION */}
-        <DescriptionInput
-          label="Description (Optional)"
-          placeholder="Add notes or a description..."
-        />
-        {/* DURATION */}
-        <View style={styles.durationBox}>
-          <Text style={styles.durationText}>Duration</Text>
-          <Text style={styles.durationValue}>15 nights</Text>
-        </View>
+        {/* BUTTON */}
+        <View style={styles.bottom}>
+          <CustomButton
+            title="Create Trip"
+            onPress={() => {
+              setVisible(true);
 
-        {/* COLLAB */}
-        <View style={styles.switchRow}>
-          <Text style={styles.switchText}>Enable Collaboration</Text>
-          <Switch
-            value={collaboration}
-            onValueChange={setCollaboration}
-            trackColor={{ true: COLORS.primary }}
+              setTimeout(() => {
+                setVisible(false);
+              }, 2000);
+
+              setTimeout(() => {
+                navigation.navigate(SCREENS.TripDetailScreen);
+              }, 3000);
+            }}
           />
         </View>
-      </ScrollView>
 
-      {/* BUTTON */}
-      <View style={styles.bottom}>
-        <CustomButton
-          title="Create Trip"
-          onPress={() => {
-            setVisible(true);
-
-            setTimeout(() => {
-              setVisible(false);
-            }, 2000);
-
-            setTimeout(() => {
-              navigation.navigate(SCREENS.TripDetailScreen);
-            }, 3000);
+        <BuildingItineraryModal
+          visible={visible}
+          onClose={() => {
+            setVisible(false);
           }}
         />
       </View>
-
-      <BuildingItineraryModal
-        visible={visible}
-        onClose={() => {
-          setVisible(false);
-        }}
-      />
-    </View>
+    </AppScreen>
   );
 };
 

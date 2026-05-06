@@ -15,7 +15,7 @@ const TripHeader = () => {
     <View>
       <View style={styles.headerTopRow}>
         <TouchableOpacity style={styles.iconBtn} onPress={goBack}>
-          <Icon type={Icons.Ionicons} name="arrow-back" onPress={goBack} />
+          <Icon type={Icons.Ionicons} name="arrow-back" disabled={true} />
         </TouchableOpacity>
 
         <Text>Trip Detail</Text>

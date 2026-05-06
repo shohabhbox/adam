@@ -5,6 +5,7 @@ import styles from './styles';
 import { Icon, Icons } from '@/components';
 import { useAppNavigation } from '@/hooks/useAppNavigation';
 import LocationCard from './LocationCard';
+import AppScreen from '@/components/AppScreen';
 
 const data = [
   {
@@ -37,33 +38,35 @@ const ImportResultsScreen = () => {
   const navigation = useAppNavigation<'ImportResults'>();
 
   return (
-    <View style={styles.container}>
-      {/* HEADER */}
-      <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.goBack()}
-        >
-          <Icon
-            type={Icons.Ionicons}
-            name="arrow-back"
+    <AppScreen>
+      <View style={styles.container}>
+        {/* HEADER */}
+        <View style={styles.header}>
+          <TouchableOpacity
+            style={styles.iconBtn}
             onPress={() => navigation.goBack()}
-          />
-        </TouchableOpacity>
+          >
+            <Icon
+              type={Icons.Ionicons}
+              name="arrow-back"
+              onPress={() => navigation.goBack()}
+            />
+          </TouchableOpacity>
 
-        <Text style={styles.title}>Import Locations</Text>
+          <Text style={styles.title}>Import Locations</Text>
 
-        <View style={{ width: 40 }} />
+          <View style={{ width: 40 }} />
+        </View>
+
+        {/* LIST */}
+        <FlatList
+          data={data}
+          keyExtractor={item => item.id}
+          contentContainerStyle={{ paddingBottom: 30 }}
+          renderItem={({ item }) => <LocationCard item={item} />}
+        />
       </View>
-
-      {/* LIST */}
-      <FlatList
-        data={data}
-        keyExtractor={item => item.id}
-        contentContainerStyle={{ paddingBottom: 30 }}
-        renderItem={({ item }) => <LocationCard item={item} />}
-      />
-    </View>
+    </AppScreen>
   );
 };
 
