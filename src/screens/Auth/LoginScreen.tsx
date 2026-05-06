@@ -35,6 +35,7 @@ const LoginScreen = () => {
         </View>
 
         {/* CARD */}
+
         <View style={styles.card}>
           {/* EMAIL */}
           <Text style={styles.label}>EMAIL</Text>

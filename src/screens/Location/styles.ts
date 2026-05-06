@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     padding: 15,
     backgroundColor: '#fff',
+    paddingBottom: 25,
   },
 
   btn: {

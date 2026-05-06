@@ -40,15 +40,20 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: COLORS.white +"70",
-    borderRadius: 25,
+    backgroundColor: '#FFFFFF', // ✅ solid
     padding: SIZES.lg,
-    shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 10,
-    elevation: 5,
-  },
+    borderRadius: 16,
 
+    // iOS shadow
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.08,
+    shadowRadius: 10,
+
+    // Android shadow
+    elevation: 5.,
+  },
+  
   button: {
     marginTop: SIZES.lg,
     borderRadius: 12,
@@ -106,7 +111,6 @@ const styles = StyleSheet.create({
   link: {
     fontFamily: FONTFAMILY.Medium,
     color: COLORS.black,
-    
   },
 
   forgot: {
