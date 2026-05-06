@@ -5,12 +5,12 @@ import {
   TouchableOpacity,
   FlatList,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant/config';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 interface Props {
   visible: boolean;

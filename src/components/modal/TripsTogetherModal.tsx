@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   Image,
   StyleSheet,
+  SafeAreaView,
 } from 'react-native';
 import Modal from 'react-native-modal';
 
 import { Icon, Icons } from '@/components';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS } from '@/constant/config';
 
 interface Props {
