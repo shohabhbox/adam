@@ -89,8 +89,7 @@ const HomeScreen = ({ navigation }: any) => {
   }
 
   return (
-    
-    <AppScreen style={styles.container} backgroundColor={COLORS.white} >
+    <AppScreen style={styles.container} backgroundColor={COLORS.white}>
       {/* GOOGLE MAP */}
       <MapView
         ref={mapRef}
@@ -103,10 +102,19 @@ const HomeScreen = ({ navigation }: any) => {
         }}
       >
         {NEARBY_LOCATIONS.map(loc => (
-          <Marker key={loc.id} coordinate={loc.coordinate} title={loc.title}>
+          <Marker
+            key={loc.id}
+            coordinate={loc.coordinate}
+            title={loc.title}
+            onPress={onMarkerClick}
+            tracksViewChanges={false}
+          >
             {/* Custom Circular Image Marker */}
-            <TouchableOpacity style={styles.markerWrapper} onPress={onMarkerClick}>
-              <TouchableOpacity onPress={onMarkerClick}  style={styles.circle}>
+            <TouchableOpacity
+              style={styles.markerWrapper}
+              onPress={onMarkerClick}
+            >
+              <TouchableOpacity onPress={onMarkerClick} style={styles.circle}>
                 <Image source={{ uri: loc.image }} style={styles.markerImage} />
               </TouchableOpacity>
               {/* Niche wala chota triangle (Anchor) */}
@@ -149,4 +157,3 @@ const HomeScreen = ({ navigation }: any) => {
 };
 
 export default HomeScreen;
-
