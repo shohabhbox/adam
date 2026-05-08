@@ -116,7 +116,7 @@ const styles = StyleSheet.create({
 
   /* HEADER */
   header: {
-    marginTop: 10,
+    // marginTop: 10,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
