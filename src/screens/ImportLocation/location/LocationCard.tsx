@@ -48,9 +48,9 @@ const LocationCard = ({ item }: any) => {
             <Text style={styles.tagPrimaryText}>Landmark</Text>
           </View>
 
-          <View style={styles.tagSecondary}>
+          {/* <View style={styles.tagSecondary}>
             <Text style={styles.tagSecondaryText}>Japan Spring Trip</Text>
-          </View>
+          </View> */}
         </View>
       </View>
     </TouchableOpacity>

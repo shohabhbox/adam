@@ -28,7 +28,7 @@ const tabs = [
   { name: 'Offline', icon: 'wifi' },
 ];
 
-const CustomTabBar = ({ state, descriptors, navigation }: any) => {
+const CustomTabBar = ({ state, navigation }: any) => {
   // 2. Dynamic Position Calculation
   const activeIndex = state.index;
   const TAB_COUNT = state.routes.length;
@@ -115,9 +115,9 @@ const CustomTabBar = ({ state, descriptors, navigation }: any) => {
       <ImportLocationModal
         visible={importVisible}
         onClose={() => setImportVisible(false)}
-        onImport={() => {
+        onImport={(url: string, result?: any) => {
           setImportVisible(false);
-          navigation.navigate(SCREENS.ProcessingScreen);
+          navigation.navigate(SCREENS.ProcessingScreen, { url, result });
         }}
       />
     </View>

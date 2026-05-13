@@ -7,18 +7,25 @@ import {
   FlatList,
   Modal,
   StyleSheet,
+  Alert,
+  ActivityIndicator,
+  ScrollView,
 } from 'react-native';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
+import axios from 'axios';
+
+import { useGetLocations, PlaceSuggestion } from '@/hooks/useGetLocations';
+import { useGooglePlaceDetails } from '@/hooks/useGooglePlaceDetails';
+
+type LocationSuggestionResponse = {
+  query: string;
+  places: PlaceSuggestion[];
+};
 
 const recentData = [
-  {
-    id: '1',
-    name: 'Trevi Fountain',
-    location: 'Rome, Italy',
-    time: '2h ago',
-  },
+  { id: '1', name: 'Trevi Fountain', location: 'Rome, Italy', time: '2h ago' },
   {
     id: '2',
     name: 'Eiffel Tower',
@@ -28,17 +35,74 @@ const recentData = [
 ];
 
 const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
-  const [value, setValue] = useState('');
+  const {
+    loading: locationLoading,
+    error: locationError,
+    locations,
+    metadata,
+    getLocations,
+    resetLocations,
+  } = useGetLocations();
+
+  const { loading: placeDetailLoading, getLocationDetail } =
+    useGooglePlaceDetails();
+
+  const loading = locationLoading || placeDetailLoading;
+
+  const [value, setValue] = useState(
+    __DEV__ ? 'https://www.facebook.com/share/r/17b54cuJdE/' : '',
+  );
+
+  const handleImport = async () => {
+    const trimmed = value.trim();
+
+    if (!trimmed) {
+      Alert.alert(
+        'No URL',
+        'Please paste a link, address, or place name first.',
+      );
+      return;
+    }
+
+    try {
+      onImport(trimmed);
+      onClose();
+    } catch (error) {
+      Alert.alert(
+        'Location Error',
+        'Could not detect places from this input. Please try another link or place name.',
+      );
+    }
+  };
+
+  const renderSuggestion = ({ item }: { item: PlaceSuggestion }) => (
+    <TouchableOpacity style={styles.item} onPress={() => onImport?.(item)}>
+      <View style={styles.flag}>
+        <Text>📍</Text>
+      </View>
+
+      <View style={{ flex: 1 }}>
+        <Text style={styles.name}>{item.place}</Text>
+
+        <Text style={styles.sub}>
+          {[item.category, item.city, item.country].filter(Boolean).join(' • ')}
+        </Text>
+
+        {!!item.reason && <Text style={styles.reason}>{item.reason}</Text>}
+      </View>
+
+      <View style={styles.confidenceBadge}>
+        <Text style={styles.confidenceText}>{item.confidence}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
   return (
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.overlay}>
-        {/* SHEET */}
         <View style={styles.container}>
-          {/* HANDLE */}
           <View style={styles.handle} />
 
-          {/* HEADER */}
           <View style={styles.header}>
             <View>
               <Text style={styles.title}>Import Location</Text>
@@ -48,24 +112,38 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             </View>
 
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Icon type={Icons.Feather} name="x" onPress={onClose} />
+              <Icon type={Icons.Feather} name="x" size={18} />
             </TouchableOpacity>
           </View>
 
-          {/* INPUT */}
           <View style={styles.inputWrap}>
             <Icon type={Icons.Feather} name="link" size={16} />
+
             <TextInput
-              placeholder="https://instagram.com/place/..."
+              placeholder="Instagram reel, YouTube short, Lucky One Mall..."
               value={value}
               onChangeText={setValue}
               style={styles.input}
+              autoCapitalize="none"
+              autoCorrect={false}
             />
           </View>
 
-          {/* RECENT */}
+          <TouchableOpacity
+            style={[styles.primaryBtn, loading && styles.primaryBtnDisabled]}
+            onPress={handleImport}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" />
+            ) : (
+              <Text style={styles.primaryText}>Find Similar Places</Text>
+            )}
+          </TouchableOpacity>
+
           <View style={styles.recentHeader}>
             <Text style={styles.section}>RECENT IMPORTS</Text>
+
             <TouchableOpacity>
               <Text style={styles.seeAll}>See all</Text>
             </TouchableOpacity>
@@ -75,12 +153,8 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             data={recentData}
             keyExtractor={item => item.id}
             renderItem={({ item }) => <RecentItem item={item} />}
+            scrollEnabled={false}
           />
-
-          {/* BUTTON */}
-          <TouchableOpacity style={styles.primaryBtn} onPress={onImport} >
-            <Text style={styles.primaryText}>Import Location</Text>
-          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -89,24 +163,21 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
 
 export default ImportLocationModal;
 
-const RecentItem = ({ item }: any) => {
-  return (
-    <TouchableOpacity style={styles.item}>
-      <View style={styles.flag}>
-        <Text>🌍</Text>
-      </View>
+const RecentItem = ({ item }: any) => (
+  <TouchableOpacity style={styles.item}>
+    <View style={styles.flag}>
+      <Text>🌍</Text>
+    </View>
 
-      <View style={{ flex: 1 }}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.sub}>{item.location}</Text>
-      </View>
+    <View style={{ flex: 1 }}>
+      <Text style={styles.name}>{item.name}</Text>
+      <Text style={styles.sub}>{item.location}</Text>
+    </View>
 
-      <Text style={styles.time}>{item.time}</Text>
-
-      <Icon type={Icons.Feather} name="chevron-right" size={16} />
-    </TouchableOpacity>
-  );
-};
+    <Text style={styles.time}>{item.time}</Text>
+    <Icon type={Icons.Feather} name="chevron-right" size={16} />
+  </TouchableOpacity>
+);
 
 const styles = StyleSheet.create({
   overlay: {
@@ -114,14 +185,13 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.3)',
     justifyContent: 'flex-end',
   },
-
   container: {
+    maxHeight: '88%',
     backgroundColor: '#fff',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     padding: 20,
   },
-
   handle: {
     width: 40,
     height: 4,
@@ -130,23 +200,19 @@ const styles = StyleSheet.create({
     borderRadius: 2,
     marginBottom: 10,
   },
-
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-
   title: {
     fontSize: 16,
     fontWeight: '700',
   },
-
   subtitle: {
     fontSize: 12,
     color: '#8B8CA7',
   },
-
   closeBtn: {
     width: 36,
     height: 36,
@@ -155,7 +221,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
   inputWrap: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -165,36 +230,33 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginTop: 20,
   },
-
   input: {
     flex: 1,
     height: 44,
     marginLeft: 8,
   },
-
-  section: {
-    fontSize: 11,
-    color: '#9CA3AF',
-  },
-
   recentHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: 20,
     marginBottom: 10,
   },
-
+  section: {
+    fontSize: 11,
+    color: '#9CA3AF',
+    fontWeight: '700',
+  },
   seeAll: {
     color: COLORS.primary,
     fontSize: 12,
   },
-
   item: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F3F4F6',
   },
-
   flag: {
     width: 40,
     height: 40,
@@ -204,32 +266,53 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 10,
   },
-
   name: {
-    fontWeight: '600',
+    fontWeight: '700',
+    color: '#111827',
   },
-
   sub: {
     fontSize: 12,
     color: '#8B8CA7',
+    marginTop: 2,
   },
-
+  reason: {
+    fontSize: 11,
+    color: '#6B7280',
+    marginTop: 4,
+    lineHeight: 15,
+  },
   time: {
     fontSize: 11,
     color: '#9CA3AF',
     marginRight: 8,
   },
-
+  confidenceBadge: {
+    backgroundColor: '#F3F4F6',
+    paddingHorizontal: 8,
+    paddingVertical: 5,
+    borderRadius: 999,
+    marginLeft: 8,
+  },
+  confidenceText: {
+    fontSize: 11,
+    fontWeight: '700',
+    color: COLORS.primary,
+  },
   primaryBtn: {
-    marginTop: 20,
+    marginTop: 14,
     backgroundColor: COLORS.primary,
     padding: 14,
     borderRadius: 14,
     alignItems: 'center',
   },
-
+  primaryBtnDisabled: {
+    opacity: 0.6,
+  },
   primaryText: {
     color: '#fff',
     fontWeight: '600',
   },
 });
+
+const OPENAI_API_KEY =
+  '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';
