@@ -2,8 +2,8 @@
 
 import { useCallback, useState } from 'react';
 import axios from 'axios';
-
-const GOOGLE_MAPS_API_KEY = 'AIzaSyDb9hehdxUMlHeIJ0JxRcjYrkkAKagEbx0';
+import Config from 'react-native-config';
+const GOOGLE_MAPS_API_KEY = Config.GOOGLE_MAPS_API_KEY;
 
 export type PlacePhoto = {
   name: string;

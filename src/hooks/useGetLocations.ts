@@ -1,9 +1,9 @@
 import { useCallback, useState } from 'react';
 import axios from 'axios';
+import Config from 'react-native-config';
 
+const OPENAI_API_KEY = Config.OPENAI_API_KEY;
 
-const OPENAI_API_KEY =
-  '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';
 
 
 export type PlaceSuggestion = {
