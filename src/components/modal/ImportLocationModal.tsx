@@ -8,21 +8,12 @@ import {
   Modal,
   StyleSheet,
   Alert,
-  ActivityIndicator,
-  ScrollView,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
-import axios from 'axios';
-
-import { useGetLocations, PlaceSuggestion } from '@/hooks/useGetLocations';
-import { useGooglePlaceDetails } from '@/hooks/useGooglePlaceDetails';
-
-type LocationSuggestionResponse = {
-  query: string;
-  places: PlaceSuggestion[];
-};
 
 const recentData = [
   { id: '1', name: 'Trevi Fountain', location: 'Rome, Italy', time: '2h ago' },
@@ -35,20 +26,6 @@ const recentData = [
 ];
 
 const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
-  const {
-    loading: locationLoading,
-    error: locationError,
-    locations,
-    metadata,
-    getLocations,
-    resetLocations,
-  } = useGetLocations();
-
-  const { loading: placeDetailLoading, getLocationDetail } =
-    useGooglePlaceDetails();
-
-  const loading = locationLoading || placeDetailLoading;
-
   const [value, setValue] = useState(
     __DEV__ ? 'https://www.facebook.com/share/r/17b54cuJdE/' : '',
   );
@@ -75,31 +52,11 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
     }
   };
 
-  const renderSuggestion = ({ item }: { item: PlaceSuggestion }) => (
-    <TouchableOpacity style={styles.item} onPress={() => onImport?.(item)}>
-      <View style={styles.flag}>
-        <Text>📍</Text>
-      </View>
-
-      <View style={{ flex: 1 }}>
-        <Text style={styles.name}>{item.place}</Text>
-
-        <Text style={styles.sub}>
-          {[item.category, item.city, item.country].filter(Boolean).join(' • ')}
-        </Text>
-
-        {!!item.reason && <Text style={styles.reason}>{item.reason}</Text>}
-      </View>
-
-      <View style={styles.confidenceBadge}>
-        <Text style={styles.confidenceText}>{item.confidence}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-
   return (
     <Modal visible={visible} transparent animationType="slide">
-      <View style={styles.overlay}>
+      <KeyboardAvoidingView
+        style={styles.overlay}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
         <View style={styles.container}>
           <View style={styles.handle} />
 
@@ -112,7 +69,7 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             </View>
 
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Icon type={Icons.Feather} name="x" size={18} />
+              <Icon type={Icons.Feather} name="x" size={18} disabled={true}  />
             </TouchableOpacity>
           </View>
 
@@ -129,16 +86,8 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             />
           </View>
 
-          <TouchableOpacity
-            style={[styles.primaryBtn, loading && styles.primaryBtnDisabled]}
-            onPress={handleImport}
-            disabled={loading}
-          >
-            {loading ? (
-              <ActivityIndicator color="#fff" />
-            ) : (
-              <Text style={styles.primaryText}>Find Similar Places</Text>
-            )}
+          <TouchableOpacity style={[styles.primaryBtn]} onPress={handleImport}>
+            <Text style={styles.primaryText}>Find Similar Places</Text>
           </TouchableOpacity>
 
           <View style={styles.recentHeader}>
@@ -156,7 +105,7 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             scrollEnabled={false}
           />
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };

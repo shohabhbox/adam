@@ -1,46 +1,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
+import axios from 'axios';
 import { COLORS, SCREENS } from '@/constant';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AppScreen from '@/components/AppScreen';
-import {
-  useGetLocations,
-  LocationSuggestionResponse,
-  PlaceSuggestion,
-} from '@/hooks/useGetLocations';
-import { useGooglePlaceDetails } from '@/hooks/useGooglePlaceDetails';
 
-const steps = [
+const API_URL = 'https://pilotiq.hbox.digital/api/v1/public/location-suggestions';
+
+const URL_STEPS = [
   { id: 1, label: 'Fetching URL content' },
   { id: 2, label: 'Parsing location data' },
   { id: 3, label: 'Finding similar places' },
   { id: 4, label: 'Enriching place details' },
 ];
 
-type SpecificPlaceDetail = {
-  name: string;
-  address: string;
-  lat: number;
-  lng: number;
-  image: string | null;
-};
+const TEXT_STEPS = [
+  { id: 1, label: 'Reading your input' },
+  { id: 2, label: 'Identifying location' },
+  { id: 3, label: 'Finding similar places' },
+  { id: 4, label: 'Enriching place details' },
+];
 
-type EnrichedPlaceSuggestion = PlaceSuggestion & {
-  details: SpecificPlaceDetail | null;
-  detailError?: string | null;
-};
-
-type EnrichedLocationResponse = LocationSuggestionResponse & {
-  places: EnrichedPlaceSuggestion[];
-};
+const isUrl = (value: string) => /^https?:\/\//i.test(value.trim());
 
 const ProcessingScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
-  const url: string = route?.params?.url ?? '';
+  const input: string = route?.params?.url ?? '';
 
-  const { getLocations } = useGetLocations();
-  const { getLocationDetail } = useGooglePlaceDetails();
+  const steps = isUrl(input) ? URL_STEPS : TEXT_STEPS;
 
   const [progress, setProgress] = useState(0);
   const [activeStep, setActiveStep] = useState(0);
@@ -78,13 +66,11 @@ const ProcessingScreen = ({ route }: any) => {
             clearInterval(timerRef.current);
             timerRef.current = null;
           }
-
           resolve();
           return;
         }
 
         const next = Math.min(current + 2, safeTarget);
-
         progressRef.current = next;
         setProgress(next);
         setActiveStep(getStepFromProgress(next));
@@ -92,109 +78,71 @@ const ProcessingScreen = ({ route }: any) => {
     });
   };
 
-  const getPlaceSearchQuery = (place: PlaceSuggestion) => {
-    return [place.place, place.city, place.country].filter(Boolean).join(' ');
-  };
-
-  const enrichPlacesWithDetails = async (
-    result: LocationSuggestionResponse,
-  ): Promise<EnrichedLocationResponse> => {
-    const places = Array.isArray(result.places) ? result.places : [];
-
-    if (!places.length) {
-      await animateProgressTo(90);
-
-      return {
-        ...result,
-        places: [],
-      };
-    }
-
-    const enrichedPlaces: EnrichedPlaceSuggestion[] = [];
-
-    for (let index = 0; index < places.length; index++) {
-      const place = places[index];
-
-      try {
-        const query = getPlaceSearchQuery(place);
-
-        const details = await getLocationDetail(query);
-
-        const specificDetails: SpecificPlaceDetail = {
-          name: details?.name || place.place || '',
-          address: details?.address || '',
-          lat: Number(details?.lat || place.lat || 0),
-          lng: Number(details?.lng || place.lng || 0),
-          image: details?.photos?.[0]?.url || null,
-        };
-
-        enrichedPlaces.push({
-          ...place,
-          lat: specificDetails.lat,
-          lng: specificDetails.lng,
-          details: specificDetails,
-          detailError: null,
-        });
-      } catch (err: any) {
-        enrichedPlaces.push({
-          ...place,
-          details: null,
-          detailError:
-            err?.response?.data?.error?.message ||
-            err?.message ||
-            'Failed to fetch place details.',
-        });
-      }
-
-      const detailProgress =
-        60 + Math.round(((index + 1) / places.length) * 30);
-
-      await animateProgressTo(detailProgress);
-    }
-
-    return {
-      ...result,
-      places: enrichedPlaces,
-    };
-  };
-
   useEffect(() => {
-    const runLocationDetection = async () => {
+    const run = async () => {
       try {
         if (hasStartedRef.current) return;
-
         hasStartedRef.current = true;
 
-        if (!url?.trim()) {
+        if (!input?.trim()) {
           throw new Error('No URL or place text found.');
         }
 
-        await animateProgressTo(15);
+        await animateProgressTo(20);
 
-        // Step 1: Fetch URL + metadata using hook
-        await animateProgressTo(25);
+        // Start API call and animate to 85% while waiting
+        const apiPromise = axios.post(
+          API_URL,
+          { input: input.trim() },
+          { headers: { 'Content-Type': 'application/json', Accept: 'application/json' } },
+        );
 
-        // Step 2: Get AI location suggestions
-        const locationResult = await getLocations(url);
-        console.log('locationResult', locationResult);
+        await animateProgressTo(85);
 
-        await animateProgressTo(55);
+        const response = await apiPromise;
 
-        // Step 3 + 4: Get selected/specific Google details for every place
-        const enrichedResult = await enrichPlacesWithDetails(locationResult);
+        if (!response.data?.success) {
+          throw new Error(response.data?.message || 'Server returned an error.');
+        }
 
-        console.log('enrichedResult', enrichedResult);
+        const serverData = response.data.data;
+
+        // Map server response to the shape ImportResultsScreen expects
+        const places = Array.isArray(serverData?.places)
+          ? serverData.places.map((item: any) => {
+              const gd = item.google_place_details || {};
+              return {
+                place: String(item.place || ''),
+                category: String(item.category || ''),
+                city: String(item.city || ''),
+                country: String(item.country || ''),
+                confidence: String(item.confidence || '0%'),
+                lat: Number(item.lat || 0),
+                lng: Number(item.lng || 0),
+                reason: String(item.reason || ''),
+                details: {
+                  name: String(gd.place || item.place || ''),
+                  address: String(gd.shortAddress || [item.city, item.country].filter(Boolean).join(', ')),
+                  lat: Number(item.lat || 0),
+                  lng: Number(item.lng || 0),
+                  image: gd.image || null,
+                },
+                detailError: null,
+              };
+            })
+          : [];
+
+        const result = {
+          query: String(serverData?.query || input),
+          places,
+        };
 
         await animateProgressTo(100);
 
-        navigation.replace(SCREENS.ImportResultsScreen, {
-          result: enrichedResult,
-          url,
-        });
-
-  
+        navigation.replace(SCREENS.ImportResultsScreen, { result, url: input });
       } catch (err: any) {
         const message =
+          err?.response?.data?.message ||
           err?.response?.data?.error?.message ||
           err?.message ||
           'Failed to analyze location.';
@@ -202,33 +150,26 @@ const ProcessingScreen = ({ route }: any) => {
         await animateProgressTo(100);
 
         Alert.alert('Error', message, [
-          {
-            text: 'OK',
-            onPress: () => navigation.goBack(),
-          },
+          { text: 'OK', onPress: () => navigation.goBack() },
         ]);
       }
     };
 
-    runLocationDetection();
+    run();
 
     return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
+      if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [url, getLocations, getLocationDetail, navigation]);
+  }, []);
 
-  const displayUrl = url.length > 45 ? url.slice(0, 42) + '...' : url;
+  const displayUrl = input.length > 45 ? input.slice(0, 42) + '...' : input;
 
   return (
     <AppScreen>
       <View style={styles.container}>
         <View style={styles.linkBox}>
           <View style={styles.dot} />
-          <Text style={styles.linkText}>
-            {displayUrl || 'Analyzing URL...'}
-          </Text>
+          <Text style={styles.linkText}>{displayUrl || 'Analyzing...'}</Text>
         </View>
 
         <View style={styles.progressWrap}>
@@ -258,7 +199,6 @@ const ProcessingScreen = ({ route }: any) => {
                     isActive && styles.active,
                   ]}
                 />
-
                 <View style={{ flex: 1 }}>
                   <Text style={[styles.stepText, isDone && styles.doneText]}>
                     {item.label}

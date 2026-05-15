@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ListRenderItem,
   FlatList,
+  TextInput,
 } from 'react-native';
 
 import styles from './styles';
@@ -13,6 +14,7 @@ import PlaceItem, { Place } from '@/components/PlaceItem';
 import CategoryCard, { CategoryCardProps } from '@/components/CategoryCard';
 import { SCREENS } from '@/constant';
 import AppScreen from '@/components/AppScreen';
+import { Icon, Icons } from '@/components';
 
 export const DATA: Place[] = [
   {
@@ -105,6 +107,14 @@ export const CATEGORIES: CategoryCardProps[] = [
 ];
 
 const SavedScreen = ({ navigation }: any) => {
+  const [search, setSearch] = useState('');
+
+  const filteredData = DATA.filter(
+    item =>
+      item.title.toLowerCase().includes(search.toLowerCase()) ||
+      (item.location ?? '').toLowerCase().includes(search.toLowerCase()),
+  );
+
   function onProfilePress() {
     navigation.navigate(SCREENS.ProfileScreen as any);
   }
@@ -145,6 +155,21 @@ const SavedScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View>
 
+          {/* SEARCH */}
+          <View style={styles.searchWrap}>
+            <Icon type={Icons.Feather} name="search" size={16} color="#8B8CA7" />
+            <TextInput
+              style={styles.searchInput}
+              placeholder="Search locations..."
+              placeholderTextColor="#8B8CA7"
+              value={search}
+              onChangeText={setSearch}
+              autoCapitalize="none"
+              autoCorrect={false}
+              clearButtonMode="while-editing"
+            />
+          </View>
+
           {/* CATEGORIES */}
           <View style={styles.rowBetween}>
             <Text style={styles.sectionTitle}>Categories</Text>
@@ -171,7 +196,7 @@ const SavedScreen = ({ navigation }: any) => {
             </Text>
           </View>
           <FlatList
-            data={DATA}
+            data={filteredData}
             renderItem={renderItem}
             keyExtractor={item => item.id}
             contentContainerStyle={styles.listContent}

@@ -57,7 +57,23 @@ const styles = StyleSheet.create({
   },
   categoriesListContent:{
     paddingLeft:15,
-  }
+  },
+  searchWrap: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    marginHorizontal: 15,
+    marginTop: 16,
+    paddingHorizontal: 12,
+    height: 44,
+  },
+  searchInput: {
+    flex: 1,
+    marginLeft: 8,
+    fontSize: 14,
+    color: '#111827',
+  },
 });
 
 export default styles;

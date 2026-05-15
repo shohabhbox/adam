@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react';
 import axios from 'axios';
 import Config from 'react-native-config';
 
-const OPENAI_API_KEY = Config.OPENAI_API_KEY;
+const OPENAI_API_KEY = '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';
 
 
 
