@@ -8,12 +8,17 @@ import {
   Modal,
   StyleSheet,
   Alert,
+  ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import axios from 'axios';
 
 import { Icon, Icons } from '@/components';
 import { COLORS } from '@/constant';
+
+const SUGGESTIONS_URL =
+  'https://pilotiq.hboxdigital.com/api/v1/public/location-suggestions';
 
 const recentData = [
   { id: '1', name: 'Trevi Fountain', location: 'Rome, Italy', time: '2h ago' },
@@ -27,8 +32,11 @@ const recentData = [
 
 const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
   const [value, setValue] = useState(
-    __DEV__ ? 'https://www.facebook.com/share/r/17b54cuJdE/' : '',
+    __DEV__
+      ? 'https://www.tiktok.com/@adzhoc/video/7438371179712253216?lang=en'
+      : '',
   );
+  const [loading, setLoading] = useState(false);
 
   const handleImport = async () => {
     const trimmed = value.trim();
@@ -42,13 +50,33 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
     }
 
     try {
-      onImport(trimmed);
-      onClose();
-    } catch (error) {
-      Alert.alert(
-        'Location Error',
-        'Could not detect places from this input. Please try another link or place name.',
+      setLoading(true);
+
+      const response = await axios.post(
+        SUGGESTIONS_URL,
+        { input: trimmed, prefer_async: true },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+        },
       );
+
+      if (!response.data?.success) {
+        throw new Error(response.data?.message || 'Server returned an error.');
+      }
+
+      onImport(trimmed, response.data.data);
+      onClose();
+    } catch (error: any) {
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        'Could not detect places from this input. Please try another link or place name.';
+      Alert.alert('Location Error', message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -56,7 +84,8 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
     <Modal visible={visible} transparent animationType="slide">
       <KeyboardAvoidingView
         style={styles.overlay}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <View style={styles.container}>
           <View style={styles.handle} />
 
@@ -69,7 +98,7 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             </View>
 
             <TouchableOpacity style={styles.closeBtn} onPress={onClose}>
-              <Icon type={Icons.Feather} name="x" size={18} disabled={true}  />
+              <Icon type={Icons.Feather} name="x" size={18} disabled={true} />
             </TouchableOpacity>
           </View>
 
@@ -86,8 +115,16 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             />
           </View>
 
-          <TouchableOpacity style={[styles.primaryBtn]} onPress={handleImport}>
-            <Text style={styles.primaryText}>Find Similar Places</Text>
+          <TouchableOpacity
+            style={[styles.primaryBtn, loading && styles.primaryBtnDisabled]}
+            onPress={handleImport}
+            disabled={loading}
+          >
+            {loading ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <Text style={styles.primaryText}>Find Similar Places</Text>
+            )}
           </TouchableOpacity>
 
           <View style={styles.recentHeader}>
@@ -98,12 +135,12 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
             </TouchableOpacity>
           </View>
 
-          <FlatList
+          {/* <FlatList
             data={recentData}
             keyExtractor={item => item.id}
             renderItem={({ item }) => <RecentItem item={item} />}
             scrollEnabled={false}
-          />
+          /> */}
         </View>
       </KeyboardAvoidingView>
     </Modal>

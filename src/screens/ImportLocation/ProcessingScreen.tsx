@@ -6,7 +6,9 @@ import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AppScreen from '@/components/AppScreen';
 
-const API_URL = 'https://pilotiq.hbox.digital/api/v1/public/location-suggestions';
+const BASE_URL = 'https://pilotiq.hboxdigital.com/api/v1/public';
+const POLL_INTERVAL_MS = 2500;
+const POLL_MAX_ATTEMPTS = 40;
 
 const URL_STEPS = [
   { id: 1, label: 'Fetching URL content' },
@@ -24,9 +26,78 @@ const TEXT_STEPS = [
 
 const isUrl = (value: string) => /^https?:\/\//i.test(value.trim());
 
+const mapPlaces = (rawPlaces: any[]) =>
+  rawPlaces.map((item: any) => {
+    const gd = item.google_place_details;
+    const details = gd
+      ? {
+          name: String(gd.place || item.place || ''),
+          address: String(gd.shortAddress || ''),
+          lat: Number(gd.lat || item.lat || 0),
+          lng: Number(gd.lng || item.lng || 0),
+          image: gd.image || null,
+        }
+      : {
+          name: String(item.place || ''),
+          address: [item.city, item.country].filter(Boolean).join(', '),
+          lat: Number(item.lat || 0),
+          lng: Number(item.lng || 0),
+          image: null,
+        };
+
+    return {
+      place: String(item.place || ''),
+      category: String(item.category || ''),
+      city: String(item.city || ''),
+      country: String(item.country || ''),
+      confidence: String(item.confidence || '0%'),
+      lat: Number(item.lat || 0),
+      lng: Number(item.lng || 0),
+      reason: String(item.reason || ''),
+      details,
+      detailError: null,
+    };
+  });
+
+const pollJob = (token: string): Promise<any> =>
+  new Promise((resolve, reject) => {
+    const url = `${BASE_URL}/location-suggestions/async/${token}`;
+    let attempts = 0;
+    const id = setInterval(async () => {
+      attempts += 1;
+      try {
+        const res = await axios.get(url, {
+          headers: { Accept: 'application/json' },
+        });
+        const data = res.data?.data;
+        const status = data?.status;
+
+        console.log('status', status);
+
+
+        if (status === 'completed') {
+          clearInterval(id);
+          resolve(data);
+        } else if (status === 'failed') {
+          clearInterval(id);
+          reject(
+            new Error(data?.error || res.data?.message || 'Analysis failed.'),
+          );
+        } else if (attempts >= POLL_MAX_ATTEMPTS) {
+          clearInterval(id);
+          reject(new Error('Analysis timed out. Please try again.'));
+        }
+      } catch (err) {
+        clearInterval(id);
+        reject(err);
+      }
+    }, POLL_INTERVAL_MS);
+  });
+
 const ProcessingScreen = ({ route }: any) => {
   const navigation = useNavigation<NativeStackNavigationProp<any>>();
   const input: string = route?.params?.url ?? '';
+  const initialResult: any = route?.params?.result ?? null;
 
   const steps = isUrl(input) ? URL_STEPS : TEXT_STEPS;
 
@@ -34,7 +105,7 @@ const ProcessingScreen = ({ route }: any) => {
   const [activeStep, setActiveStep] = useState(0);
 
   const progressRef = useRef(0);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const hasStartedRef = useRef(false);
 
   const getStepFromProgress = (value: number) => {
@@ -44,8 +115,8 @@ const ProcessingScreen = ({ route }: any) => {
     return 0;
   };
 
-  const animateProgressTo = (target: number) => {
-    return new Promise<void>(resolve => {
+  const animateProgressTo = (target: number) =>
+    new Promise<void>(resolve => {
       const safeTarget = Math.min(Math.max(target, 0), 100);
 
       if (progressRef.current >= safeTarget) {
@@ -76,7 +147,6 @@ const ProcessingScreen = ({ route }: any) => {
         setActiveStep(getStepFromProgress(next));
       }, 35);
     });
-  };
 
   useEffect(() => {
     const run = async () => {
@@ -90,54 +160,37 @@ const ProcessingScreen = ({ route }: any) => {
 
         await animateProgressTo(20);
 
-        // Start API call and animate to 85% while waiting
-        const apiPromise = axios.post(
-          API_URL,
-          { input: input.trim() },
-          { headers: { 'Content-Type': 'application/json', Accept: 'application/json' } },
-        );
-
-        await animateProgressTo(85);
-
-        const response = await apiPromise;
-
-        if (!response.data?.success) {
-          throw new Error(response.data?.message || 'Server returned an error.');
+        if (!initialResult) {
+          throw new Error('No analysis data received.');
         }
 
-        const serverData = response.data.data;
+        const asyncJob = initialResult.async_job;
+        let completedData: any;
 
-        // Map server response to the shape ImportResultsScreen expects
-        const places = Array.isArray(serverData?.places)
-          ? serverData.places.map((item: any) => {
-              const gd = item.google_place_details || {};
-              return {
-                place: String(item.place || ''),
-                category: String(item.category || ''),
-                city: String(item.city || ''),
-                country: String(item.country || ''),
-                confidence: String(item.confidence || '0%'),
-                lat: Number(item.lat || 0),
-                lng: Number(item.lng || 0),
-                reason: String(item.reason || ''),
-                details: {
-                  name: String(gd.place || item.place || ''),
-                  address: String(gd.shortAddress || [item.city, item.country].filter(Boolean).join(', ')),
-                  lat: Number(item.lat || 0),
-                  lng: Number(item.lng || 0),
-                  image: gd.image || null,
-                },
-                detailError: null,
-              };
-            })
+        if (asyncJob?.token && asyncJob?.status === 'pending') {
+          const pollPromise = pollJob(asyncJob.token);
+          await animateProgressTo(85);
+          completedData = await pollPromise;
+        } else {
+          completedData = initialResult;
+          await animateProgressTo(85);
+        }
+
+        // Completed response shape: { status, result: { query, places } }
+        const resultPayload = completedData?.result ?? completedData;
+
+        const places = Array.isArray(resultPayload?.places)
+          ? mapPlaces(resultPayload.places)
           : [];
 
         const result = {
-          query: String(serverData?.query || input),
+          query: String(resultPayload?.query || input),
           places,
         };
 
         await animateProgressTo(100);
+
+        console.log('result', result);
 
         navigation.replace(SCREENS.ImportResultsScreen, { result, url: input });
       } catch (err: any) {
