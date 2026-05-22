@@ -7,8 +7,8 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import AppScreen from '@/components/AppScreen';
 
 const BASE_URL = 'https://pilotiq.hboxdigital.com/api/v1/public';
-const POLL_INTERVAL_MS = 2500;
-const POLL_MAX_ATTEMPTS = 40;
+const POLL_INTERVAL_MS = 3000;
+const POLL_MAX_ATTEMPTS = 100;
 
 const URL_STEPS = [
   { id: 1, label: 'Fetching URL content' },
