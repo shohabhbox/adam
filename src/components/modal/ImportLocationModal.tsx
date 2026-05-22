@@ -31,11 +31,7 @@ const recentData = [
 ];
 
 const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
-  const [value, setValue] = useState(
-    __DEV__
-      ? 'https://www.tiktok.com/@adzhoc/video/7438371179712253216?lang=en'
-      : '',
-  );
+  const [value, setValue] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleImport = async () => {
