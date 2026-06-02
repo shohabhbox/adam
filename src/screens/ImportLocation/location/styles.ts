@@ -66,6 +66,7 @@ export default StyleSheet.create({
   name: {
     fontSize: 16,
     fontWeight: '700',
+    maxWidth: '80%',
   },
 
   meta: {

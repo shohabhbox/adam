@@ -5,7 +5,7 @@ export const { width, height } = Dimensions.get('window');
 
 /* *************** COLORS *************** */
 export const COLORS = {
-  primary: '#068296',
+  primary: '#17BDBC',
   primaryDark: '#04606f',
   primaryLight: '#06829620',
 

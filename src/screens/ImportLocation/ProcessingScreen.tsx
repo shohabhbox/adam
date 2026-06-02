@@ -61,6 +61,7 @@ const mapPlaces = (rawPlaces: any[]) =>
 
 const pollJob = (token: string): Promise<any> =>
   new Promise((resolve, reject) => {
+    console.log('Starting to poll for async job with token:', token);
     const url = `${BASE_URL}/location-suggestions/async/${token}`;
     let attempts = 0;
     const id = setInterval(async () => {
@@ -115,7 +116,7 @@ const ProcessingScreen = ({ route }: any) => {
     return 0;
   };
 
-  const animateProgressTo = (target: number) =>
+  const animateProgressTo = (target: number, slow = false) =>
     new Promise<void>(resolve => {
       const safeTarget = Math.min(Math.max(target, 0), 100);
 
@@ -129,6 +130,9 @@ const ProcessingScreen = ({ route }: any) => {
         timerRef.current = null;
       }
 
+      const increment = slow ? 1 : 2;
+      const tickMs = slow ? 300 : 35;
+
       timerRef.current = setInterval(() => {
         const current = progressRef.current;
 
@@ -141,11 +145,11 @@ const ProcessingScreen = ({ route }: any) => {
           return;
         }
 
-        const next = Math.min(current + 2, safeTarget);
+        const next = Math.min(current + increment, safeTarget);
         progressRef.current = next;
         setProgress(next);
         setActiveStep(getStepFromProgress(next));
-      }, 35);
+      }, tickMs);
     });
 
   useEffect(() => {
@@ -169,11 +173,13 @@ const ProcessingScreen = ({ route }: any) => {
 
         if (asyncJob?.token && asyncJob?.status === 'pending') {
           const pollPromise = pollJob(asyncJob.token);
-          await animateProgressTo(85);
+          // Slowly creep toward 90% while the async job runs — don't await.
+          // animateProgressTo(100) below will cancel this and rush to done.
+          animateProgressTo(90, true);
           completedData = await pollPromise;
         } else {
           completedData = initialResult;
-          await animateProgressTo(85);
+          await animateProgressTo(90);
         }
 
         // Completed response shape: { status, result: { query, places } }

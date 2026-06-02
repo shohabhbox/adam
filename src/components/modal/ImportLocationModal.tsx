@@ -20,15 +20,6 @@ import { COLORS } from '@/constant';
 const SUGGESTIONS_URL =
   'https://pilotiq.hboxdigital.com/api/v1/public/location-suggestions';
 
-const recentData = [
-  { id: '1', name: 'Trevi Fountain', location: 'Rome, Italy', time: '2h ago' },
-  {
-    id: '2',
-    name: 'Eiffel Tower',
-    location: 'Paris, France',
-    time: 'Yesterday',
-  },
-];
 
 const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
   const [value, setValue] = useState('');
@@ -62,6 +53,8 @@ const ImportLocationModal = ({ visible, onClose, onImport }: any) => {
       if (!response.data?.success) {
         throw new Error(response.data?.message || 'Server returned an error.');
       }
+
+      setValue('');
 
       onImport(trimmed, response.data.data);
       onClose();
