@@ -17,7 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient'; // Ensure this is installed
-import { IMAGES, SCREENS } from '@/constant';
+import { COLORS, IMAGES, SCREENS } from '@/constant';
 
 const { width, height } = Dimensions.get('window');
 
@@ -251,11 +251,11 @@ const styles = StyleSheet.create({
   dot: {
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#008B9B',
+    backgroundColor: COLORS.primary,
     marginHorizontal: 4,
   },
   button: {
-    backgroundColor: '#008B9B',
+    backgroundColor: COLORS.primary,
     width: '100%',
     height: 58,
     borderRadius: 16,
