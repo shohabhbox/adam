@@ -1,5 +1,5 @@
-import { COLORS, IMAGES } from '@/constant';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import MarkerSvg from '@/assets/svg/marker.svg';
+import { StyleSheet, Text, View } from 'react-native';
 
 const CustomMarker = ({ item }: any) => {
   const isHotel = item.type === 'hotel';
@@ -7,11 +7,7 @@ const CustomMarker = ({ item }: any) => {
   return (
     <View style={{ alignItems: 'center' }}>
       {/* IMAGE PIN */}
-      <Image
-        source={IMAGES.marker}
-        style={styles.markerImage}
-        resizeMode="contain"
-      />
+      <MarkerSvg width={60} height={60} />
 
       {/* LABEL */}
       <View

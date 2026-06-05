@@ -1,5 +1,5 @@
 import { CustomButton } from '@/components';
-import { IMAGES, SCREENS } from '@/constant';
+import { COLORS, IMAGES, SCREENS } from '@/constant';
 import React from 'react';
 import {
   StyleSheet,
@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
   },
   primaryButton: {
-    backgroundColor: '#008B9B',
+    backgroundColor: COLORS.primary,
     width: width - 48,
     height: 58,
     borderRadius: 14,

@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Image, TouchableOpacity, ScrollView } from 'react-native';
 
+import StarsSvg from '@/assets/svg/stars.svg';
 import { IMAGES, SCREENS } from '@/constant';
 import { Icon, Icons, CustomButton } from '@/components';
 import styles from './styles';
@@ -62,7 +63,7 @@ const LocationDetailScreen = ({ navigation }: any) => {
           <View style={styles.content}>
             {/* AI TIP */}
             <View style={styles.tipBox}>
-              <Image source={IMAGES.stars} style={styles.tipIcon} />
+              <StarsSvg width={20} height={20} />
 
               <Text style={styles.tipText}>
                 AI tip: Best visited early morning (8–10 AM). Book skip-the-line

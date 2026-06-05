@@ -17,7 +17,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from 'react-native-linear-gradient'; // Ensure this is installed
-import { IMAGES, SCREENS } from '@/constant';
+import { COLORS, IMAGES, SCREENS } from '@/constant';
 
 const { width, height } = Dimensions.get('window');
 
@@ -95,10 +95,10 @@ const OnboardingItem = ({
         <View style={styles.glassCard}>
           <LinearGradient
             colors={[
+              'rgba(255, 255, 255, 0.1)',
               'rgba(255, 255, 255, 0.25)',
-              'rgba(255, 255, 255, 0.45)',
-              'rgba(255, 255, 255, 0.5)',
-              'rgba(255, 255, 255, 0.65)',
+              'rgba(255, 255, 255, 0.3)',
+              'rgba(255, 255, 255, 0.35)',
             ]}
             style={StyleSheet.absoluteFill}
           />
@@ -199,18 +199,21 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end', // Push content to the bottom
     paddingHorizontal: 20,
     paddingBottom: 20, // Space from the very bottom
+
+    backgroundColor: 'transparent',
   },
   glassCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.05)',
     borderRadius: 35,
     overflow: 'hidden',
     borderWidth: 1,
     borderColor: 'rgba(255, 255, 255, 0.5)',
-    // Add these for better shadow on the glass
+    // // Add these for better shadow on the glass
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 10 },
     shadowOpacity: 0.1,
     shadowRadius: 20,
-    elevation: 10,
+    // elevation: 10,
   },
   cardContent: {
     paddingTop: 30, // Space inside the card
@@ -251,11 +254,11 @@ const styles = StyleSheet.create({
   dot: {
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#008B9B',
+    backgroundColor: COLORS.primary,
     marginHorizontal: 4,
   },
   button: {
-    backgroundColor: '#008B9B',
+    backgroundColor: COLORS.primary,
     width: '100%',
     height: 58,
     borderRadius: 16,
